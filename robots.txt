@@ -1,0 +1,7 @@
+# Pharmacie Rhazlaoui — robots.txt
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /admin
+
+Sitemap: https://pharmacie-rhazlaoui.netlify.app/sitemap.xml

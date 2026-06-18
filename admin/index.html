@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta http-equiv="X-Frame-Options" content="DENY"/>
+  <meta http-equiv="X-Content-Type-Options" content="nosniff"/>
+  <meta name="robots" content="noindex, nofollow"/>
+  <title>Panneau Admin — Pharmacie Rhazlaoui</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    :root {
+      --vert: #00A651; --vert-dark: #007A3D; --vert-light: #E8F5EE;
+      --or: #D4AF37; --blanc: #fff; --gris: #F5F7FA; --texte: #1A1A2E;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Poppins', sans-serif; background: var(--gris); color: var(--texte); }
+
+    /* HEADER */
+    .admin-header {
+      background: linear-gradient(135deg, var(--vert-dark), var(--vert));
+      color: white; padding: 20px 30px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .admin-header h1 { font-size: 1.3rem; font-weight: 800; }
+    .admin-header span { font-size: 0.8rem; opacity: 0.8; }
+    .back-btn {
+      background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);
+      color: white; padding: 8px 18px; border-radius: 50px;
+      font-weight: 600; font-size: 0.85rem; text-decoration: none; cursor: pointer;
+      transition: all 0.2s;
+    }
+    .back-btn:hover { background: rgba(255,255,255,0.25); }
+
+    /* LAYOUT */
+    .admin-container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
+
+    /* CARDS SECTION */
+    .admin-section {
+      background: white; border-radius: 16px;
+      padding: 30px; margin-bottom: 30px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    }
+    .admin-section h2 {
+      font-size: 1.2rem; font-weight: 800; margin-bottom: 6px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .admin-section h2 i { color: var(--vert); }
+    .admin-section .subtitle { font-size: 0.82rem; color: #888; margin-bottom: 25px; }
+
+    /* PRODUCT EDITOR GRID */
+    .products-editor { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
+
+    .product-editor-card {
+      border: 2px solid #e8e8e8; border-radius: 12px; overflow: hidden;
+      transition: border-color 0.2s;
+    }
+    .product-editor-card:hover { border-color: var(--vert); }
+    .card-header {
+      background: var(--vert-light); padding: 12px 16px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .card-header strong { font-size: 0.88rem; font-weight: 700; color: var(--vert-dark); }
+    .card-id { font-size: 0.7rem; color: #888; background: white; padding: 2px 8px; border-radius: 20px; }
+    .card-body { padding: 16px; }
+
+    .field { margin-bottom: 14px; }
+    .field label {
+      display: block; font-size: 0.75rem; font-weight: 700;
+      color: #666; margin-bottom: 5px; letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .field input, .field textarea, .field select {
+      width: 100%; padding: 9px 12px;
+      border: 1.5px solid #e0e0e0; border-radius: 8px;
+      font-family: 'Poppins', sans-serif; font-size: 0.85rem;
+      color: var(--texte); outline: none; transition: border-color 0.2s;
+    }
+    .field input:focus, .field textarea:focus { border-color: var(--vert); }
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+    .badge-select { display: flex; gap: 8px; flex-wrap: wrap; }
+    .badge-opt {
+      padding: 5px 14px; border-radius: 50px; font-size: 0.75rem;
+      font-weight: 700; border: 2px solid #e0e0e0; background: white;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .badge-opt.selected-promo { background: #FF4757; border-color: #FF4757; color: white; }
+    .badge-opt.selected-new   { background: var(--or); border-color: var(--or); color: white; }
+    .badge-opt.selected-none  { background: var(--vert); border-color: var(--vert); color: white; }
+
+    .preview-img {
+      width: 100%; height: 120px; object-fit: cover; border-radius: 8px;
+      border: 1px solid #e0e0e0; margin-top: 8px; display: none;
+    }
+    .img-placeholder-mini {
+      width: 100%; height: 80px; border: 2px dashed var(--vert);
+      border-radius: 8px; display: flex; align-items: center; justify-content: center;
+      gap: 8px; color: var(--vert); font-size: 0.75rem; font-weight: 600;
+      background: var(--vert-light); margin-top: 8px; cursor: pointer;
+    }
+
+    /* OFFRES */
+    .offre-editor-card {
+      border: 2px solid #e8e8e8; border-radius: 12px; padding: 20px;
+      transition: all 0.2s;
+    }
+    .offre-editor-card.active { border-color: var(--vert); background: var(--vert-light); }
+    .toggle-row {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .toggle-label { font-weight: 700; font-size: 0.9rem; }
+    .toggle {
+      position: relative; width: 50px; height: 26px;
+    }
+    .toggle input { opacity: 0; width: 0; height: 0; }
+    .slider {
+      position: absolute; cursor: pointer; inset: 0;
+      background: #ccc; border-radius: 26px; transition: .3s;
+    }
+    .slider:before {
+      content: ''; position: absolute;
+      width: 20px; height: 20px; left: 3px; bottom: 3px;
+      background: white; border-radius: 50%; transition: .3s;
+    }
+    input:checked + .slider { background: var(--vert); }
+    input:checked + .slider:before { transform: translateX(24px); }
+
+    /* BOUTONS */
+    .btn-save {
+      background: linear-gradient(135deg, var(--vert-dark), var(--vert));
+      color: white; border: none; border-radius: 50px;
+      padding: 12px 30px; font-weight: 700; font-size: 0.9rem;
+      cursor: pointer; transition: all 0.2s; display: flex;
+      align-items: center; gap: 8px; margin-top: 20px;
+    }
+    .btn-save:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,166,81,0.3); }
+    .btn-export {
+      background: var(--or); color: white; border: none; border-radius: 50px;
+      padding: 10px 24px; font-weight: 700; font-size: 0.85rem;
+      cursor: pointer; transition: all 0.2s; display: flex;
+      align-items: center; gap: 8px;
+    }
+    .btn-export:hover { background: #C49A2D; }
+    .btn-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 25px; }
+
+    /* TOAST */
+    .toast {
+      position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(20px);
+      background: var(--vert-dark); color: white; padding: 12px 24px;
+      border-radius: 50px; font-size: 0.88rem; font-weight: 600;
+      z-index: 999; opacity: 0; transition: all 0.3s; pointer-events: none;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* INSTRUCTIONS */
+    .instructions {
+      background: linear-gradient(135deg, #003D1F, #007A3D);
+      color: white; border-radius: 16px; padding: 28px 30px; margin-bottom: 30px;
+    }
+    .instructions h2 { font-size: 1.1rem; margin-bottom: 12px; }
+    .instructions ol { padding-left: 20px; }
+    .instructions li { margin-bottom: 8px; font-size: 0.88rem; opacity: 0.9; line-height: 1.6; }
+    .instructions code {
+      background: rgba(255,255,255,0.15); padding: 2px 8px;
+      border-radius: 4px; font-family: monospace; font-size: 0.85rem;
+    }
+
+    .tabs { display: flex; gap: 8px; margin-bottom: 25px; flex-wrap: wrap; }
+    .tab {
+      padding: 10px 22px; border-radius: 50px; border: 2px solid #e0e0e0;
+      background: white; font-weight: 600; font-size: 0.85rem; cursor: pointer;
+      transition: all 0.2s;
+    }
+    .tab.active, .tab:hover { background: var(--vert); border-color: var(--vert); color: white; }
+
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    @media (max-width: 600px) {
+      .admin-header { flex-direction: column; gap: 12px; text-align: center; }
+      .products-editor { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="admin-header">
+  <div>
+    <h1><i class="fas fa-cog"></i> Panneau Admin — Pharmacie Rhazlaoui</h1>
+    <span>Gérez vos produits, prix et offres facilement</span>
+  </div>
+  <a href="../index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Retour au site</a>
+</div>
+
+<div class="admin-container">
+
+  <!-- INSTRUCTIONS -->
+  <div class="instructions">
+    <h2><i class="fas fa-info-circle"></i> Comment modifier votre site ?</h2>
+    <ol>
+      <li>Modifiez les prix et badges dans les formulaires ci-dessous, puis cliquez <strong>"Sauvegarder"</strong></li>
+      <li>Pour ajouter une photo : mettez le chemin de votre image dans le champ <code>imagePerso</code></li>
+      <li>Pour activer une offre : activez le toggle <strong>"Actif"</strong> dans l'onglet Offres</li>
+      <li>Les modifications sont exportées dans le fichier <code>products-data.js</code> — copiez le code généré</li>
+    </ol>
+  </div>
+
+  <!-- ONGLETS -->
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('cosmetiques')"><i class="fas fa-spa"></i> Cosmétiques</button>
+    <button class="tab" onclick="showTab('orthopediques')"><i class="fas fa-bone"></i> Orthopédie</button>
+    <button class="tab" onclick="showTab('offres')"><i class="fas fa-tag"></i> Offres</button>
+    <button class="tab" onclick="showTab('export')"><i class="fas fa-download"></i> Exporter</button>
+  </div>
+
+  <!-- ── COSMÉTIQUES ── -->
+  <div id="tab-cosmetiques" class="tab-content active">
+    <div class="admin-section">
+      <h2><i class="fas fa-spa"></i> Produits Cosmétiques</h2>
+      <p class="subtitle">Modifiez les prix, photos et badges. Laissez vide pour "Prix sur demande".</p>
+      <div class="products-editor" id="editor-cosmetiques"></div>
+      <div class="btn-row">
+        <button class="btn-save" onclick="saveAll('cosmetiques')"><i class="fas fa-save"></i> Sauvegarder Cosmétiques</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── ORTHOPÉDIQUES ── -->
+  <div id="tab-orthopediques" class="tab-content">
+    <div class="admin-section">
+      <h2><i class="fas fa-bone"></i> Produits Orthopédiques</h2>
+      <p class="subtitle">Modifiez les prix, photos et badges pour les produits orthopédiques.</p>
+      <div class="products-editor" id="editor-orthopediques"></div>
+      <div class="btn-row">
+        <button class="btn-save" onclick="saveAll('orthopediques')"><i class="fas fa-save"></i> Sauvegarder Orthopédiques</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── OFFRES ── -->
+  <div id="tab-offres" class="tab-content">
+    <div class="admin-section">
+      <h2><i class="fas fa-tag"></i> Offres Spéciales</h2>
+      <p class="subtitle">Activez et personnalisez vos offres promotionnelles.</p>
+      <div class="products-editor" id="editor-offres"></div>
+      <div class="btn-row">
+        <button class="btn-save" onclick="saveOffres()"><i class="fas fa-save"></i> Sauvegarder Offres</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── EXPORT ── -->
+  <div id="tab-export" class="tab-content">
+    <div class="admin-section">
+      <h2><i class="fas fa-download"></i> Exporter les modifications</h2>
+      <p class="subtitle">Copiez ce code et remplacez le contenu de <code>js/products-data.js</code></p>
+      <div class="btn-row">
+        <button class="btn-export" onclick="generateExport()"><i class="fas fa-code"></i> Générer le code</button>
+        <button class="btn-export" onclick="copyExport()" style="background:#0066CC;"><i class="fas fa-copy"></i> Copier</button>
+      </div>
+      <textarea id="export-code" style="width:100%;height:400px;margin-top:20px;font-family:monospace;font-size:0.78rem;border:1.5px solid #e0e0e0;border-radius:8px;padding:16px;color:#333;outline:none;" placeholder="Cliquez sur 'Générer le code' pour voir le résultat..."></textarea>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="../js/products-data.js"></script>
+<script>
+// ── État local (clone des données) ───────────────────────────
+let localData = {
+  cosmetiques: JSON.parse(JSON.stringify(PRODUCTS.cosmetiques)),
+  orthopediques: JSON.parse(JSON.stringify(PRODUCTS.orthopediques)),
+  offres: JSON.parse(JSON.stringify(OFFRES))
+};
+
+// ── Tabs ─────────────────────────────────────────────────────
+function showTab(tab) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+// ── Render editors ───────────────────────────────────────────
+function renderEditor(category, containerId) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  container.innerHTML = localData[category].map((p, i) => `
+    <div class="product-editor-card" data-id="${p.id}" data-index="${i}" data-cat="${category}">
+      <div class="card-header">
+        <strong>${p.nom}</strong>
+        <span class="card-id">${p.id}</span>
+      </div>
+      <div class="card-body">
+        <div class="field-row">
+          <div class="field">
+            <label>Prix (ex: 45 DH)</label>
+            <input type="text" data-field="prix" value="${p.prix || ''}" placeholder="45 DH" oninput="updateField('${category}',${i},'prix',this.value)"/>
+          </div>
+          <div class="field">
+            <label>Ancien prix barré</label>
+            <input type="text" data-field="ancienPrix" value="${p.ancienPrix || ''}" placeholder="60 DH" oninput="updateField('${category}',${i},'ancienPrix',this.value)"/>
+          </div>
+        </div>
+        <div class="field">
+          <label>Badge</label>
+          <div class="badge-select">
+            <span class="badge-opt ${!p.badge ? 'selected-none' : ''}" onclick="setBadge('${category}',${i},'')">Aucun</span>
+            <span class="badge-opt ${p.badge==='PROMO' ? 'selected-promo' : ''}" onclick="setBadge('${category}',${i},'PROMO')" style="color:${p.badge==='PROMO'?'white':'#FF4757'};border-color:#FF4757;">PROMO</span>
+            <span class="badge-opt ${p.badge==='NOUVEAU' ? 'selected-new' : ''}" onclick="setBadge('${category}',${i},'NOUVEAU')" style="color:${p.badge==='NOUVEAU'?'white':''};border-color:var(--or);">NOUVEAU</span>
+          </div>
+        </div>
+        <div class="field">
+          <label><i class="fas fa-camera"></i> Votre photo (chemin ou URL)</label>
+          <input type="text" data-field="imagePerso" value="${p.imagePerso || ''}" placeholder="images/ma-photo.jpg ou https://..." oninput="updateField('${category}',${i},'imagePerso',this.value);previewImg(this,${i},'${category}')"/>
+          <div class="img-placeholder-mini" onclick="this.previousElementSibling.click()">
+            <i class="fas fa-camera"></i> Cliquez pour indiquer le chemin de votre photo
+          </div>
+          ${p.imagePerso ? `<img src="${p.imagePerso}" class="preview-img" style="display:block" onerror="this.style.display='none'"/>` : `<img class="preview-img"/>`}
+        </div>
+        <div class="field">
+          <label>Description</label>
+          <input type="text" value="${p.description || ''}" placeholder="Description..." oninput="updateField('${category}',${i},'description',this.value)"/>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function renderOffresEditor() {
+  const container = document.getElementById('editor-offres');
+  if (!container) return;
+  container.innerHTML = localData.offres.map((o, i) => `
+    <div class="offre-editor-card ${o.actif ? 'active' : ''}" id="offre-card-${i}">
+      <div class="toggle-row">
+        <span class="toggle-label"><i class="fas fa-tag" style="color:var(--vert)"></i> Offre ${i+1}</span>
+        <label class="toggle">
+          <input type="checkbox" ${o.actif ? 'checked' : ''} onchange="toggleOffre(${i},this.checked)"/>
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="field">
+        <label>Titre de l'offre</label>
+        <input type="text" value="${o.titre || ''}" placeholder="Ex: Pack Beauté Été" oninput="updateOffre(${i},'titre',this.value)"/>
+      </div>
+      <div class="field">
+        <label>Description</label>
+        <textarea rows="3" placeholder="Décrivez votre offre..." oninput="updateOffre(${i},'description',this.value)">${o.description || ''}</textarea>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Date début</label>
+          <input type="date" value="${o.dateDebut||''}" oninput="updateOffre(${i},'dateDebut',this.value)"/>
+        </div>
+        <div class="field">
+          <label>Date fin</label>
+          <input type="date" value="${o.dateFin||''}" oninput="updateOffre(${i},'dateFin',this.value)"/>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+// ── Mutations ─────────────────────────────────────────────────
+function updateField(cat, i, field, val) { localData[cat][i][field] = val; }
+function updateOffre(i, field, val) { localData.offres[i][field] = val; }
+function toggleOffre(i, val) {
+  localData.offres[i].actif = val;
+  document.getElementById('offre-card-'+i).classList.toggle('active', val);
+}
+function setBadge(cat, i, val) {
+  localData[cat][i].badge = val;
+  renderEditor(cat, 'editor-' + cat);
+}
+function previewImg(input, i, cat) {
+  const img = input.parentElement.querySelector('.preview-img');
+  if (img && input.value) { img.src = input.value; img.style.display = 'block'; }
+}
+
+// ── Save (localStorage) ───────────────────────────────────────
+function saveAll(cat) {
+  localStorage.setItem('pharma_' + cat, JSON.stringify(localData[cat]));
+  showToast('✅ Modifications sauvegardées !');
+}
+function saveOffres() {
+  localStorage.setItem('pharma_offres', JSON.stringify(localData.offres));
+  showToast('✅ Offres sauvegardées !');
+}
+
+// ── Export ────────────────────────────────────────────────────
+function generateExport() {
+  const code = `// ============================================================
+//  FICHIER GÉNÉRÉ PAR LE PANNEAU ADMIN — ${new Date().toLocaleString('fr-FR')}
+//  Copiez ce code dans js/products-data.js
+// ============================================================
+
+const PRODUCTS = {
+  cosmetiques: ${JSON.stringify(localData.cosmetiques, null, 2)},
+  orthopediques: ${JSON.stringify(localData.orthopediques, null, 2)},
+  medicaments: ${JSON.stringify(PRODUCTS.medicaments, null, 2)},
+  divers: ${JSON.stringify(PRODUCTS.divers, null, 2)}
+};
+
+const OFFRES = ${JSON.stringify(localData.offres, null, 2)};
+
+const PHARMACIE_INFO = ${JSON.stringify(PHARMACIE_INFO, null, 2)};`;
+  document.getElementById('export-code').value = code;
+  showToast('✅ Code généré ! Copiez-le dans products-data.js');
+}
+function copyExport() {
+  const ta = document.getElementById('export-code');
+  ta.select();
+  document.execCommand('copy');
+  showToast('✅ Code copié dans le presse-papiers !');
+}
+
+// ── Toast ────────────────────────────────────────────────────
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ── Init ─────────────────────────────────────────────────────
+// Charger depuis localStorage si disponible
+['cosmetiques','orthopediques','offres'].forEach(cat => {
+  const saved = localStorage.getItem('pharma_' + cat);
+  if (saved) {
+    try { localData[cat] = JSON.parse(saved); } catch(e) {}
+  }
+});
+
+renderEditor('cosmetiques', 'editor-cosmetiques');
+renderEditor('orthopediques', 'editor-orthopediques');
+renderOffresEditor();
+</script>
+</body>
+</html>
