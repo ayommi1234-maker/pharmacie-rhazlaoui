@@ -23,6 +23,7 @@ Objectif : plateforme élégante, premium, pensée conversion, évolutive.
 | `produit.html` | Fiche produit : galerie niche, variantes, ajout panier live, actifs, routine, avis | https://claude.ai/code/artifact/cb2014b5-16d4-463c-af54-d86ba42dd761 |
 | `catalogue.html` | Catalogue avec filtres fonctionnels (peau/besoin/type/marque/prix/note), tri, puces, ajout rapide | https://claude.ai/code/artifact/48f094e1-7609-4c73-8ab9-5bc380cd5b70 |
 | `panier.html` | Panier + checkout 4 étapes (infos/livraison/paiement/confirmation), promo, livraison offerte | https://claude.ai/code/artifact/05a62749-ebfb-465c-ab1f-79cae25b4686 |
+| `boutique.html` | Compléments & Bien-être — **vraies photos produits retouchées** (base64), filtres besoin/forme/marque | https://claude.ai/code/artifact/983279be-e3e9-48c0-b5ca-dfad5c72cabd |
 | `logo-banner.html` | Bannière-logo premium (rendu image) | — |
 
 Pour **mettre à jour un artifact** : republier le même fichier en passant son URL comme `url` (garde le lien).
@@ -33,7 +34,7 @@ Pour **mettre à jour un artifact** : republier le même fichier en passant son 
 - **iCloud inaccessible** : pour de nouvelles photos, les déposer dans le chat ou Google Drive.
 
 ## Prochaines étapes prévues
-1. **Intégrer les packshots retouchés** dans les cartes catalogue + fiches produits (remplacer les flacons dessinés). ← étape en cours
+1. **Fait** : `boutique.html` intègre 16 vraies photos retouchées (base64). Reste à brancher les photos sur la fiche produit et le catalogue visage.
 2. Pages restantes : **compte client** (dashboard : commandes, suivi, favoris, fidélité) puis **back-office admin**.
 3. Décision d'archi technique pour la prod (proposé : Next.js + Medusa/Postgres) et vrai dépôt dédié.
 
