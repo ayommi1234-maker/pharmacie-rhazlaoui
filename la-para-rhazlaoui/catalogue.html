@@ -1,0 +1,459 @@
+<title>Soins Visage — Catalogue</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cinzel+Decorative:wght@700;900&family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap">
+<style>
+:root{
+  --ivory:#F5F1E8;--paper:#FBF8F1;--card:#FFFFFF;
+  --sage:#566B4D;--sage-deep:#2F3A29;--sage-tint:#E4E9DB;
+  --sable:#E6D9C3;--sable-deep:#C9B491;--brass:#AC8A54;--gilt:#C9A96A;
+  --ink:#23261F;--muted:#6A6F62;--faint:#9AA08D;--line:#E0DACC;--line-soft:#EBE6DA;
+  --good:#4F7A55;--warn:#B4863B;--crit:#B0503F;--shadow:24 30 18;
+  --r-sm:10px;--r-md:16px;--r-lg:26px;--arch:120px 120px 16px 16px;--maxw:1300px;
+  --logo-grad:linear-gradient(176deg,#E6CD8E 0%,#C9A24E 40%,#9A7734 78%,#7E5F27 100%);
+  --f-title:"Cinzel","Fraunces",Georgia,serif;--f-deco:"Cinzel Decorative","Cinzel",serif;
+  --f-disp:"Fraunces",Georgia,serif;--f-body:"Hanken Grotesk",system-ui,sans-serif;
+  --f-ar:"IBM Plex Sans Arabic","Hanken Grotesk",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ivory:#14170F;--paper:#1B2015;--card:#212719;--sage:#A6BE94;--sage-deep:#CBDABC;--sage-tint:#2A3323;
+  --sable:#463D2D;--sable-deep:#6D5F44;--brass:#C9A96A;--gilt:#D8BE85;
+  --ink:#ECE8DB;--muted:#A3A896;--faint:#6E7461;--line:#333B2A;--line-soft:#2A3122;
+  --good:#8FBE93;--warn:#D9AF6A;--crit:#DD8672;--shadow:0 0 0;
+  --logo-grad:linear-gradient(176deg,#F2DFA4 0%,#E3BC6A 45%,#C79A4A 100%);
+}}
+:root[data-theme="dark"]{
+  --ivory:#14170F;--paper:#1B2015;--card:#212719;--sage:#A6BE94;--sage-deep:#CBDABC;--sage-tint:#2A3323;
+  --sable:#463D2D;--sable-deep:#6D5F44;--brass:#C9A96A;--gilt:#D8BE85;
+  --ink:#ECE8DB;--muted:#A3A896;--faint:#6E7461;--line:#333B2A;--line-soft:#2A3122;
+  --good:#8FBE93;--warn:#D9AF6A;--crit:#DD8672;--shadow:0 0 0;
+  --logo-grad:linear-gradient(176deg,#F2DFA4 0%,#E3BC6A 45%,#C79A4A 100%);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;transition-duration:.01ms!important}}
+body{margin:0;background:var(--ivory);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+body[dir="rtl"]{font-family:var(--f-ar)}
+h1,h2,h3,h4{font-family:var(--f-disp);font-weight:400;margin:0;line-height:1.1}
+p{margin:0}button{font-family:inherit}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(16px,4vw,44px)}
+.eyebrow{font-family:var(--f-body);font-size:.7rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--brass)}
+
+/* controls */
+.ctl{position:fixed;top:14px;right:14px;z-index:60;display:flex;gap:8px}
+body[dir="rtl"] .ctl{right:auto;left:14px}
+.pill{display:inline-flex;align-items:center;gap:7px;background:color-mix(in srgb,var(--card) 82%,transparent);backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:999px;padding:8px 13px;cursor:pointer;font-size:.75rem;font-weight:700;letter-spacing:.05em;color:var(--ink)}
+.pill:hover{border-color:var(--sage)}.pill:focus-visible{outline:2px solid var(--sage);outline-offset:2px}
+.pill .sep{width:1px;height:13px;background:var(--line)}.pill .lg{opacity:.42}.pill .lg.on{opacity:1;color:var(--sage)}
+
+/* header */
+.topbar{background:var(--sage-deep);color:#D6E2C9;text-align:center;font-size:.72rem;font-weight:600;letter-spacing:.08em;padding:8px 40px}
+header.nav{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--ivory) 90%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav-in{display:flex;align-items:center;gap:20px;padding:12px 0}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none}
+.emblem{width:44px;height:44px;border-radius:50%;flex:none;position:relative;
+  background:radial-gradient(circle at 34% 26%,#6b8159,transparent 58%),radial-gradient(circle at 50% 44%,#495b3f,#2c3623 66%,#1e2618);
+  box-shadow:0 8px 18px -8px rgb(var(--shadow)/.9),inset 0 1.5px 2px #ffffff40,inset 0 -4px 8px #00000055,0 0 0 1px color-mix(in srgb,var(--gilt) 40%,transparent);
+  display:flex;align-items:center;justify-content:center}
+.emblem::before{content:"";position:absolute;top:6px;left:11px;width:15px;height:8px;border-radius:50%;background:radial-gradient(circle,#ffffff70,transparent 72%)}
+.emblem::after{content:"";position:absolute;bottom:6px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--gilt);box-shadow:0 0 5px var(--gilt)}
+.emblem .pr{font-family:var(--f-deco);font-weight:900;font-size:.86rem;letter-spacing:.01em;line-height:1;background:var(--logo-grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:#E4C87E;filter:drop-shadow(0 1px 1px #0007)}
+.wmwrap{display:flex;flex-direction:column;line-height:1}
+.wm{font-family:var(--f-deco);font-weight:700;font-size:1.2rem;letter-spacing:.05em;text-transform:uppercase;white-space:nowrap;background:var(--logo-grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:#8A6A32}
+.wm-tag{font-size:.54rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-top:4px;padding-top:4px;border-top:1px solid color-mix(in srgb,var(--gilt) 45%,transparent)}
+.search{flex:1;min-width:0;display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:10px 16px;color:var(--faint);font-size:.88rem}
+.nav-ico{display:flex;gap:16px;color:var(--muted);font-size:.76rem;font-weight:600;white-space:nowrap}
+.nav-ico a{display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:inherit}
+.nav-ico a:hover{color:var(--sage)}.nav-ico .ct{position:relative}
+.nav-ico .dot{position:absolute;top:-4px;right:-8px;background:var(--brass);color:#fff;font-size:.58rem;min-width:14px;height:14px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-weight:700}
+@media(max-width:900px){.search,.wm-tag{display:none}.nav-ico{margin-left:auto}.nav-ico a span{display:none}}
+body[dir="rtl"] .wm{font-family:var(--f-ar);text-transform:none;letter-spacing:0}
+body[dir="rtl"] .nav-ico{margin-left:0;margin-right:auto}
+
+/* cat hero */
+.crumb{display:flex;gap:9px;align-items:center;padding:14px 0 0;font-size:.8rem;color:var(--faint);flex-wrap:wrap}
+.crumb a{color:var(--muted);text-decoration:none}.crumb a:hover{color:var(--sage)}.crumb .sp{color:var(--line)}
+.cathero{padding:18px 0 22px;border-bottom:1px solid var(--line)}
+.cathero h1{font-family:var(--f-title);font-weight:600;text-transform:uppercase;letter-spacing:.03em;font-size:clamp(1.7rem,4vw,2.6rem);margin:6px 0 8px}
+body[dir="rtl"] .cathero h1{font-family:var(--f-ar);text-transform:none}
+.cathero p{color:var(--muted);max-width:60ch;font-size:.98rem}
+
+/* layout */
+.shop{display:grid;grid-template-columns:264px 1fr;gap:clamp(20px,3vw,38px);padding:26px 0 60px;align-items:start}
+@media(max-width:900px){.shop{grid-template-columns:1fr}}
+
+/* filters */
+.filters{position:sticky;top:92px;align-self:start}
+@media(max-width:900px){
+  .filters{position:fixed;inset:0 0 0 auto;width:min(340px,86vw);z-index:80;background:var(--ivory);
+    transform:translateX(105%);transition:transform .3s ease;overflow-y:auto;padding:20px;box-shadow:-20px 0 50px -20px rgb(var(--shadow)/.5)}
+  .filters.open{transform:none}
+  body[dir="rtl"] .filters{inset:0 auto 0 0;transform:translateX(-105%)}
+  body[dir="rtl"] .filters.open{transform:none}
+}
+.fgroup{border-bottom:1px solid var(--line);padding:16px 0}
+.fgroup:first-child{padding-top:0}
+.fgroup h3{font-family:var(--f-body);font-weight:700;font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sage);margin-bottom:13px;display:flex;justify-content:space-between;align-items:center}
+.fopt{display:flex;align-items:center;gap:10px;padding:5px 0;font-size:.88rem;color:var(--muted);cursor:pointer}
+.fopt input{appearance:none;width:18px;height:18px;border:1.5px solid var(--line);border-radius:5px;flex:none;cursor:pointer;position:relative;background:var(--card)}
+.fopt input:checked{background:var(--sage);border-color:var(--sage)}
+.fopt input:checked::after{content:"✓";position:absolute;inset:0;color:#fff;font-size:.72rem;display:flex;align-items:center;justify-content:center}
+.fopt input:focus-visible{outline:2px solid var(--sage);outline-offset:2px}
+.fopt:hover{color:var(--ink)}
+.fopt .cnt{margin-left:auto;font-size:.74rem;color:var(--faint)}
+body[dir="rtl"] .fopt .cnt{margin-left:0;margin-right:auto}
+.range{margin-top:6px}
+.range input[type=range]{width:100%;accent-color:var(--sage)}
+.range .vals{display:flex;justify-content:space-between;font-size:.78rem;color:var(--muted);margin-top:6px;font-variant-numeric:tabular-nums}
+.fclear{display:none}
+
+/* toolbar */
+.toolbar{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+.toolbar .cnt{font-size:.9rem;color:var(--muted)}.toolbar .cnt b{color:var(--ink);font-family:var(--f-disp);font-weight:500}
+.rightools{display:flex;gap:10px;align-items:center}
+.selbox{position:relative}
+.sortsel{appearance:none;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:9px 34px 9px 15px;font-family:inherit;font-size:.84rem;font-weight:600;color:var(--ink);cursor:pointer}
+.selbox::after{content:"▾";position:absolute;right:14px;top:50%;transform:translateY(-50%);pointer-events:none;color:var(--muted);font-size:.7rem}
+.filterbtn{display:none;border:1px solid var(--sage);background:var(--sage-tint);color:var(--sage-deep);border-radius:999px;padding:9px 16px;font-weight:600;font-size:.84rem;cursor:pointer;gap:8px;align-items:center}
+@media(max-width:900px){.filterbtn{display:inline-flex}}
+
+/* active chips */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.chip{display:inline-flex;gap:7px;align-items:center;font-size:.78rem;font-weight:600;padding:6px 8px 6px 13px;border-radius:999px;background:var(--sage-tint);color:var(--sage-deep);border:1px solid color-mix(in srgb,var(--sage) 30%,transparent)}
+.chip b{cursor:pointer;font-weight:700;width:16px;height:16px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--sage) 22%,transparent)}
+.chip b:hover{background:var(--sage);color:#fff}
+.chip.clearall{background:transparent;color:var(--crit);border-color:transparent;cursor:pointer}
+
+/* grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+.pcard{border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;background:var(--card);transition:.22s;display:flex;flex-direction:column}
+.pcard:hover{transform:translateY(-4px);box-shadow:0 22px 42px -28px rgb(var(--shadow)/.6)}
+.pcard .ph{position:relative;aspect-ratio:1/1;border-radius:var(--arch);margin:10px 10px 0;border:1px solid var(--line-soft);background:radial-gradient(72% 72% at 50% 34%,var(--paper),var(--sable) 260%);display:flex;align-items:flex-end;justify-content:center;overflow:hidden}
+.pcard .bottle{width:52px;height:114px;margin-bottom:15px;border-radius:10px 10px 13px 13px;background:linear-gradient(160deg,var(--card),var(--sage-tint));border:1px solid var(--line);position:relative;box-shadow:0 12px 22px -16px rgb(var(--shadow)/.7)}
+.pcard .bottle::before{content:"";position:absolute;inset:32px 9px auto 9px;height:34px;border-radius:5px;background:var(--sage);opacity:.78}
+.pcard .bottle::after{content:"";position:absolute;top:-7px;left:50%;transform:translateX(-50%);width:20px;height:10px;border-radius:4px 4px 0 0;background:var(--sage-deep)}
+.pcard .fav{position:absolute;top:9px;right:9px;width:30px;height:30px;border-radius:50%;background:color-mix(in srgb,var(--card) 84%,transparent);border:1px solid var(--line);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);z-index:2}
+body[dir="rtl"] .pcard .fav{right:auto;left:9px}
+.pcard .fav:hover,.pcard .fav.on{color:var(--crit);border-color:var(--crit)}
+.pcard .bd{position:absolute;bottom:9px;left:9px;display:flex;flex-direction:column;gap:5px;z-index:2}
+body[dir="rtl"] .pcard .bd{left:auto;right:9px}
+.pcard .body{padding:13px 15px 15px;display:flex;flex-direction:column;flex:1}
+.pcard .br{font-size:.66rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--sage)}
+.pcard .nm{font-family:var(--f-disp);font-size:1.04rem;line-height:1.16;margin:4px 0 3px}
+.pcard .ben{font-size:.79rem;color:var(--muted);margin-bottom:9px}
+.pcard .rr{font-size:.74rem;color:var(--faint);margin-bottom:11px}
+.pcard .rr .st{color:var(--brass);letter-spacing:1px}
+.pcard .foot{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:auto}
+.badge{display:inline-flex;font-size:.61rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:4px 9px;border-radius:999px}
+.b-best{background:var(--sage-deep);color:#DBE6CF}.b-new{background:var(--sage-tint);color:var(--sage-deep)}
+.b-promo{background:var(--crit);color:#fff}.b-sens{background:transparent;border:1px solid var(--sage);color:var(--sage)}.b-soft{background:var(--sable);color:#6a5a3f}
+.price{display:flex;align-items:baseline;gap:7px}
+.price .now{font-family:var(--f-disp);font-weight:500;font-size:1.2rem}
+.price .old{font-size:.8rem;color:var(--faint);text-decoration:line-through}
+.stk{font-size:.7rem;font-weight:600;margin-top:9px;display:inline-flex;gap:6px;align-items:center}
+.stk.ok{color:var(--good)}.stk.low{color:var(--warn)}.stk.out{color:var(--crit)}
+.stk i{width:6px;height:6px;border-radius:50%;background:currentColor}
+.add{width:36px;height:36px;border-radius:50%;background:var(--sage);color:var(--ivory);border:none;cursor:pointer;font-size:1.1rem;flex:none;transition:.2s}
+.add:hover{background:var(--sage-deep);transform:scale(1.08)}
+.add:disabled{background:var(--line);color:var(--faint);cursor:not-allowed;transform:none}
+
+.empty{text-align:center;padding:60px 20px;color:var(--muted)}
+.empty .ic{font-size:2rem;color:var(--faint)}
+.loadmore{display:flex;justify-content:center;margin-top:32px}
+.btn{font-weight:600;font-size:.9rem;border-radius:999px;padding:12px 26px;border:1px solid var(--sage);background:transparent;color:var(--sage-deep);cursor:pointer}
+.btn:hover{background:var(--sage-tint)}
+.scrim{display:none;position:fixed;inset:0;background:#0006;z-index:70}
+.scrim.on{display:block}
+
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(140%);z-index:90;background:var(--sage-deep);color:#ECF3E4;padding:12px 20px;border-radius:999px;font-size:.86rem;font-weight:600;box-shadow:0 20px 40px -18px rgb(var(--shadow)/.8);transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.toast.show{transform:translateX(-50%) translateY(0)}
+footer{background:var(--sage-deep);color:#C4D3B6;padding:40px 0}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center}
+footer .wm2{font-family:var(--f-deco);font-weight:700;font-size:1.3rem;background:var(--logo-grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+footer .note{font-size:.76rem;color:#8CA07C;max-width:46ch}
+</style>
+
+<div class="ctl">
+  <button class="pill" id="lang"><span class="lg on" data-lg="fr">FR</span><span class="sep"></span><span class="lg" data-lg="ar">ع</span></button>
+  <button class="pill" id="theme">◐ <span data-i18n="theme">Thème</span></button>
+</div>
+
+<div class="topbar" data-i18n="topbar">Livraison partout au Maroc · Produits 100 % authentiques · Paiement à la livraison</div>
+<header class="nav"><div class="wrap"><div class="nav-in">
+  <a class="brand" href="#"><span class="emblem"><span class="pr">LPR</span></span>
+    <span class="wmwrap"><span class="wm">La <b>Para</b> Rhazlaoui</span><span class="wm-tag" data-i18n="tag">Parapharmacie · Dermocosmétique</span></span></a>
+  <div class="search"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg><span data-i18n="search">Rechercher un produit, une marque, un besoin…</span></div>
+  <nav class="nav-ico">
+    <a href="#"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg><span data-i18n="account">Compte</span></a>
+    <a href="#"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 21s-7-4.6-9.4-9C1 9 2.5 5.5 6 5.5c2 0 3.2 1.2 4 2.4.8-1.2 2-2.4 4-2.4 3.5 0 5 3.5 3.4 6.5C19 16.4 12 21 12 21z"/></svg><span data-i18n="fav">Favoris</span></a>
+    <a href="#"><span class="ct"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 6h15l-1.5 9h-12z"/><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/></svg><span class="dot" id="cartcount">2</span></span><span data-i18n="cart">Panier</span></a>
+  </nav>
+</div></div></header>
+
+<div class="wrap">
+  <nav class="crumb"><a href="#" data-i18n="cb1">Accueil</a><span class="sp">›</span><a href="#" data-i18n="cb2">Visage</a><span class="sp">›</span><span data-i18n="cb3">Tous les soins</span></nav>
+</div>
+<div class="cathero"><div class="wrap">
+  <span class="eyebrow" data-i18n="hero-eye">Catalogue</span>
+  <h1 data-i18n="hero-h1">Soins Visage</h1>
+  <p data-i18n="hero-p">Sérums, crèmes, nettoyants et solaires — filtrez par type de peau, besoin ou marque pour trouver le soin fait pour vous.</p>
+</div></div>
+
+<div class="wrap">
+  <div class="shop">
+    <!-- FILTERS -->
+    <aside class="filters" id="filters">
+      <div class="fgroup" style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line)">
+        <h3 style="margin:0" data-i18n="f-title">Filtres</h3>
+        <button class="pill" id="closefilters" style="display:none">✕</button>
+      </div>
+      <div class="fgroup"><h3 data-i18n="fg-peau">Type de peau</h3>
+        <label class="fopt"><input type="checkbox" data-f="peau" value="seche"><span data-i18n="p-seche">Sèche</span></label>
+        <label class="fopt"><input type="checkbox" data-f="peau" value="grasse"><span data-i18n="p-grasse">Grasse</span></label>
+        <label class="fopt"><input type="checkbox" data-f="peau" value="mixte"><span data-i18n="p-mixte">Mixte</span></label>
+        <label class="fopt"><input type="checkbox" data-f="peau" value="sensible"><span data-i18n="p-sensible">Sensible</span></label>
+        <label class="fopt"><input type="checkbox" data-f="peau" value="mature"><span data-i18n="p-mature">Mature</span></label>
+      </div>
+      <div class="fgroup"><h3 data-i18n="fg-besoin">Besoin</h3>
+        <label class="fopt"><input type="checkbox" data-f="besoin" value="eclat"><span data-i18n="b-eclat">Éclat</span></label>
+        <label class="fopt"><input type="checkbox" data-f="besoin" value="hydratation"><span data-i18n="b-hydra">Hydratation</span></label>
+        <label class="fopt"><input type="checkbox" data-f="besoin" value="antiage"><span data-i18n="b-age">Anti-âge</span></label>
+        <label class="fopt"><input type="checkbox" data-f="besoin" value="acne"><span data-i18n="b-acne">Imperfections</span></label>
+        <label class="fopt"><input type="checkbox" data-f="besoin" value="taches"><span data-i18n="b-taches">Taches</span></label>
+        <label class="fopt"><input type="checkbox" data-f="besoin" value="solaire"><span data-i18n="b-sol">Protection solaire</span></label>
+      </div>
+      <div class="fgroup"><h3 data-i18n="fg-type">Type de produit</h3>
+        <label class="fopt"><input type="checkbox" data-f="type" value="serum"><span data-i18n="t-serum">Sérum</span></label>
+        <label class="fopt"><input type="checkbox" data-f="type" value="creme"><span data-i18n="t-creme">Crème</span></label>
+        <label class="fopt"><input type="checkbox" data-f="type" value="nettoyant"><span data-i18n="t-net">Nettoyant</span></label>
+        <label class="fopt"><input type="checkbox" data-f="type" value="masque"><span data-i18n="t-masque">Masque</span></label>
+        <label class="fopt"><input type="checkbox" data-f="type" value="spf"><span data-i18n="t-spf">Solaire (SPF)</span></label>
+      </div>
+      <div class="fgroup"><h3 data-i18n="fg-marque">Marque</h3>
+        <label class="fopt"><input type="checkbox" data-f="marque" value="Avène"><span>Avène</span></label>
+        <label class="fopt"><input type="checkbox" data-f="marque" value="CeraVe"><span>CeraVe</span></label>
+        <label class="fopt"><input type="checkbox" data-f="marque" value="Bioderma"><span>Bioderma</span></label>
+        <label class="fopt"><input type="checkbox" data-f="marque" value="Vichy"><span>Vichy</span></label>
+        <label class="fopt"><input type="checkbox" data-f="marque" value="Uriage"><span>Uriage</span></label>
+      </div>
+      <div class="fgroup"><h3 data-i18n="fg-prix">Prix maximum</h3>
+        <div class="range"><input type="range" id="price" min="50" max="400" step="10" value="400">
+          <div class="vals"><span data-i18n="prix-de">Dès 50 DH</span><span id="pricelabel">≤ 400 DH</span></div></div>
+      </div>
+      <div class="fgroup"><h3 data-i18n="fg-note">Note</h3>
+        <label class="fopt"><input type="checkbox" data-f="note" value="4"><span data-i18n="n4">4 ★ et plus</span></label>
+        <label class="fopt"><input type="checkbox" data-f="note" value="45"><span data-i18n="n45">4,5 ★ et plus</span></label>
+      </div>
+      <div class="fgroup"><h3 data-i18n="fg-autre">Autres</h3>
+        <label class="fopt"><input type="checkbox" data-f="flag" value="promo"><span data-i18n="fl-promo">En promotion</span></label>
+        <label class="fopt"><input type="checkbox" data-f="flag" value="nouveau"><span data-i18n="fl-new">Nouveautés</span></label>
+        <label class="fopt"><input type="checkbox" data-f="flag" value="dispo"><span data-i18n="fl-stock">En stock uniquement</span></label>
+      </div>
+    </aside>
+
+    <!-- RESULTS -->
+    <div class="results">
+      <div class="toolbar">
+        <div class="cnt"><b id="count">—</b> <span data-i18n="products">produits</span></div>
+        <div class="rightools">
+          <button class="filterbtn" id="openfilters"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 5h18M6 12h12M10 19h4"/></svg> <span data-i18n="filter">Filtrer</span></button>
+          <div class="selbox"><select class="sortsel" id="sort">
+            <option value="pop" data-i18n="s-pop">Popularité</option>
+            <option value="new" data-i18n="s-new">Nouveautés</option>
+            <option value="asc" data-i18n="s-asc">Prix croissant</option>
+            <option value="desc" data-i18n="s-desc">Prix décroissant</option>
+            <option value="rate" data-i18n="s-rate">Mieux notés</option>
+          </select></div>
+        </div>
+      </div>
+      <div class="chips" id="chips"></div>
+      <div class="grid" id="grid"></div>
+      <div class="empty" id="empty" style="display:none"><div class="ic">✺</div><p data-i18n="none">Aucun produit ne correspond à ces filtres.</p><button class="btn" id="resetempty" style="margin-top:14px" data-i18n="reset">Réinitialiser les filtres</button></div>
+    </div>
+  </div>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<div class="toast" id="toast">✓ <span id="toasttxt">Ajouté au panier</span></div>
+
+<footer><div class="wrap">
+  <div class="wm2">LA PARA RHAZLAOUI</div>
+  <div class="note" data-i18n="foot">Parapharmacie digitale · Maroc — Catalogue &amp; produits d'exemple ; les données réelles viendront du back-office.</div>
+</div></footer>
+
+<script>
+/* ===== DATASET (exemple) ===== */
+var P=[
+ {n:"Sérum Éclat Niacinamide",m:"Avène",t:"serum",peau:["mixte","grasse","sensible"],besoin:["eclat","acne"],prix:189,old:239,note:4.7,avis:128,fl:["promo"],stock:"ok",pop:98},
+ {n:"Crème Hydra-Confort",m:"CeraVe",t:"creme",peau:["seche","sensible"],besoin:["hydratation"],prix:215,old:0,note:4.5,avis:86,fl:[],stock:"ok",pop:90},
+ {n:"Fluide Solaire SPF 50+",m:"Bioderma",t:"spf",peau:["mixte","grasse"],besoin:["solaire"],prix:179,old:199,note:4.8,avis:214,fl:["promo"],stock:"ok",pop:95},
+ {n:"Gel Nettoyant Purifiant",m:"CeraVe",t:"nettoyant",peau:["grasse","mixte"],besoin:["acne"],prix:98,old:0,note:4.6,avis:63,fl:["nouveau"],stock:"ok",pop:70},
+ {n:"Contour des Yeux Liftant",m:"Vichy",t:"serum",peau:["mature","sensible"],besoin:["antiage"],prix:245,old:289,note:4.7,avis:41,fl:["promo"],stock:"low",pop:66},
+ {n:"Sérum Acide Hyaluronique",m:"Uriage",t:"serum",peau:["seche","mixte","sensible"],besoin:["hydratation"],prix:179,old:0,note:4.9,avis:97,fl:[],stock:"ok",pop:92},
+ {n:"Crème Anti-Taches Nuit",m:"Vichy",t:"creme",peau:["mature","mixte"],besoin:["taches","eclat"],prix:259,old:0,note:4.4,avis:52,fl:["nouveau"],stock:"ok",pop:60},
+ {n:"Masque Éclat Vitamine C",m:"Avène",t:"masque",peau:["mixte","grasse"],besoin:["eclat"],prix:139,old:169,note:4.3,avis:38,fl:["promo"],stock:"ok",pop:55},
+ {n:"Baume Réparateur Peaux Sèches",m:"Uriage",t:"creme",peau:["seche","sensible"],besoin:["hydratation"],prix:129,old:0,note:4.8,avis:110,fl:[],stock:"ok",pop:82},
+ {n:"Sérum Rétinol Doux",m:"Bioderma",t:"serum",peau:["mature","mixte"],besoin:["antiage"],prix:279,old:0,note:4.6,avis:44,fl:["nouveau"],stock:"low",pop:64},
+ {n:"Eau Micellaire Sensibio",m:"Bioderma",t:"nettoyant",peau:["sensible","seche"],besoin:["hydratation"],prix:85,old:0,note:4.9,avis:305,fl:[],stock:"ok",pop:99},
+ {n:"Crème Matifiante Anti-Brillance",m:"Vichy",t:"creme",peau:["grasse","mixte"],besoin:["acne"],prix:169,old:0,note:4.2,avis:29,fl:[],stock:"ok",pop:48},
+ {n:"Soin Anti-Âge Global",m:"Avène",t:"creme",peau:["mature"],besoin:["antiage"],prix:329,old:379,note:4.5,avis:57,fl:["promo"],stock:"ok",pop:58},
+ {n:"Sérum Vitamine C Éclat",m:"CeraVe",t:"serum",peau:["mixte","grasse","mature"],besoin:["eclat","taches"],prix:199,old:0,note:4.7,avis:74,fl:["nouveau"],stock:"ok",pop:76},
+ {n:"Fluide Teinté SPF 30",m:"Uriage",t:"spf",peau:["mixte","sensible"],besoin:["solaire","taches"],prix:159,old:0,note:4.4,avis:36,fl:[],stock:"out",pop:40},
+ {n:"Gommage Douceur Grains Fins",m:"Avène",t:"masque",peau:["seche","sensible"],besoin:["eclat"],prix:109,old:129,note:4.3,avis:22,fl:["promo"],stock:"ok",pop:42}
+];
+
+var AR={theme:"السمة",topbar:"توصيل لكل المغرب · منتجات أصلية 100٪ · الدفع عند الاستلام",tag:"صيدلية · عناية جلدية",
+ search:"ابحثي عن منتج، ماركة أو حاجة…",account:"حسابي",fav:"المفضلة",cart:"السلة",
+ cb1:"الرئيسية",cb2:"الوجه",cb3:"كل العناية","hero-eye":"الكتالوج","hero-h1":"عناية الوجه",
+ "hero-p":"سيرومات، كريمات، منظّفات وواقيات — صفّي حسب نوع البشرة أو الحاجة أو الماركة لتجدي العناية المناسبة لك.",
+ "f-title":"عوامل التصفية","fg-peau":"نوع البشرة","p-seche":"جافة","p-grasse":"دهنية","p-mixte":"مختلطة","p-sensible":"حساسة","p-mature":"ناضجة",
+ "fg-besoin":"الحاجة","b-eclat":"إشراق","b-hydra":"ترطيب","b-age":"مكافحة الشيخوخة","b-acne":"العيوب","b-taches":"البقع","b-sol":"حماية شمسية",
+ "fg-type":"نوع المنتج","t-serum":"سيروم","t-creme":"كريم","t-net":"منظّف","t-masque":"قناع","t-spf":"واقي شمسي",
+ "fg-marque":"الماركة","fg-prix":"أقصى سعر","prix-de":"من 50 درهم","fg-note":"التقييم","n4":"4★ فأكثر","n45":"4.5★ فأكثر",
+ "fg-autre":"أخرى","fl-promo":"في تخفيض","fl-new":"جديد","fl-stock":"المتوفّر فقط",
+ products:"منتج",filter:"تصفية","s-pop":"الأكثر رواجاً","s-new":"الجديد","s-asc":"السعر تصاعدياً","s-desc":"السعر تنازلياً","s-rate":"الأعلى تقييماً",
+ none:"لا يوجد منتج مطابق لهذه العوامل.",reset:"إعادة ضبط عوامل التصفية",
+ foot:"صيدلية رقمية · المغرب — كتالوج ومنتجات مثال؛ البيانات الحقيقية من لوحة التحكم.",
+ added:"أُضيف إلى السلة",instock:"متوفّر",low:"بقي القليل",out:"نفد المخزون",reviews:"تقييم"};
+var UI_LABELS={peau:{seche:"Sèche",grasse:"Grasse",mixte:"Mixte",sensible:"Sensible",mature:"Mature"},
+ besoin:{eclat:"Éclat",hydratation:"Hydratation",antiage:"Anti-âge",acne:"Imperfections",taches:"Taches",solaire:"Solaire"},
+ type:{serum:"Sérum",creme:"Crème",nettoyant:"Nettoyant",masque:"Masque",spf:"SPF"},
+ note:{"4":"4★+","45":"4,5★+"},flag:{promo:"Promo",nouveau:"Nouveau",dispo:"En stock"}};
+var AR_LABELS={peau:{seche:"جافة",grasse:"دهنية",mixte:"مختلطة",sensible:"حساسة",mature:"ناضجة"},
+ besoin:{eclat:"إشراق",hydratation:"ترطيب",antiage:"مكافحة الشيخوخة",acne:"العيوب",taches:"البقع",solaire:"واقي شمسي"},
+ type:{serum:"سيروم",creme:"كريم",nettoyant:"منظّف",masque:"قناع",spf:"واقي"},
+ note:{"4":"4★+","45":"4.5★+"},flag:{promo:"تخفيض",nouveau:"جديد",dispo:"متوفّر"}};
+
+var lang="fr";
+function money(n){return n+" DH"}
+function stars(r){var full=Math.round(r);return '★★★★★'.slice(0,full)+'<span style="color:var(--line)">'+'★★★★★'.slice(0,5-full)+'</span>'}
+function txt(k){return lang==="ar"&&AR[k]!=null?AR[k]:null}
+function lbl(group,val){return (lang==="ar"?AR_LABELS:UI_LABELS)[group][val]||val}
+function stockLabel(s){var m={ok:"instock",low:"low",out:"out"};return txt(m[s])|| ({ok:"En stock",low:"Plus que 3",out:"Rupture"})[s]}
+
+var state={peau:[],besoin:[],type:[],marque:[],note:[],flag:[],price:400,sort:"pop"};
+var favs={};
+
+function collect(){
+  ['peau','besoin','type','marque','note','flag'].forEach(function(g){
+    state[g]=[].slice.call(document.querySelectorAll('input[data-f="'+g+'"]:checked')).map(function(i){return i.value});
+  });
+  state.price=parseInt(document.getElementById('price').value);
+  state.sort=document.getElementById('sort').value;
+}
+function match(p){
+  if(state.peau.length && !state.peau.some(function(v){return p.peau.indexOf(v)>-1}))return false;
+  if(state.besoin.length && !state.besoin.some(function(v){return p.besoin.indexOf(v)>-1}))return false;
+  if(state.type.length && state.type.indexOf(p.t)<0)return false;
+  if(state.marque.length && state.marque.indexOf(p.m)<0)return false;
+  if(p.prix>state.price)return false;
+  if(state.note.length){var min=Math.max.apply(null,state.note.map(function(v){return v==="45"?4.5:4}));if(p.note<min)return false;}
+  if(state.flag.indexOf('promo')>-1 && p.fl.indexOf('promo')<0)return false;
+  if(state.flag.indexOf('nouveau')>-1 && p.fl.indexOf('nouveau')<0)return false;
+  if(state.flag.indexOf('dispo')>-1 && p.stock==="out")return false;
+  return true;
+}
+function sortList(a){
+  var s=state.sort;
+  return a.sort(function(x,y){
+    if(s==="asc")return x.prix-y.prix; if(s==="desc")return y.prix-x.prix;
+    if(s==="rate")return y.note-x.note; if(s==="new")return (y.fl.indexOf('nouveau')>-1)-(x.fl.indexOf('nouveau')>-1)||y.pop-x.pop;
+    return y.pop-x.pop;
+  });
+}
+function badgeFor(p){
+  if(p.fl.indexOf('nouveau')>-1)return '<span class="badge b-new">'+(txt('fl-new')||'Nouveau')+'</span>';
+  if(p.old)return '<span class="badge b-promo">−'+Math.round((1-p.prix/p.old)*100)+' %</span>';
+  if(p.pop>=95)return '<span class="badge b-best">'+(txt('s-pop')||'Best-seller')+'</span>';
+  return '';
+}
+function card(p,i){
+  var sc=p.stock==="ok"?"ok":(p.stock==="low"?"low":"out");
+  var on=favs[p.n]?' on':'';
+  return '<article class="pcard"><div class="ph"><div class="bd">'+badgeFor(p)+'</div>'+
+    '<button class="fav'+on+'" data-n="'+p.n+'" aria-label="favori">'+(favs[p.n]?'♥':'♡')+'</button>'+
+    '<div class="bottle"></div></div><div class="body">'+
+    '<div class="br">'+p.m+'</div><div class="nm">'+p.n+'</div>'+
+    '<div class="ben">'+lbl('type',p.t)+' · '+lbl('besoin',p.besoin[0])+'</div>'+
+    '<div class="rr"><span class="st">'+stars(p.note)+'</span> '+p.note.toString().replace('.',',')+' · '+p.avis+' '+(txt('reviews')||'avis')+'</div>'+
+    '<div class="foot"><div class="price"><span class="now">'+money(p.prix)+'</span>'+(p.old?'<span class="old">'+money(p.old)+'</span>':'')+'</div>'+
+    '<button class="add" data-n="'+p.n+'"'+(p.stock==="out"?' disabled':'')+' aria-label="ajouter">+</button></div>'+
+    '<div class="stk '+sc+'"><i></i>'+stockLabel(p.stock)+'</div></div></article>';
+}
+function renderChips(){
+  var c=[],groups=['peau','besoin','type','marque','note','flag'];
+  groups.forEach(function(g){state[g].forEach(function(v){
+    var label = (g==='marque')?v:lbl(g,v);
+    c.push('<span class="chip">'+label+'<b data-g="'+g+'" data-v="'+v+'">✕</b></span>');
+  })});
+  if(state.price<400)c.push('<span class="chip">≤ '+state.price+' DH<b data-g="price">✕</b></span>');
+  var box=document.getElementById('chips');
+  if(c.length){c.push('<span class="chip clearall" id="clearall">'+(lang==="ar"?"مسح الكل":"Tout effacer")+'</span>');box.innerHTML=c.join('');}
+  else box.innerHTML='';
+}
+function apply(){
+  collect();
+  var list=sortList(P.filter(match));
+  document.getElementById('count').textContent=list.length;
+  var grid=document.getElementById('grid'),empty=document.getElementById('empty');
+  if(!list.length){grid.innerHTML='';empty.style.display='block';}
+  else{empty.style.display='none';grid.innerHTML=list.map(card).join('');}
+  bindCards();renderChips();
+}
+function bindCards(){
+  document.querySelectorAll('.add').forEach(function(b){if(b.disabled)return;b.onclick=function(){bump();toast(txt('added')||'Ajouté au panier')}});
+  document.querySelectorAll('.fav').forEach(function(f){f.onclick=function(){var n=f.getAttribute('data-n');favs[n]=!favs[n];f.classList.toggle('on');f.textContent=favs[n]?'♥':'♡'}});
+}
+/* cart + toast */
+var cart=2,tt;
+function bump(n){cart+=(n||1);document.getElementById('cartcount').textContent=cart}
+function toast(m){var el=document.getElementById('toast');document.getElementById('toasttxt').textContent=m;el.classList.add('show');clearTimeout(tt);tt=setTimeout(function(){el.classList.remove('show')},2000)}
+
+/* events */
+document.getElementById('filters').addEventListener('change',apply);
+document.getElementById('sort').addEventListener('change',apply);
+document.getElementById('price').addEventListener('input',function(){
+  document.getElementById('pricelabel').textContent=(lang==="ar"?"≤ ":"≤ ")+this.value+" DH";apply();
+});
+document.getElementById('chips').addEventListener('click',function(e){
+  if(e.target.id==='clearall'||e.target.closest('#clearall')){resetAll();return;}
+  var b=e.target.closest('b');if(!b)return;
+  var g=b.getAttribute('data-g');
+  if(g==='price'){document.getElementById('price').value=400;document.getElementById('pricelabel').textContent="≤ 400 DH";}
+  else{var v=b.getAttribute('data-v');var el=document.querySelector('input[data-f="'+g+'"][value="'+v+'"]');if(el)el.checked=false;}
+  apply();
+});
+function resetAll(){
+  document.querySelectorAll('input[type=checkbox]').forEach(function(c){c.checked=false});
+  document.getElementById('price').value=400;document.getElementById('pricelabel').textContent="≤ 400 DH";
+  document.getElementById('sort').value="pop";apply();
+}
+document.getElementById('resetempty').onclick=resetAll;
+
+/* mobile filters drawer */
+var filters=document.getElementById('filters'),scrim=document.getElementById('scrim');
+function openF(){filters.classList.add('open');scrim.classList.add('on');document.getElementById('closefilters').style.display='inline-flex'}
+function closeF(){filters.classList.remove('open');scrim.classList.remove('on')}
+document.getElementById('openfilters').onclick=openF;
+document.getElementById('closefilters').onclick=closeF;
+scrim.onclick=closeF;
+
+/* theme */
+(function(){var r=document.documentElement,b=document.getElementById('theme');
+ b.onclick=function(){var c=r.getAttribute('data-theme');var d=c==='dark'||(!c&&matchMedia('(prefers-color-scheme:dark)').matches);r.setAttribute('data-theme',d?'light':'dark')}})();
+
+/* i18n */
+function cacheFR(){document.querySelectorAll('[data-i18n]').forEach(function(e){e._fr=e.innerHTML})}
+function setLang(l){lang=l;var b=document.body;
+  document.querySelectorAll('.lg').forEach(function(x){x.classList.toggle('on',x.getAttribute('data-lg')===l)});
+  b.setAttribute('dir',l==="ar"?"rtl":"ltr");document.documentElement.lang=l;
+  document.querySelectorAll('[data-i18n]').forEach(function(e){var k=e.getAttribute('data-i18n');if(l==="ar"){if(AR[k]!=null)e.innerHTML=AR[k]}else{e.innerHTML=e._fr}});
+  document.getElementById('pricelabel').textContent="≤ "+document.getElementById('price').value+" DH";
+  apply();
+}
+document.getElementById('lang').onclick=function(){setLang(lang==="fr"?"ar":"fr")};
+
+/* init */
+cacheFR();apply();
+</script>

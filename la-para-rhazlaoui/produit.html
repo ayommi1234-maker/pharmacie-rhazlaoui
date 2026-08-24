@@ -1,0 +1,541 @@
+<title>Sérum Éclat Niacinamide</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cinzel+Decorative:wght@700;900&family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap">
+<style>
+:root{
+  --ivory:#F5F1E8;--paper:#FBF8F1;--card:#FFFFFF;
+  --sage:#566B4D;--sage-deep:#2F3A29;--sage-tint:#E4E9DB;
+  --sable:#E6D9C3;--sable-deep:#C9B491;--brass:#AC8A54;--gilt:#C9A96A;
+  --ink:#23261F;--muted:#6A6F62;--faint:#9AA08D;--line:#E0DACC;--line-soft:#EBE6DA;
+  --good:#4F7A55;--warn:#B4863B;--crit:#B0503F;--shadow:24 30 18;
+  --r-sm:10px;--r-md:16px;--r-lg:26px;--arch:130px 130px 18px 18px;--maxw:1240px;
+  --logo-grad:linear-gradient(176deg,#E6CD8E 0%,#C9A24E 40%,#9A7734 78%,#7E5F27 100%);
+  --f-title:"Cinzel","Fraunces",Georgia,serif;--f-deco:"Cinzel Decorative","Cinzel",serif;
+  --f-disp:"Fraunces",Georgia,serif;--f-body:"Hanken Grotesk",system-ui,sans-serif;
+  --f-ar:"IBM Plex Sans Arabic","Hanken Grotesk",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ivory:#14170F;--paper:#1B2015;--card:#212719;--sage:#A6BE94;--sage-deep:#CBDABC;--sage-tint:#2A3323;
+  --sable:#463D2D;--sable-deep:#6D5F44;--brass:#C9A96A;--gilt:#D8BE85;
+  --ink:#ECE8DB;--muted:#A3A896;--faint:#6E7461;--line:#333B2A;--line-soft:#2A3122;
+  --good:#8FBE93;--warn:#D9AF6A;--crit:#DD8672;--shadow:0 0 0;
+  --logo-grad:linear-gradient(176deg,#F2DFA4 0%,#E3BC6A 45%,#C79A4A 100%);
+}}
+:root[data-theme="dark"]{
+  --ivory:#14170F;--paper:#1B2015;--card:#212719;--sage:#A6BE94;--sage-deep:#CBDABC;--sage-tint:#2A3323;
+  --sable:#463D2D;--sable-deep:#6D5F44;--brass:#C9A96A;--gilt:#D8BE85;
+  --ink:#ECE8DB;--muted:#A3A896;--faint:#6E7461;--line:#333B2A;--line-soft:#2A3122;
+  --good:#8FBE93;--warn:#D9AF6A;--crit:#DD8672;--shadow:0 0 0;
+  --logo-grad:linear-gradient(176deg,#F2DFA4 0%,#E3BC6A 45%,#C79A4A 100%);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation-duration:.001ms!important;transition-duration:.01ms!important}}
+body{margin:0;background:var(--ivory);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+body[dir="rtl"]{font-family:var(--f-ar)}
+h1,h2,h3,h4{font-family:var(--f-disp);font-weight:400;margin:0;line-height:1.1;text-wrap:balance}
+p{margin:0}button{font-family:inherit}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(18px,5vw,52px)}
+.eyebrow{font-family:var(--f-body);font-size:.7rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--brass)}
+h2.sec{font-family:var(--f-title);font-weight:600;text-transform:uppercase;letter-spacing:.03em;font-size:clamp(1.3rem,3vw,1.8rem)}
+h2.sec em{font-style:normal;color:var(--sage)}
+body[dir="rtl"] h2.sec{font-family:var(--f-ar);text-transform:none;letter-spacing:0}
+
+/* controls */
+.ctl{position:fixed;top:14px;right:14px;z-index:60;display:flex;gap:8px}
+body[dir="rtl"] .ctl{right:auto;left:14px}
+.pill{display:inline-flex;align-items:center;gap:7px;background:color-mix(in srgb,var(--card) 82%,transparent);
+  backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:999px;padding:8px 13px;cursor:pointer;
+  font-size:.75rem;font-weight:700;letter-spacing:.05em;color:var(--ink)}
+.pill:hover{border-color:var(--sage)}.pill:focus-visible{outline:2px solid var(--sage);outline-offset:2px}
+.pill .sep{width:1px;height:13px;background:var(--line)}.pill .lg{opacity:.42}.pill .lg.on{opacity:1;color:var(--sage)}
+
+/* header */
+.topbar{background:var(--sage-deep);color:#D6E2C9;text-align:center;font-size:.72rem;font-weight:600;letter-spacing:.08em;padding:8px 40px}
+header.nav{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--ivory) 90%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav-in{display:flex;align-items:center;gap:20px;padding:12px 0}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none}
+.emblem{width:44px;height:44px;border-radius:50%;flex:none;position:relative;
+  background:radial-gradient(circle at 34% 26%,#6b8159,transparent 58%),radial-gradient(circle at 50% 44%,#495b3f,#2c3623 66%,#1e2618);
+  box-shadow:0 8px 18px -8px rgb(var(--shadow)/.9),inset 0 1.5px 2px #ffffff40,inset 0 -4px 8px #00000055,0 0 0 1px color-mix(in srgb,var(--gilt) 40%,transparent);
+  display:flex;align-items:center;justify-content:center}
+.emblem::before{content:"";position:absolute;top:6px;left:11px;width:15px;height:8px;border-radius:50%;background:radial-gradient(circle,#ffffff70,transparent 72%)}
+.emblem::after{content:"";position:absolute;bottom:6px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--gilt);box-shadow:0 0 5px var(--gilt)}
+.emblem .pr{font-family:var(--f-deco);font-weight:900;font-size:.86rem;letter-spacing:.01em;line-height:1;background:var(--logo-grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:#E4C87E;filter:drop-shadow(0 1px 1px #0007)}
+.wmwrap{display:flex;flex-direction:column;line-height:1}
+.wm{font-family:var(--f-deco);font-weight:700;font-size:1.2rem;letter-spacing:.05em;text-transform:uppercase;white-space:nowrap;background:var(--logo-grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:#8A6A32}
+.wm-tag{font-size:.54rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-top:4px;padding-top:4px;border-top:1px solid color-mix(in srgb,var(--gilt) 45%,transparent)}
+.search{flex:1;min-width:0;display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:10px 16px;color:var(--faint);font-size:.88rem}
+.nav-ico{display:flex;gap:16px;color:var(--muted);font-size:.76rem;font-weight:600;white-space:nowrap}
+.nav-ico a{display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:inherit}
+.nav-ico a:hover{color:var(--sage)}.nav-ico .ct{position:relative}
+.nav-ico .dot{position:absolute;top:-4px;right:-8px;background:var(--brass);color:#fff;font-size:.58rem;min-width:14px;height:14px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-weight:700}
+@media(max-width:860px){.search,.wm-tag{display:none}.nav-ico{margin-left:auto}.nav-ico a span{display:none}}
+body[dir="rtl"] .wm{font-family:var(--f-ar);text-transform:none;letter-spacing:0}
+body[dir="rtl"] .nav-ico{margin-left:0;margin-right:auto}
+
+/* breadcrumb */
+.crumb{display:flex;gap:9px;align-items:center;padding:16px 0;font-size:.8rem;color:var(--faint);flex-wrap:wrap}
+.crumb a{color:var(--muted);text-decoration:none}.crumb a:hover{color:var(--sage)}
+.crumb .sp{color:var(--line)}
+
+/* PRODUCT TOP */
+.ptop{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,52px);padding-bottom:clamp(30px,5vw,56px)}
+@media(max-width:900px){.ptop{grid-template-columns:1fr;gap:26px}}
+/* gallery */
+.gal{display:grid;grid-template-columns:64px 1fr;gap:14px;position:sticky;top:96px;align-self:start}
+@media(max-width:900px){.gal{position:static}}
+@media(max-width:520px){.gal{grid-template-columns:1fr}}
+.thumbs{display:flex;flex-direction:column;gap:10px}
+@media(max-width:520px){.thumbs{flex-direction:row;order:2}}
+.thumb{aspect-ratio:1/1;border-radius:12px;border:1px solid var(--line);background:radial-gradient(70% 70% at 50% 34%,var(--paper),var(--sable) 260%);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s}
+.thumb .b{width:20px;height:40px;border-radius:5px;background:linear-gradient(160deg,var(--card),var(--sage-tint));border:1px solid var(--line)}
+.thumb.on,.thumb:hover{border-color:var(--sage);box-shadow:0 0 0 2px var(--sage-tint)}
+.stage{position:relative;border-radius:var(--arch);border:1px solid var(--line);aspect-ratio:1/1;overflow:hidden;
+  background:radial-gradient(72% 72% at 50% 32%,var(--paper),var(--sable) 250%);display:flex;align-items:flex-end;justify-content:center}
+.stage::before{content:"";position:absolute;inset:14px;border-radius:120px 120px 12px 12px;border:1px solid color-mix(in srgb,var(--gilt) 45%,transparent);pointer-events:none}
+.stage .bottle{width:120px;height:250px;margin-bottom:26px;border-radius:16px 16px 22px 22px;background:linear-gradient(160deg,var(--card),var(--sage-tint));border:1px solid var(--line);position:relative;box-shadow:0 30px 50px -30px rgb(var(--shadow)/.8)}
+.stage .bottle::before{content:"";position:absolute;inset:70px 20px auto 20px;height:80px;border-radius:8px;background:color-mix(in srgb,var(--card) 90%,transparent);border:1px solid var(--line)}
+.stage .bottle::after{content:"";position:absolute;top:-16px;left:50%;transform:translateX(-50%);width:44px;height:22px;border-radius:6px 6px 4px 4px;background:var(--sage-deep)}
+.stage .zoom{position:absolute;bottom:12px;right:12px;background:color-mix(in srgb,var(--card) 84%,transparent);border:1px solid var(--line);border-radius:999px;padding:7px 12px;font-size:.72rem;font-weight:600;color:var(--muted)}
+.stage .badges{position:absolute;bottom:14px;left:14px;display:flex;flex-direction:column;gap:7px;align-items:flex-start}
+body[dir="rtl"] .stage .badges{left:auto;right:14px}
+
+/* buy column */
+.buy .br{font-size:.74rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--sage)}
+.buy h1{font-family:var(--f-title);font-weight:600;text-transform:uppercase;letter-spacing:.02em;font-size:clamp(1.7rem,4vw,2.5rem);margin:8px 0 10px}
+body[dir="rtl"] .buy h1{font-family:var(--f-ar);text-transform:none}
+.buy .rr{display:flex;align-items:center;gap:9px;font-size:.84rem;color:var(--muted);margin-bottom:16px}
+.buy .rr .st{color:var(--brass);letter-spacing:1px}
+.buy .rr a{color:var(--sage);text-decoration:none}
+.tagline{font-size:1.02rem;color:var(--muted);max-width:46ch;margin-bottom:20px}
+.price{display:flex;align-items:baseline;gap:12px;margin-bottom:6px}
+.price .now{font-family:var(--f-title);font-weight:600;font-size:2rem}
+.price .old{font-size:1rem;color:var(--faint);text-decoration:line-through}
+.price .off{font-size:.74rem;font-weight:700;color:var(--crit);background:color-mix(in srgb,var(--crit) 12%,transparent);padding:4px 9px;border-radius:6px}
+.taxnote{font-size:.76rem;color:var(--faint);margin-bottom:20px}
+.attrs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.attr{display:inline-flex;gap:7px;align-items:center;font-size:.8rem;font-weight:600;padding:8px 13px;border-radius:999px;border:1px solid var(--line);background:var(--paper);color:var(--muted)}
+.attr b{color:var(--ink);font-weight:600}
+.opt-row{margin-bottom:18px}
+.opt-row .lb{font-size:.74rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin-bottom:9px}
+.sizes{display:flex;gap:9px;flex-wrap:wrap}
+.size{padding:10px 16px;border-radius:12px;border:1px solid var(--line);background:var(--card);cursor:pointer;font-weight:600;font-size:.86rem;color:var(--muted);transition:.18s;text-align:center}
+.size small{display:block;font-weight:500;color:var(--faint);font-size:.72rem}
+.size.on{border-color:var(--sage);background:var(--sage-tint);color:var(--sage-deep)}
+.size:focus-visible{outline:2px solid var(--sage);outline-offset:2px}
+.buyrow{display:flex;gap:12px;align-items:stretch;margin:8px 0 16px;flex-wrap:wrap}
+.qty{display:flex;align-items:center;border:1px solid var(--line);border-radius:999px;background:var(--card);overflow:hidden}
+.qty button{width:44px;height:52px;border:none;background:none;font-size:1.2rem;color:var(--sage);cursor:pointer}
+.qty button:hover{background:var(--sage-tint)}
+.qty span{min-width:36px;text-align:center;font-weight:700;font-variant-numeric:tabular-nums}
+.btn{font-weight:600;font-size:.95rem;border-radius:999px;padding:0 26px;border:1px solid transparent;cursor:pointer;display:inline-flex;gap:10px;align-items:center;justify-content:center;text-decoration:none;transition:.2s}
+.btn:focus-visible{outline:2px solid var(--sage);outline-offset:2px}
+.addcart{flex:1;min-width:200px;height:54px;background:var(--sage);color:var(--ivory);font-size:1rem;letter-spacing:.02em}
+.addcart:hover{background:var(--sage-deep);transform:translateY(-1px);box-shadow:0 14px 26px -14px rgb(var(--shadow)/.8)}
+.favbtn{width:54px;height:54px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--muted);cursor:pointer;font-size:1.3rem;flex:none}
+.favbtn:hover,.favbtn.on{color:var(--crit);border-color:var(--crit)}
+.miniass{display:flex;flex-direction:column;gap:9px;padding:16px 18px;border:1px solid var(--line);border-radius:var(--r-md);background:var(--paper);margin-top:6px}
+.miniass .l{display:flex;gap:10px;align-items:center;font-size:.86rem;color:var(--ink)}
+.miniass .l .ic{color:var(--sage);flex:none}
+.wa{display:inline-flex;gap:9px;align-items:center;justify-content:center;margin-top:14px;padding:12px 18px;border-radius:999px;border:1px solid var(--sage);color:var(--sage-deep);background:transparent;font-weight:600;font-size:.88rem;text-decoration:none;cursor:pointer}
+.wa:hover{background:var(--sage-tint)}
+
+/* section blocks */
+.alt{background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+section{padding:clamp(40px,6vw,72px) 0}
+.love{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px;margin-top:26px}
+.lovecard{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);padding:22px}
+.lovecard .n{width:38px;height:38px;border-radius:11px;background:var(--sage-tint);color:var(--sage);display:flex;align-items:center;justify-content:center;font-size:1.15rem;margin-bottom:14px}
+.lovecard h4{font-family:var(--f-disp);font-size:1.12rem;margin-bottom:6px}
+.lovecard p{font-size:.86rem;color:var(--muted)}
+
+/* two-col content */
+.cols{display:grid;grid-template-columns:1.3fr .7fr;gap:clamp(24px,4vw,48px);margin-top:26px;align-items:start}
+@media(max-width:820px){.cols{grid-template-columns:1fr}}
+.prose h3{font-family:var(--f-disp);font-size:1.3rem;margin:26px 0 10px}
+.prose h3:first-child{margin-top:0}
+.prose p{color:var(--muted);margin-bottom:10px}
+.usebox{display:flex;gap:14px;margin-top:12px}
+.usecol{flex:1;background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);padding:18px}
+.usecol .h{display:flex;gap:9px;align-items:center;font-weight:700;font-size:.82rem;letter-spacing:.06em;text-transform:uppercase;color:var(--sage);margin-bottom:10px}
+.usecol p{font-size:.86rem;color:var(--muted)}
+.actifs{display:flex;flex-direction:column;gap:12px}
+.actif{display:flex;gap:14px;padding:16px;border:1px solid var(--line);border-radius:var(--r-md);background:var(--card)}
+.actif .ic{width:44px;height:44px;border-radius:50%;background:var(--sage-tint);color:var(--sage);display:flex;align-items:center;justify-content:center;flex:none;font-size:1.1rem}
+.actif .nm{font-family:var(--f-disp);font-size:1.05rem}
+.actif .ds{font-size:.84rem;color:var(--muted);margin-top:2px}
+/* info aside */
+.aside{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);padding:22px;position:sticky;top:96px}
+.aside h4{font-family:var(--f-body);font-weight:700;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sage);margin-bottom:14px}
+.aside .kv{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--line-soft);font-size:.86rem}
+.aside .kv:last-child{border-bottom:0}.aside .kv b{color:var(--ink);font-weight:600}.aside .kv span{color:var(--muted)}
+.acc{border:1px solid var(--line);border-radius:var(--r-sm);overflow:hidden;margin-top:16px}
+.acc details{border-bottom:1px solid var(--line-soft)}.acc details:last-child{border-bottom:0}
+.acc summary{cursor:pointer;padding:14px 16px;font-weight:600;font-size:.9rem;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.acc summary::-webkit-details-marker{display:none}
+.acc summary .pl{color:var(--sage);font-family:var(--f-disp);transition:.2s}
+.acc details[open] summary .pl{transform:rotate(45deg)}
+.acc .ab{padding:0 16px 15px;font-size:.86rem;color:var(--muted)}
+
+/* routine */
+.routine{display:flex;gap:14px;overflow-x:auto;padding:24px 2px 8px;scrollbar-width:none}
+.routine::-webkit-scrollbar{display:none}
+.rstep{flex:none;width:190px;border:1px solid var(--line);border-radius:var(--r-md);background:var(--card);overflow:hidden;position:relative}
+.rstep .rp{aspect-ratio:1/1;background:radial-gradient(70% 70% at 50% 34%,var(--paper),var(--sable) 260%);display:flex;align-items:flex-end;justify-content:center}
+.rstep .rp .b{width:44px;height:96px;margin-bottom:12px;border-radius:8px 8px 11px 11px;background:linear-gradient(160deg,var(--card),var(--sage-tint));border:1px solid var(--line)}
+.rstep .rb{padding:13px 14px}
+.rstep .a{font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--brass)}
+.rstep .nm{font-family:var(--f-disp);font-size:.98rem;line-height:1.15;margin:3px 0}
+.rstep .pr{font-family:var(--f-disp);font-weight:500}
+.rstep .idx{position:absolute;top:10px;left:10px;width:26px;height:26px;border-radius:50%;background:var(--sage);color:var(--ivory);font-family:var(--f-disp);display:flex;align-items:center;justify-content:center;font-size:.85rem}
+body[dir="rtl"] .rstep .idx{left:auto;right:10px}
+.routfoot{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-top:8px}
+.routfoot .t b{font-family:var(--f-disp);font-size:1.3rem}
+
+/* reco cards */
+.rail{display:flex;gap:16px;overflow-x:auto;padding:24px 2px 8px;scrollbar-width:none}
+.rail::-webkit-scrollbar{display:none}
+.pcard{flex:none;width:230px;border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;background:var(--card);transition:.25s}
+.pcard:hover{transform:translateY(-4px);box-shadow:0 22px 42px -28px rgb(var(--shadow)/.6)}
+.pcard .ph{aspect-ratio:1/1;border-radius:var(--arch);margin:10px 10px 0;border:1px solid var(--line-soft);background:radial-gradient(72% 72% at 50% 34%,var(--paper),var(--sable) 260%);display:flex;align-items:flex-end;justify-content:center;position:relative}
+.pcard .ph .b{width:50px;height:108px;margin-bottom:14px;border-radius:10px 10px 13px 13px;background:linear-gradient(160deg,var(--card),var(--sage-tint));border:1px solid var(--line)}
+.pcard .body{padding:13px 14px 15px}
+.pcard .br{font-size:.66rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--sage)}
+.pcard .nm{font-family:var(--f-disp);font-size:1.02rem;margin:4px 0 8px;line-height:1.15}
+.pcard .foot{display:flex;align-items:center;justify-content:space-between}
+.pcard .pr{font-family:var(--f-disp);font-weight:500;font-size:1.1rem}
+.add{width:36px;height:36px;border-radius:50%;background:var(--sage);color:var(--ivory);border:none;cursor:pointer;font-size:1.1rem;flex:none}
+.add:hover{background:var(--sage-deep)}
+.badge{display:inline-flex;font-size:.62rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:4px 9px;border-radius:999px}
+.b-best{background:var(--sage-deep);color:#DBE6CF}.b-promo{background:var(--crit);color:#fff}.b-sens{background:transparent;border:1px solid var(--sage);color:var(--sage)}
+
+/* reviews */
+.revtop{display:grid;grid-template-columns:200px 1fr;gap:30px;align-items:center;margin-top:26px}
+@media(max-width:680px){.revtop{grid-template-columns:1fr;gap:18px}}
+.revscore{text-align:center;padding:20px;border:1px solid var(--line);border-radius:var(--r-md);background:var(--card)}
+.revscore .big{font-family:var(--f-title);font-size:3rem;font-weight:600;line-height:1}
+.revscore .st{color:var(--brass);letter-spacing:2px;font-size:1.1rem;margin:6px 0}
+.revscore .ct{font-size:.8rem;color:var(--faint)}
+.revbars{display:flex;flex-direction:column;gap:8px}
+.rbar{display:flex;align-items:center;gap:10px;font-size:.8rem;color:var(--muted)}
+.rbar .lab{width:36px}.rbar .track{flex:1;height:7px;border-radius:999px;background:var(--sage-tint);overflow:hidden}
+.rbar .track i{display:block;height:100%;background:var(--brass);border-radius:999px}
+.rlist{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px}
+@media(max-width:680px){.rlist{grid-template-columns:1fr}}
+.rev{border:1px solid var(--line);border-radius:var(--r-md);padding:18px;background:var(--card)}
+.rev .top{display:flex;justify-content:space-between;gap:10px;margin-bottom:8px}
+.rev .who{font-weight:600;font-size:.88rem}.rev .who span{display:block;font-size:.72rem;color:var(--faint);font-weight:400}
+.rev .st{color:var(--brass);font-size:.85rem;letter-spacing:1px}
+.rev p{font-size:.88rem;color:var(--muted)}
+.rev .vf{display:inline-flex;gap:6px;align-items:center;font-size:.7rem;font-weight:600;color:var(--good);margin-top:10px}
+.disc{font-size:.78rem;color:var(--faint);text-align:center;margin-top:22px;max-width:70ch;margin-inline:auto}
+
+/* sticky mobile bar */
+.stickybar{position:fixed;left:0;right:0;bottom:0;z-index:50;display:none;gap:12px;align-items:center;
+  padding:11px 16px;background:color-mix(in srgb,var(--card) 94%,transparent);backdrop-filter:blur(12px);border-top:1px solid var(--line)}
+.stickybar .p{flex:1;min-width:0}.stickybar .p b{font-family:var(--f-disp);font-size:1.1rem}
+.stickybar .p span{display:block;font-size:.72rem;color:var(--faint);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stickybar .btn{height:46px}
+@media(max-width:640px){.stickybar{display:flex}body{padding-bottom:74px}}
+
+/* toast */
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(140%);z-index:70;
+  background:var(--sage-deep);color:#ECF3E4;padding:13px 22px;border-radius:999px;font-size:.88rem;font-weight:600;
+  box-shadow:0 20px 40px -18px rgb(var(--shadow)/.8);transition:transform .35s cubic-bezier(.2,.8,.2,1);display:flex;gap:10px;align-items:center}
+.toast.show{transform:translateX(-50%) translateY(0)}
+@media(max-width:640px){.toast{bottom:86px}}
+
+footer{background:var(--sage-deep);color:#C4D3B6;padding:44px 0;margin-top:20px}
+footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
+footer .wm2{font-family:var(--f-deco);font-weight:700;font-size:1.3rem;background:var(--logo-grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+footer .note{font-size:.76rem;color:#8CA07C;max-width:44ch}
+.reveal{opacity:0;transform:translateY(18px)}.reveal.in{opacity:1;transform:none;transition:.7s}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1!important;transform:none!important}}
+</style>
+
+<div class="ctl">
+  <button class="pill" id="lang"><span class="lg on" data-lg="fr">FR</span><span class="sep"></span><span class="lg" data-lg="ar">ع</span></button>
+  <button class="pill" id="theme">◐ <span data-i18n="theme">Thème</span></button>
+</div>
+
+<div class="topbar" data-i18n="topbar">Livraison partout au Maroc · Produits 100 % authentiques · Paiement à la livraison</div>
+<header class="nav"><div class="wrap"><div class="nav-in">
+  <a class="brand" href="#"><span class="emblem"><span class="pr">LPR</span></span>
+    <span class="wmwrap"><span class="wm">La <b>Para</b> Rhazlaoui</span><span class="wm-tag" data-i18n="tag">Parapharmacie · Dermocosmétique</span></span></a>
+  <div class="search"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg><span data-i18n="search">Rechercher un produit, une marque, un besoin…</span></div>
+  <nav class="nav-ico">
+    <a href="#"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg><span data-i18n="account">Compte</span></a>
+    <a href="#"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 21s-7-4.6-9.4-9C1 9 2.5 5.5 6 5.5c2 0 3.2 1.2 4 2.4.8-1.2 2-2.4 4-2.4 3.5 0 5 3.5 3.4 6.5C19 16.4 12 21 12 21z"/></svg><span data-i18n="fav">Favoris</span></a>
+    <a href="#"><span class="ct"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 6h15l-1.5 9h-12z"/><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/></svg><span class="dot" id="cartcount">2</span></span><span data-i18n="cart">Panier</span></a>
+  </nav>
+</div></div></header>
+
+<div class="wrap">
+  <nav class="crumb"><a href="#" data-i18n="cb1">Accueil</a><span class="sp">›</span><a href="#" data-i18n="cb2">Visage</a><span class="sp">›</span><a href="#" data-i18n="cb3">Sérums</a><span class="sp">›</span><span data-i18n="cb4">Sérum Éclat Niacinamide</span></nav>
+</div>
+
+<!-- PRODUCT TOP -->
+<div class="wrap">
+  <div class="ptop">
+    <div class="gal">
+      <div class="thumbs">
+        <div class="thumb on"><div class="b"></div></div>
+        <div class="thumb"><div class="b" style="height:32px"></div></div>
+        <div class="thumb"><div class="b" style="width:30px;height:30px;border-radius:50%"></div></div>
+        <div class="thumb"><div class="b" style="height:46px;width:16px"></div></div>
+      </div>
+      <div class="stage">
+        <div class="badges"><span class="badge b-best" data-i18n="b-best">Best-seller</span><span class="badge b-sens" data-i18n="b-sens">Peau sensible OK</span></div>
+        <div class="bottle"></div>
+        <div class="zoom" data-i18n="zoom">⤢ Survolez pour zoomer</div>
+      </div>
+    </div>
+
+    <div class="buy">
+      <div class="br">Exemple · Laboratoire dermocosmétique</div>
+      <h1>Sérum Éclat Niacinamide</h1>
+      <div class="rr"><span class="st">★★★★★</span> 4,7 · <a href="#reviews" data-i18n="rev-link">128 avis</a> · <span data-i18n="ref">Réf. SER-NIA-30</span></div>
+      <p class="tagline" data-i18n="tagline">Un sérum concentré qui aide à unifier le teint, atténuer l'apparence des imperfections et raviver l'éclat, jour après jour.</p>
+      <div class="price"><span class="now">189 DH</span><span class="old">239 DH</span><span class="off">−21 %</span></div>
+      <div class="taxnote" data-i18n="tax">Prix TTC · Livraison calculée au paiement</div>
+
+      <div class="attrs">
+        <span class="attr"><b data-i18n="a1b">Peau</b> · <span data-i18n="a1v">tous types</span></span>
+        <span class="attr"><b data-i18n="a2b">Besoin</b> · <span data-i18n="a2v">éclat</span></span>
+        <span class="attr"><b data-i18n="a3b">Texture</b> · <span data-i18n="a3v">fluide</span></span>
+        <span class="attr"><b data-i18n="a4b">Moment</b> · <span data-i18n="a4v">matin & soir</span></span>
+      </div>
+
+      <div class="opt-row">
+        <div class="lb" data-i18n="size-lb">Contenance</div>
+        <div class="sizes" id="sizes">
+          <button class="size on" data-p="189">30 ml<small>189 DH</small></button>
+          <button class="size" data-p="279">50 ml<small>279 DH</small></button>
+          <button class="size" data-p="129">15 ml<small data-i18n="travel">voyage</small></button>
+        </div>
+      </div>
+
+      <div class="buyrow">
+        <div class="qty"><button id="minus" aria-label="moins">−</button><span id="q">1</span><button id="plus" aria-label="plus">+</button></div>
+        <button class="btn addcart" id="addcart"><span data-i18n="add">Ajouter au panier</span> · <span id="lineprice">189 DH</span></button>
+        <button class="favbtn" id="fav" aria-label="favori">♡</button>
+      </div>
+
+      <div class="miniass">
+        <div class="l"><span class="ic">✓</span> <span data-i18n="m1">En stock — expédié sous 24–48 h</span></div>
+        <div class="l"><span class="ic">✓</span> <span data-i18n="m2">Produit authentique, tracé par lot</span></div>
+        <div class="l"><span class="ic">✓</span> <span data-i18n="m3">Paiement à la livraison possible</span></div>
+      </div>
+      <a class="wa" href="#"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15l-1.4 5 5.1-1.3A10 10 0 1 0 12 2zm0 2a8 8 0 1 1-4.2 14.8l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 0 1 12 4z"/></svg> <span data-i18n="wa">Un conseil ? Écrivez-nous sur WhatsApp</span></a>
+    </div>
+  </div>
+</div>
+
+<!-- WHY YOU'LL LOVE IT -->
+<section class="alt"><div class="wrap">
+  <span class="eyebrow" data-i18n="why-eye">Pourquoi vous allez l'aimer</span>
+  <h2 class="sec" data-i18n="why-h2">Trois <em>bonnes</em> raisons</h2>
+  <div class="love reveal">
+    <div class="lovecard"><div class="n">❁</div><h4 data-i18n="l1h">Teint unifié</h4><p data-i18n="l1p">La niacinamide aide à atténuer l'apparence des taches et à uniformiser le teint.</p></div>
+    <div class="lovecard"><div class="n">✧</div><h4 data-i18n="l2h">Éclat ravivé</h4><p data-i18n="l2p">Une peau visiblement plus lumineuse et plus nette au fil de la cure.</p></div>
+    <div class="lovecard"><div class="n">≋</div><h4 data-i18n="l3h">Confort préservé</h4><p data-i18n="l3p">Formule fluide, non grasse, pensée pour convenir même aux peaux sensibles.</p></div>
+  </div>
+</div></section>
+
+<!-- DETAILS -->
+<section><div class="wrap">
+  <div class="cols">
+    <div class="prose reveal">
+      <h3 data-i18n="d1">Description</h3>
+      <p data-i18n="d1p">Le Sérum Éclat Niacinamide est un soin quotidien concentré à 10 % de niacinamide, associé à de l'acide hyaluronique et du zinc. Sa texture fluide pénètre rapidement et prépare la peau à l'hydratation. Utilisé régulièrement, il contribue à un teint plus homogène et lumineux.</p>
+      <h3 data-i18n="d2">Pour qui ?</h3>
+      <p data-i18n="d2p">Convient à tous les types de peau, y compris les peaux sensibles. Particulièrement indiqué pour les teints ternes, irréguliers ou sujets aux imperfections.</p>
+      <h3 data-i18n="d3">Comment l'utiliser</h3>
+      <div class="usebox">
+        <div class="usecol"><div class="h">☀ <span data-i18n="morning">Matin</span></div><p data-i18n="d3m">Sur peau propre, avant la crème hydratante et la protection solaire. 3 à 4 gouttes sur le visage.</p></div>
+        <div class="usecol"><div class="h">☾ <span data-i18n="evening">Soir</span></div><p data-i18n="d3e">Après le nettoyage, avant le soin de nuit. Évitez le contour des yeux.</p></div>
+      </div>
+      <h3 data-i18n="d4">Ingrédients clés</h3>
+      <div class="actifs">
+        <div class="actif"><div class="ic">N</div><div><div class="nm">Niacinamide 10 %</div><div class="ds" data-i18n="ac1">Aide à améliorer l'apparence des imperfections et à unifier le teint.</div></div></div>
+        <div class="actif"><div class="ic">H</div><div><div class="nm" data-i18n="ac2n">Acide hyaluronique</div><div class="ds" data-i18n="ac2">Contribue à maintenir l'hydratation et à repulper la surface de la peau.</div></div></div>
+        <div class="actif"><div class="ic">Zn</div><div><div class="nm" data-i18n="ac3n">Zinc PCA</div><div class="ds" data-i18n="ac3">Participe à réguler l'excès de sébum pour une peau plus nette.</div></div></div>
+      </div>
+      <div class="acc">
+        <details><summary data-i18n="inci">Composition complète (INCI) <span class="pl">+</span></summary><div class="ab">Aqua, Niacinamide, Glycerin, Sodium Hyaluronate, Zinc PCA, Pentylene Glycol, Panthenol, Xanthan Gum, Citric Acid, Phenoxyethanol… <em data-i18n="inci-note">(liste d'exemple — la composition réelle proviendra du back-office)</em></div></details>
+        <details><summary data-i18n="prec">Précautions <span class="pl">+</span></summary><div class="ab" data-i18n="prec-p">Usage externe. Éviter le contour des yeux. En cas de réaction, cessez l'utilisation. Tenir hors de portée des enfants. N'établit pas de diagnostic ; en cas de doute, demandez conseil à votre pharmacien.</div></details>
+      </div>
+    </div>
+
+    <aside class="aside reveal">
+      <h4 data-i18n="info">Informations</h4>
+      <div class="kv"><span data-i18n="i1">Contenance</span><b>30 ml</b></div>
+      <div class="kv"><span data-i18n="i2">Type de peau</span><b data-i18n="i2v">Tous types</b></div>
+      <div class="kv"><span data-i18n="i3">Zone</span><b data-i18n="i3v">Visage</b></div>
+      <div class="kv"><span data-i18n="i4">Marque</span><b data-i18n="i4v">Exemple</b></div>
+      <div class="kv"><span data-i18n="i5">Référence</span><b>SER-NIA-30</b></div>
+      <div class="kv"><span data-i18n="i6">Origine</span><b data-i18n="i6v">Union européenne</b></div>
+    </aside>
+  </div>
+</div></section>
+
+<!-- ROUTINE -->
+<section class="alt"><div class="wrap">
+  <span class="eyebrow" data-i18n="rout-eye">Complétez votre routine</span>
+  <h2 class="sec" data-i18n="rout-h2">Le rituel <em>complet</em></h2>
+  <div class="routine reveal">
+    <div class="rstep"><div class="idx">1</div><div class="rp"><div class="b"></div></div><div class="rb"><div class="a" data-i18n="s1">Nettoyer</div><div class="nm">Gel Nettoyant Éclat</div><div class="pr">89 DH</div></div></div>
+    <div class="rstep"><div class="idx">2</div><div class="rp"><div class="b"></div></div><div class="rb"><div class="a" data-i18n="s2">Traiter</div><div class="nm">Sérum Niacinamide</div><div class="pr">189 DH</div></div></div>
+    <div class="rstep"><div class="idx">3</div><div class="rp"><div class="b"></div></div><div class="rb"><div class="a" data-i18n="s3">Hydrater</div><div class="nm">Crème Illuminatrice</div><div class="pr">199 DH</div></div></div>
+    <div class="rstep"><div class="idx">4</div><div class="rp"><div class="b"></div></div><div class="rb"><div class="a" data-i18n="s4">Protéger</div><div class="nm">Fluide SPF 50+</div><div class="pr">119 DH</div></div></div>
+  </div>
+  <div class="routfoot">
+    <div class="t"><span data-i18n="rout-tot">Le rituel complet</span> · <b>596 DH</b></div>
+    <button class="btn addcart" style="flex:none;height:48px;padding:0 22px" id="addroutine"><span data-i18n="rout-cta">Ajouter les 4 produits</span></button>
+  </div>
+</div></section>
+
+<!-- RECOMMENDATIONS -->
+<section><div class="wrap">
+  <span class="eyebrow" data-i18n="reco-eye">Vous aimerez aussi</span>
+  <h2 class="sec" data-i18n="reco-h2">Dans le même <em>esprit</em></h2>
+  <div class="rail reveal" id="reco"></div>
+</div></section>
+
+<!-- REVIEWS -->
+<section class="alt" id="reviews"><div class="wrap">
+  <span class="eyebrow" data-i18n="rv-eye">Avis vérifiés</span>
+  <h2 class="sec" data-i18n="rv-h2">Ce qu'en disent <em>nos clientes</em></h2>
+  <div class="revtop reveal">
+    <div class="revscore"><div class="big">4,7</div><div class="st">★★★★★</div><div class="ct" data-i18n="rv-ct">128 avis vérifiés</div></div>
+    <div class="revbars">
+      <div class="rbar"><span class="lab">5 ★</span><span class="track"><i style="width:74%"></i></span><span>74%</span></div>
+      <div class="rbar"><span class="lab">4 ★</span><span class="track"><i style="width:18%"></i></span><span>18%</span></div>
+      <div class="rbar"><span class="lab">3 ★</span><span class="track"><i style="width:5%"></i></span><span>5%</span></div>
+      <div class="rbar"><span class="lab">2 ★</span><span class="track"><i style="width:2%"></i></span><span>2%</span></div>
+      <div class="rbar"><span class="lab">1 ★</span><span class="track"><i style="width:1%"></i></span><span>1%</span></div>
+    </div>
+  </div>
+  <div class="rlist reveal">
+    <div class="rev"><div class="top"><div class="who">Salma <span data-i18n="rv1w">Peau mixte · Casablanca</span></div><div class="st">★★★★★</div></div><p data-i18n="rv1p">« Teint plus lumineux au bout de trois semaines. La texture pénètre vite, aucun effet gras. »</p><div class="vf">✓ <span data-i18n="verif">Achat vérifié</span></div></div>
+    <div class="rev"><div class="top"><div class="who">Imane <span data-i18n="rv2w">Peau sensible · Rabat</span></div><div class="st">★★★★☆</div></div><p data-i18n="rv2p">« Douce pour ma peau réactive. J'aurais aimé un flacon plus grand, sinon parfait. »</p><div class="vf">✓ <span data-i18n="verif2">Achat vérifié</span></div></div>
+  </div>
+  <p class="disc" data-i18n="disc">Les avis sont reliés aux commandes réelles. Aucun témoignage n'est inventé — ces exemples illustrent la mise en page et seront remplacés par les avis authentiques des clients.</p>
+</div></section>
+
+<footer><div class="wrap">
+  <div class="wm2">LA PARA RHAZLAOUI</div>
+  <div class="note" data-i18n="foot">Parapharmacie digitale · Maroc — Contenus &amp; produit d'exemple ; toutes les données viendront du back-office.</div>
+</div></footer>
+
+<!-- sticky mobile -->
+<div class="stickybar">
+  <div class="p"><b id="sprice">189 DH</b><span>Sérum Éclat Niacinamide · 30 ml</span></div>
+  <button class="btn addcart" style="flex:none" id="addcart2" data-i18n="add2">Ajouter</button>
+</div>
+<div class="toast" id="toast"><span>✓</span> <span id="toasttxt">Ajouté au panier</span></div>
+
+<script>
+/* recommendations data */
+var RECO=[
+ {br:"Exemple",nm:"Crème Illuminatrice",pr:"199 DH",bd:'<span class="badge b-best">Best-seller</span>'},
+ {br:"Exemple",nm:"Fluide Solaire SPF 50+",pr:"179 DH",bd:'<span class="badge b-promo">−10 %</span>'},
+ {br:"Exemple",nm:"Gel Nettoyant Éclat",pr:"89 DH",bd:''},
+ {br:"Exemple",nm:"Contour des Yeux",pr:"245 DH",bd:'<span class="badge b-sens">Peau sensible</span>'},
+ {br:"Exemple",nm:"Sérum Acide Hyaluronique",pr:"179 DH",bd:'<span class="badge b-best">Best-seller</span>'}
+];
+function money(n){return n+" DH"}
+function renderReco(){
+  document.getElementById('reco').innerHTML=RECO.map(function(p){
+    return '<article class="pcard"><div class="ph">'+(p.bd?'<div style="position:absolute;top:9px;left:9px">'+p.bd+'</div>':'')+'<div class="b"></div></div>'+
+      '<div class="body"><div class="br">'+p.br+'</div><div class="nm">'+p.nm+'</div>'+
+      '<div class="foot"><span class="pr">'+p.pr+'</span><button class="add" aria-label="ajouter">+</button></div></div></article>';
+  }).join('');
+  document.querySelectorAll('#reco .add').forEach(function(b){b.onclick=function(){bump();toast(T('added'))}});
+}
+
+/* price / qty / size */
+var unit=189,qty=1;
+function refresh(){
+  var line=unit*qty;
+  document.getElementById('lineprice').textContent=money(line);
+  document.getElementById('sprice').textContent=money(line);
+}
+document.getElementById('sizes').addEventListener('click',function(e){
+  var b=e.target.closest('.size');if(!b)return;
+  this.querySelectorAll('.size').forEach(function(x){x.classList.remove('on')});
+  b.classList.add('on');unit=parseInt(b.getAttribute('data-p'));refresh();
+});
+document.getElementById('plus').onclick=function(){qty++;document.getElementById('q').textContent=qty;refresh()};
+document.getElementById('minus').onclick=function(){if(qty>1){qty--;document.getElementById('q').textContent=qty;refresh()}};
+
+/* cart + toast */
+var cart=2;
+function bump(n){cart+=(n||1);document.getElementById('cartcount').textContent=cart}
+var tt;
+function toast(msg){var el=document.getElementById('toast');document.getElementById('toasttxt').textContent=msg;el.classList.add('show');clearTimeout(tt);tt=setTimeout(function(){el.classList.remove('show')},2200)}
+document.getElementById('addcart').onclick=function(){bump(qty);toast(T('added'))};
+document.getElementById('addcart2').onclick=function(){bump(qty);toast(T('added'))};
+document.getElementById('addroutine').onclick=function(){bump(4);toast(T('added4'))};
+var fav=document.getElementById('fav');
+fav.onclick=function(){fav.classList.toggle('on');fav.textContent=fav.classList.contains('on')?'♥':'♡';toast(fav.classList.contains('on')?T('faved'):T('unfaved'))};
+/* thumbs */
+document.querySelectorAll('.thumb').forEach(function(t){t.onclick=function(){document.querySelectorAll('.thumb').forEach(function(x){x.classList.remove('on')});t.classList.add('on')}});
+
+/* theme */
+(function(){var r=document.documentElement,b=document.getElementById('theme');
+ b.onclick=function(){var c=r.getAttribute('data-theme');var d=c==='dark'||(!c&&matchMedia('(prefers-color-scheme:dark)').matches);r.setAttribute('data-theme',d?'light':'dark')}})();
+
+/* i18n */
+var AR={theme:"السمة",topbar:"توصيل لكل المغرب · منتجات أصلية 100٪ · الدفع عند الاستلام",
+ tag:"صيدلية · عناية جلدية",search:"ابحثي عن منتج، ماركة أو حاجة…",account:"حسابي",fav:"المفضلة",cart:"السلة",
+ cb1:"الرئيسية",cb2:"الوجه",cb3:"سيرومات",cb4:"سيروم النياسيناميد للإشراق",
+ "rev-link":"128 تقييم",ref:"المرجع SER-NIA-30",
+ tagline:"سيروم مركّز يساعد على توحيد لون البشرة وتقليل مظهر العيوب وإعادة الإشراق يوماً بعد يوم.",
+ tax:"السعر شامل الضريبة · يُحتسب التوصيل عند الدفع",
+ a1b:"البشرة",a1v:"كل الأنواع",a2b:"الحاجة",a2v:"إشراق",a3b:"القوام",a3v:"سائل",a4b:"الوقت",a4v:"صباحاً ومساءً",
+ "size-lb":"الحجم",travel:"سفر",add:"أضيفي إلى السلة",add2:"أضيفي",
+ m1:"متوفّر — يُشحن خلال 24–48 ساعة",m2:"منتج أصلي، متتبَّع بالدفعة",m3:"إمكانية الدفع عند الاستلام",
+ wa:"استشارة؟ راسلينا على واتساب",zoom:"مرّري للتكبير","b-best":"الأكثر مبيعاً","b-sens":"مناسب للبشرة الحساسة",
+ "why-eye":"لماذا ستحبّينه","why-h2":"ثلاثة أسباب وجيهة",
+ l1h:"لون موحّد",l1p:"يساعد النياسيناميد على تقليل مظهر البقع وتوحيد اللون.",
+ l2h:"إشراق متجدّد",l2p:"بشرة أكثر إشراقاً ونقاءً مع الاستعمال.",
+ l3h:"راحة محفوظة",l3p:"تركيبة سائلة غير دهنية مناسبة حتى للبشرة الحساسة.",
+ d1:"الوصف",d1p:"سيروم يومي مركّز بنسبة 10٪ نياسيناميد مع حمض الهيالورونيك والزنك. قوام سائل يمتصّ بسرعة ويهيّئ البشرة للترطيب.",
+ d2:"لمن؟",d2p:"مناسب لكل أنواع البشرة بما فيها الحساسة، خاصةً للبشرة الباهتة أو غير الموحّدة أو المعرّضة للعيوب.",
+ d3:"طريقة الاستعمال",morning:"صباحاً",evening:"مساءً",
+ d3m:"على بشرة نظيفة قبل المرطّب وواقي الشمس. 3 إلى 4 قطرات على الوجه.",d3e:"بعد التنظيف قبل كريم الليل. تجنّبي محيط العين.",
+ d4:"المكوّنات الأساسية",ac1:"يساعد على تحسين مظهر العيوب وتوحيد اللون.",ac2n:"حمض الهيالورونيك",ac2:"يساهم في الحفاظ على الترطيب ونضارة سطح البشرة.",ac3n:"زنك PCA",ac3:"يساعد على تنظيم الإفراز الدهني لبشرة أنقى.",
+ inci:"التركيبة الكاملة (INCI)","inci-note":"(قائمة مثال — التركيبة الحقيقية من لوحة التحكم)",
+ prec:"احتياطات",prec-p:"للاستعمال الخارجي. تجنّبي محيط العين. أوقفي الاستعمال عند حدوث تحسّس. بعيداً عن متناول الأطفال. لا يُغني عن استشارة الصيدلي.",
+ info:"معلومات",i1:"الحجم",i2:"نوع البشرة",i2v:"كل الأنواع",i3:"المنطقة",i3v:"الوجه",i4:"الماركة",i4v:"مثال",i5:"المرجع",i6:"المنشأ",i6v:"الاتحاد الأوروبي",
+ "rout-eye":"أكملي روتينك","rout-h2":"الطقس الكامل",s1:"نظّفي",s2:"عالجي",s3:"رطّبي",s4:"احمي","rout-tot":"الروتين الكامل","rout-cta":"أضيفي المنتجات الأربعة",
+ "reco-eye":"قد يعجبك أيضاً","reco-h2":"في نفس الروح",
+ "rv-eye":"تقييمات موثّقة","rv-h2":"ماذا تقول زبوناتنا","rv-ct":"128 تقييماً موثّقاً",
+ rv1w:"بشرة مختلطة · الدار البيضاء",rv1p:"«بشرة أكثر إشراقاً بعد ثلاثة أسابيع. القوام يمتصّ بسرعة دون أثر دهني.»",verif:"شراء موثّق",
+ rv2w:"بشرة حساسة · الرباط",rv2p:"«لطيف على بشرتي الحساسة. كنت أتمنى قارورة أكبر، عدا ذلك ممتاز.»",verif2:"شراء موثّق",
+ disc:"ترتبط التقييمات بطلبات حقيقية. لا شهادات مُختلقة — هذه أمثلة لعرض التصميم وستُستبدل بتقييمات الزبناء الحقيقية.",
+ foot:"صيدلية رقمية · المغرب — محتوى ومنتج مثال؛ كل البيانات من لوحة التحكم.",
+ added:"أُضيف إلى السلة",added4:"أُضيفت 4 منتجات",faved:"أُضيف إلى المفضلة",unfaved:"أُزيل من المفضلة"};
+var UI={added:"Ajouté au panier",added4:"Rituel ajouté (4 produits)",faved:"Ajouté aux favoris",unfaved:"Retiré des favoris"};
+var lang="fr",FR={};
+function T(k){return lang==="ar"&&AR[k]!=null?AR[k]:UI[k]}
+function cacheFR(){document.querySelectorAll('[data-i18n]').forEach(function(e){e._fr=e.innerHTML})}
+function setLang(l){lang=l;var b=document.body;
+  document.querySelectorAll('.lg').forEach(function(x){x.classList.toggle('on',x.getAttribute('data-lg')===l)});
+  b.setAttribute('dir',l==="ar"?"rtl":"ltr");document.documentElement.lang=l;
+  document.querySelectorAll('[data-i18n]').forEach(function(e){var k=e.getAttribute('data-i18n');
+    if(l==="ar"){if(AR[k]!=null)e.innerHTML=AR[k]}else{e.innerHTML=e._fr}});
+}
+document.getElementById('lang').onclick=function(){setLang(lang==="fr"?"ar":"fr")};
+
+/* init */
+cacheFR();renderReco();refresh();
+(function(){var els=[].slice.call(document.querySelectorAll('.reveal'));
+ if(!('IntersectionObserver'in window)||matchMedia('(prefers-reduced-motion:reduce)').matches){els.forEach(function(e){e.classList.add('in')});return;}
+ var io=new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{threshold:.1});
+ els.forEach(function(e){io.observe(e)});})();
+</script>

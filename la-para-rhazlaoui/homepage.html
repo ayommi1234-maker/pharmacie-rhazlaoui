@@ -1,0 +1,741 @@
+<title>La Para Rhazlaoui</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cinzel+Decorative:wght@400;700;900&family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap">
+
+<style>
+:root{
+  --ivory:#F5F1E8; --paper:#FBF8F1; --card:#FFFFFF;
+  --sage:#566B4D; --sage-deep:#2F3A29; --sage-tint:#E4E9DB;
+  --sable:#E6D9C3; --sable-deep:#C9B491;
+  --brass:#AC8A54; --gilt:#C9A96A;
+  --ink:#23261F; --muted:#6A6F62; --faint:#9AA08D;
+  --line:#E0DACC; --line-soft:#EBE6DA;
+  --good:#4F7A55; --warn:#B4863B; --crit:#B0503F;
+  --shadow:24 30 18;
+  --r-sm:10px; --r-md:16px; --r-lg:26px;
+  --arch:130px 130px 18px 18px;
+  --maxw:1240px;
+  --f-disp:"Fraunces",Georgia,serif;
+  --f-title:"Cinzel","Fraunces",Georgia,serif;
+  --f-deco:"Cinzel Decorative","Cinzel",Georgia,serif;
+  --logo-grad:linear-gradient(176deg,#E6CD8E 0%,#C9A24E 40%,#9A7734 78%,#7E5F27 100%);
+  --f-body:"Hanken Grotesk",system-ui,-apple-system,sans-serif;
+  --f-ar:"IBM Plex Sans Arabic","Hanken Grotesk",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ivory:#14170F; --paper:#1B2015; --card:#212719;
+  --sage:#A6BE94; --sage-deep:#CBDABC; --sage-tint:#2A3323;
+  --sable:#463D2D; --sable-deep:#6D5F44;
+  --brass:#C9A96A; --gilt:#D8BE85;
+  --ink:#ECE8DB; --muted:#A3A896; --faint:#6E7461;
+  --line:#333B2A; --line-soft:#2A3122;
+  --good:#8FBE93; --warn:#D9AF6A; --crit:#DD8672; --shadow:0 0 0;
+  --logo-grad:linear-gradient(176deg,#F2DFA4 0%,#E3BC6A 45%,#C79A4A 100%);
+}}
+:root[data-theme="dark"]{
+  --ivory:#14170F; --paper:#1B2015; --card:#212719;
+  --sage:#A6BE94; --sage-deep:#CBDABC; --sage-tint:#2A3323;
+  --sable:#463D2D; --sable-deep:#6D5F44;
+  --brass:#C9A96A; --gilt:#D8BE85;
+  --ink:#ECE8DB; --muted:#A3A896; --faint:#6E7461;
+  --line:#333B2A; --line-soft:#2A3122;
+  --good:#8FBE93; --warn:#D9AF6A; --crit:#DD8672; --shadow:0 0 0;
+  --logo-grad:linear-gradient(176deg,#F2DFA4 0%,#E3BC6A 45%,#C79A4A 100%);
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation-duration:.001ms!important;transition-duration:.01ms!important}}
+body{margin:0;background:var(--ivory);color:var(--ink);
+  font-family:var(--f-body);font-size:16.5px;line-height:1.6;-webkit-font-smoothing:antialiased;
+  overflow-x:hidden}
+body[dir="rtl"]{font-family:var(--f-ar)}
+body[dir="rtl"] h1,body[dir="rtl"] h2,body[dir="rtl"] h3,body[dir="rtl"] .wm,body[dir="rtl"] .disp{font-family:var(--f-ar)}
+/* subtle grain */
+body::before{content:"";position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.028;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+@media (prefers-color-scheme:dark){body::before{mix-blend-mode:screen;opacity:.04}}
+
+h1,h2,h3,h4{font-family:var(--f-disp);font-weight:400;text-wrap:balance;margin:0;line-height:1.05}
+/* Grands titres en Cinzel (capitales romaines classiques) */
+.hero h1,.shead h2,.ritual h2,.club h2{font-family:var(--f-title)!important;font-weight:600;
+  text-transform:uppercase;letter-spacing:.03em;line-height:1.2}
+.hero h1 em,.shead h2 em,.ritual h2 em,.club h2 em{font-style:normal!important}
+body[dir="rtl"] .hero h1,body[dir="rtl"] .shead h2,body[dir="rtl"] .ritual h2,body[dir="rtl"] .club h2{
+  font-family:var(--f-ar)!important;text-transform:none;letter-spacing:0}
+p{margin:0}
+button{font-family:inherit}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(18px,5vw,52px);position:relative;z-index:2}
+.eyebrow{font-family:var(--f-body);font-size:.7rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--brass)}
+body[dir="rtl"] .eyebrow{letter-spacing:.05em}
+.disp{font-family:var(--f-disp)}
+
+/* ===== CONTROLS ===== */
+.ctl{position:fixed;top:14px;right:14px;z-index:60;display:flex;gap:8px}
+body[dir="rtl"] .ctl{right:auto;left:14px}
+.pill{display:inline-flex;align-items:center;gap:7px;background:color-mix(in srgb,var(--card) 82%,transparent);
+  backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:999px;padding:8px 14px;cursor:pointer;
+  font-size:.76rem;font-weight:700;letter-spacing:.05em;color:var(--ink);transition:.2s}
+.pill:hover{border-color:var(--sage)}
+.pill:focus-visible{outline:2px solid var(--sage);outline-offset:2px}
+.pill .sep{width:1px;height:14px;background:var(--line)}
+.pill .lg{opacity:.45}
+.pill .lg.on{opacity:1;color:var(--sage)}
+
+/* ===== HEADER ===== */
+.topbar{background:var(--sage-deep);color:#D6E2C9;text-align:center;font-size:.72rem;font-weight:600;
+  letter-spacing:.08em;padding:8px 44px;position:relative;z-index:3}
+body[dir="rtl"] .topbar{letter-spacing:0}
+header.nav{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--ivory) 88%,transparent);
+  backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav-in{display:flex;align-items:center;gap:22px;padding:14px 0}
+/* ===== LOGO façon médaillon + wordmark doré ===== */
+.brand{display:flex;align-items:center;gap:12px}
+.emblem{width:46px;height:46px;border-radius:50%;flex:none;position:relative;
+  background:radial-gradient(circle at 34% 26%,#6b8159,transparent 58%),
+             radial-gradient(circle at 50% 44%,#495b3f 0%,#2c3623 66%,#1e2618 100%);
+  box-shadow:0 8px 18px -8px rgb(var(--shadow)/.9),inset 0 1.5px 2px #ffffff40,inset 0 -4px 8px #00000055,
+             0 0 0 1px color-mix(in srgb,var(--gilt) 40%,transparent);
+  display:flex;align-items:center;justify-content:center}
+.emblem::before{content:"";position:absolute;top:6px;left:11px;width:16px;height:9px;border-radius:50%;
+  background:radial-gradient(circle,#ffffff70,transparent 72%);filter:blur(.5px)}
+.emblem::after{content:"";position:absolute;bottom:7px;left:50%;transform:translateX(-50%);width:4px;height:4px;
+  border-radius:50%;background:var(--gilt);box-shadow:0 0 5px var(--gilt)}
+.emblem .pr{font-family:var(--f-deco);font-weight:900;font-size:.86rem;letter-spacing:.01em;line-height:1;
+  background:var(--logo-grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  color:#E4C87E;filter:drop-shadow(0 1px 1px #0007)}
+.wmwrap{display:flex;flex-direction:column;line-height:1}
+.wm{font-family:var(--f-deco);font-weight:700;font-size:1.28rem;letter-spacing:.05em;line-height:1;
+  white-space:nowrap;text-transform:uppercase;
+  background:var(--logo-grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  color:#8A6A32;filter:drop-shadow(0 1px 0 #00000018)}
+.wm b{font-weight:900}.wm .g{-webkit-text-fill-color:transparent}
+.wm-tag{display:flex;align-items:center;gap:7px;margin-top:5px;padding-top:5px;font-family:var(--f-body);
+  font-size:.56rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);
+  border-top:1px solid color-mix(in srgb,var(--gilt) 45%,transparent)}
+body[dir="rtl"] .wm{font-family:var(--f-ar);text-transform:none;letter-spacing:0}
+body[dir="rtl"] .wm-tag{letter-spacing:.02em}
+@media(max-width:560px){.wm-tag{display:none}.emblem{width:40px;height:40px}.emblem .pr{font-size:.76rem}.wm{font-size:1.1rem}}
+.search{flex:1;min-width:0;display:flex;align-items:center;gap:10px;background:var(--card);
+  border:1px solid var(--line);border-radius:999px;padding:11px 18px;color:var(--faint);font-size:.9rem}
+.search svg{flex:none}
+.nav-ico{display:flex;gap:18px;color:var(--muted);font-size:.78rem;font-weight:600;white-space:nowrap}
+.nav-ico a{display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:inherit}
+.nav-ico a:hover{color:var(--sage)}
+.nav-ico .ct{position:relative}
+.nav-ico .dot{position:absolute;top:-4px;right:-8px;background:var(--brass);color:#fff;font-size:.6rem;
+  min-width:15px;height:15px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-weight:700}
+.cats{display:flex;gap:clamp(12px,2vw,26px);padding:11px 0;border-top:1px solid var(--line-soft);
+  font-size:.82rem;font-weight:600;color:var(--muted);overflow-x:auto;scrollbar-width:none}
+.cats::-webkit-scrollbar{display:none}
+.cats a{text-decoration:none;color:inherit;white-space:nowrap;padding-bottom:2px;border-bottom:2px solid transparent;transition:.2s}
+.cats a:hover{color:var(--ink);border-color:var(--brass)}
+.cats a.hot{color:var(--crit)}
+@media(max-width:860px){.search{display:none}.nav-ico{margin-left:auto}}
+body[dir="rtl"] .nav-ico{margin-left:0;margin-right:auto}
+
+/* ===== HERO ===== */
+.hero{position:relative;overflow:hidden;
+  background:radial-gradient(120% 100% at 85% -20%,var(--sage-tint),transparent 58%)}
+.hero-in{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(24px,4vw,60px);
+  align-items:center;padding:clamp(38px,6vw,88px) 0 clamp(30px,5vw,64px)}
+@media(max-width:900px){.hero-in{grid-template-columns:1fr;gap:34px}}
+.hero-txt .eyebrow{display:inline-flex;align-items:center;gap:9px}
+.hero-txt .eyebrow::before{content:"";width:26px;height:1px;background:var(--brass)}
+.hero h1{font-size:clamp(2.5rem,6.4vw,4.6rem);font-weight:300;letter-spacing:-.015em;margin:18px 0 0}
+.hero h1 em{font-style:italic;color:var(--sage)}
+.hero-sub{margin-top:22px;max-width:44ch;color:var(--muted);font-size:1.06rem}
+.hero-cta{display:flex;gap:13px;flex-wrap:wrap;margin-top:30px}
+.hero-stats{display:flex;gap:28px;margin-top:36px;flex-wrap:wrap}
+.hstat .n{font-family:var(--f-disp);font-size:1.7rem;color:var(--sage-deep);font-weight:500}
+.hstat .l{font-size:.76rem;color:var(--faint);letter-spacing:.04em;text-transform:uppercase;font-weight:600}
+.hstat+.hstat{padding-left:28px;border-left:1px solid var(--line)}
+body[dir="rtl"] .hstat+.hstat{padding-left:0;padding-right:28px;border-left:0;border-right:1px solid var(--line)}
+
+/* hero visual — arched apothecary niche */
+.hero-vis{position:relative;display:flex;justify-content:center;align-items:flex-end;min-height:340px}
+.niche{position:relative;width:min(340px,80%);aspect-ratio:3/4;border-radius:var(--arch);
+  background:linear-gradient(170deg,var(--paper),var(--sable) 240%);
+  border:1px solid var(--line);box-shadow:0 40px 80px -50px rgb(var(--shadow)/.6),inset 0 2px 0 #fff2;
+  display:flex;align-items:center;justify-content:center;overflow:hidden}
+.niche::before{content:"";position:absolute;inset:14px;border-radius:calc(var(--arch));
+  border:1px solid color-mix(in srgb,var(--gilt) 55%,transparent);pointer-events:none}
+.jar{position:relative;width:112px;height:190px;border-radius:22px 22px 30px 30px;
+  background:linear-gradient(160deg,var(--card),var(--sage-tint));border:1px solid var(--line);
+  box-shadow:0 20px 40px -24px rgb(var(--shadow)/.8)}
+.jar::after{content:"";position:absolute;top:-14px;left:50%;transform:translateX(-50%);width:52px;height:20px;
+  border-radius:7px 7px 4px 4px;background:var(--sage-deep)}
+.jar .lbl{position:absolute;inset:auto 12px 26px;height:64px;border-radius:8px;
+  background:color-mix(in srgb,var(--card) 88%,transparent);border:1px solid var(--line);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;text-align:center}
+.jar .lbl .b{font-size:.56rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--sage)}
+.jar .lbl .s{font-family:var(--f-disp);font-size:.92rem;color:var(--ink)}
+.leaf{position:absolute;font-size:1.4rem;color:var(--sage);opacity:.5;animation:float 7s ease-in-out infinite}
+.leaf.l1{top:8%;left:6%}.leaf.l2{bottom:14%;right:4%;animation-delay:-2.5s}.leaf.l3{top:40%;right:10%;animation-delay:-4s;font-size:1rem}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-14px) rotate(5deg)}}
+.hero-badge{position:absolute;bottom:16px;left:0;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--r-md);padding:12px 16px;display:flex;gap:11px;align-items:center;
+  box-shadow:0 22px 44px -30px rgb(var(--shadow)/.7)}
+body[dir="rtl"] .hero-badge{left:auto;right:0}
+.hero-badge .ic{width:34px;height:34px;border-radius:50%;background:var(--sage-tint);color:var(--sage);
+  display:flex;align-items:center;justify-content:center;flex:none}
+.hero-badge .t b{font-size:.86rem}.hero-badge .t span{display:block;font-size:.72rem;color:var(--faint)}
+
+/* ===== BUTTONS ===== */
+.btn{font-weight:600;font-size:.92rem;border-radius:999px;padding:13px 24px;border:1px solid transparent;
+  cursor:pointer;display:inline-flex;gap:9px;align-items:center;text-decoration:none;transition:.2s}
+.btn:focus-visible{outline:2px solid var(--sage);outline-offset:2px}
+.btn-pri{background:var(--sage);color:var(--ivory)}
+.btn-pri:hover{background:var(--sage-deep);transform:translateY(-2px);box-shadow:0 14px 26px -14px rgb(var(--shadow)/.8)}
+.btn-sec{background:transparent;color:var(--sage-deep);border-color:var(--sage)}
+.btn-sec:hover{background:var(--sage-tint)}
+.btn-ghost{background:var(--card);color:var(--muted);border-color:var(--line)}
+.btn-ghost:hover{color:var(--ink);border-color:var(--muted)}
+.btn-sm{padding:9px 16px;font-size:.82rem}
+
+/* ===== REASSURE ===== */
+.reassure{background:var(--sage-deep);color:#DBE6CF}
+.reassure .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 20px;padding:15px 0;
+  font-size:.83rem;font-weight:600}
+.reassure span{display:inline-flex;gap:9px;align-items:center}
+.reassure .ck{color:var(--gilt)}
+
+/* ===== SECTION SHELL ===== */
+section{padding:clamp(48px,7vw,92px) 0;position:relative}
+.shead{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:clamp(26px,4vw,44px);flex-wrap:wrap}
+.shead h2{font-size:clamp(1.8rem,4.2vw,2.9rem);font-weight:300;letter-spacing:-.01em;margin-top:10px}
+.shead h2 em{font-style:italic;color:var(--sage)}
+.shead .lnk{font-size:.84rem;font-weight:600;color:var(--sage);text-decoration:none;display:inline-flex;gap:6px;align-items:center}
+.shead .lnk:hover{gap:10px}
+.alt{background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+
+/* ===== RITUEL (signature interactive) ===== */
+.ritual{background:
+   radial-gradient(90% 120% at 12% 0%,var(--sage-tint),transparent 55%),var(--paper);
+   border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.ritual-in{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(26px,4vw,56px);align-items:center}
+@media(max-width:920px){.ritual-in{grid-template-columns:1fr}}
+.ritual h2{font-size:clamp(1.9rem,4.4vw,3rem);font-weight:300;margin-top:12px}
+.ritual h2 em{font-style:italic;color:var(--sage)}
+.ritual .lead{color:var(--muted);margin-top:16px;max-width:40ch}
+.pick{margin-top:26px}
+.pick .q{font-size:.74rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-bottom:10px}
+.opts{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.opt{font-size:.83rem;font-weight:600;padding:9px 15px;border-radius:999px;border:1px solid var(--line);
+  background:var(--card);color:var(--muted);cursor:pointer;transition:.18s}
+.opt:hover{border-color:var(--sage);color:var(--ink)}
+.opt.on{background:var(--sage);color:var(--ivory);border-color:var(--sage)}
+.opt:focus-visible{outline:2px solid var(--sage);outline-offset:2px}
+
+/* ordonnance ladder */
+.ord{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);
+  padding:clamp(20px,3vw,30px);box-shadow:0 40px 80px -56px rgb(var(--shadow)/.6);position:relative}
+.ord-top{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;
+  padding-bottom:18px;margin-bottom:6px;border-bottom:1px solid var(--line-soft)}
+.ord-top .ttl{font-family:var(--f-disp);font-size:1.25rem}
+.ord-top .sum{font-size:.8rem;color:var(--muted);margin-top:3px}
+.ord-seal{width:46px;height:46px;border-radius:50%;border:1.5px solid var(--gilt);color:var(--brass);
+  display:flex;align-items:center;justify-content:center;font-family:var(--f-disp);font-size:.8rem;
+  text-align:center;line-height:1;flex:none;letter-spacing:.02em}
+.steps{display:flex;flex-direction:column}
+.step{display:flex;gap:15px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line-soft);
+  opacity:0;transform:translateY(8px);animation:stepin .5s ease forwards}
+.step:last-child{border-bottom:0}
+@keyframes stepin{to{opacity:1;transform:none}}
+.step .idx{width:30px;height:30px;border-radius:50%;background:var(--sage-tint);color:var(--sage-deep);
+  font-family:var(--f-disp);font-weight:500;display:flex;align-items:center;justify-content:center;flex:none;font-size:.92rem}
+.step .mini{width:44px;height:56px;border-radius:8px 8px 11px 11px;background:linear-gradient(160deg,var(--paper),var(--sage-tint));
+  border:1px solid var(--line);flex:none;position:relative}
+.step .mini::before{content:"";position:absolute;inset:22px 7px auto 7px;height:18px;border-radius:3px;background:var(--sage);opacity:.7}
+.step .info{flex:1;min-width:0}
+.step .info .a{font-size:.71rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--brass)}
+.step .info .n{font-family:var(--f-disp);font-size:1.05rem;line-height:1.15;margin:1px 0 2px}
+.step .info .m{font-size:.78rem;color:var(--faint)}
+.step .pr{font-family:var(--f-disp);font-weight:500;font-size:1rem;white-space:nowrap}
+.ord-foot{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-top:18px;flex-wrap:wrap}
+.ord-foot .tot{font-size:.86rem;color:var(--muted)}
+.ord-foot .tot b{font-family:var(--f-disp);font-size:1.35rem;color:var(--ink);font-weight:500}
+
+/* ===== CONCERNS ===== */
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
+.concern{position:relative;border:1px solid var(--line);border-radius:var(--r-md);padding:22px 18px;
+  background:var(--card);text-decoration:none;color:inherit;overflow:hidden;transition:.25s}
+.concern::after{content:"";position:absolute;inset:auto -30% -60% auto;width:120px;height:120px;border-radius:50%;
+  background:var(--sage-tint);opacity:0;transition:.35s}
+.concern:hover{transform:translateY(-4px);border-color:var(--sage);box-shadow:0 22px 40px -30px rgb(var(--shadow)/.6)}
+.concern:hover::after{opacity:.6}
+.concern .ic{width:42px;height:42px;border-radius:12px;background:var(--sage-tint);color:var(--sage);
+  display:flex;align-items:center;justify-content:center;font-size:1.2rem;margin-bottom:15px;position:relative;z-index:1}
+.concern .nm{font-family:var(--f-disp);font-size:1.15rem;position:relative;z-index:1}
+.concern .ct{font-size:.78rem;color:var(--faint);margin-top:2px;position:relative;z-index:1}
+
+/* ===== PRODUCT CAROUSEL ===== */
+.rail{display:flex;gap:16px;overflow-x:auto;padding:4px 2px 16px;scroll-snap-type:x mandatory;scrollbar-width:none}
+.rail::-webkit-scrollbar{display:none}
+.pcard{scroll-snap-align:start;flex:none;width:250px;border:1px solid var(--line);border-radius:var(--r-md);
+  overflow:hidden;background:var(--card);transition:.25s}
+.pcard:hover{transform:translateY(-5px);box-shadow:0 26px 48px -30px rgb(var(--shadow)/.6)}
+.pcard .ph{position:relative;aspect-ratio:1/1;border-radius:var(--arch);margin:10px 10px 0;
+  background:radial-gradient(72% 72% at 50% 34%,var(--paper),var(--sable) 260%);
+  display:flex;align-items:flex-end;justify-content:center;overflow:hidden;border:1px solid var(--line-soft)}
+.pcard .bottle{width:56px;height:120px;margin-bottom:16px;border-radius:11px 11px 14px 14px;
+  background:linear-gradient(160deg,var(--card),var(--sage-tint));border:1px solid var(--line);position:relative;
+  box-shadow:0 14px 24px -16px rgb(var(--shadow)/.7)}
+.pcard .bottle::before{content:"";position:absolute;inset:34px 9px auto 9px;height:38px;border-radius:5px;background:var(--sage);opacity:.8}
+.pcard .bottle::after{content:"";position:absolute;top:-8px;left:50%;transform:translateX(-50%);width:22px;height:11px;border-radius:4px 4px 0 0;background:var(--sage-deep)}
+.pcard .fav{position:absolute;top:9px;right:9px;width:32px;height:32px;border-radius:50%;
+  background:color-mix(in srgb,var(--card) 84%,transparent);border:1px solid var(--line);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;color:var(--muted);z-index:2}
+body[dir="rtl"] .pcard .fav{right:auto;left:9px}
+.pcard .fav:hover,.pcard .fav.on{color:var(--crit);border-color:var(--crit)}
+.pcard .bd{position:absolute;top:9px;left:9px;display:flex;flex-direction:column;gap:5px;z-index:2}
+body[dir="rtl"] .pcard .bd{left:auto;right:9px}
+.pcard .body{padding:14px 15px 16px}
+.pcard .br{font-size:.68rem;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--sage)}
+.pcard .nm{font-family:var(--f-disp);font-size:1.08rem;line-height:1.16;margin:5px 0 3px}
+.pcard .be{font-size:.8rem;color:var(--muted);margin-bottom:9px}
+.pcard .rr{font-size:.75rem;color:var(--faint);margin-bottom:12px}
+.pcard .rr .st{color:var(--brass);letter-spacing:1px}
+.pcard .foot{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.badge{display:inline-flex;font-size:.63rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:4px 9px;border-radius:999px}
+.b-best{background:var(--sage-deep);color:#DBE6CF}.b-new{background:var(--sage-tint);color:var(--sage-deep)}
+.b-promo{background:var(--crit);color:#fff}.b-sens{background:transparent;border:1px solid var(--sage);color:var(--sage)}
+.price{display:flex;align-items:baseline;gap:8px}
+.price .now{font-family:var(--f-disp);font-weight:500;font-size:1.28rem}
+.price .old{font-size:.82rem;color:var(--faint);text-decoration:line-through}
+.add{width:38px;height:38px;border-radius:50%;background:var(--sage);color:var(--ivory);border:none;cursor:pointer;
+  font-size:1.15rem;display:flex;align-items:center;justify-content:center;flex:none;transition:.2s}
+.add:hover{background:var(--sage-deep);transform:scale(1.08)}
+
+/* ===== BRANDS ===== */
+.brands{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+.brand-chip{font-family:var(--f-disp);font-size:1.15rem;color:var(--muted);padding:14px 26px;border:1px solid var(--line);
+  border-radius:var(--r-md);background:var(--card);letter-spacing:.02em;transition:.2s;flex:1 1 auto;text-align:center;min-width:130px}
+.brand-chip:hover{color:var(--sage-deep);border-color:var(--sage);background:var(--sage-tint)}
+
+/* ===== JOURNAL ===== */
+.jgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px}
+.jcard{border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;background:var(--card);
+  text-decoration:none;color:inherit;transition:.25s}
+.jcard:hover{transform:translateY(-4px);box-shadow:0 24px 44px -30px rgb(var(--shadow)/.6)}
+.jcard .cover{aspect-ratio:16/10;position:relative;
+  background:linear-gradient(150deg,var(--sage-tint),var(--sable))}
+.jcard .cover .k{position:absolute;top:12px;left:12px;background:color-mix(in srgb,var(--card) 88%,transparent);
+  font-size:.66rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--sage-deep);
+  padding:5px 11px;border-radius:999px}
+body[dir="rtl"] .jcard .cover .k{left:auto;right:12px}
+.jcard .cover .mo{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:2.4rem;color:#fff6;font-family:var(--f-disp)}
+.jcard .jb{padding:18px}
+.jcard h3{font-size:1.2rem;font-weight:400;line-height:1.2}
+.jcard p{font-size:.85rem;color:var(--muted);margin-top:8px}
+.jcard .rd{font-size:.75rem;font-weight:600;color:var(--sage);margin-top:12px;letter-spacing:.04em}
+
+/* ===== CLUB ===== */
+.club{position:relative;overflow:hidden;background:var(--sage-deep);color:#E7EFDD}
+.club::before{content:"";position:absolute;inset:-40% -10% auto auto;width:60%;aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle,color-mix(in srgb,var(--gilt) 30%,transparent),transparent 70%)}
+.club .wrap{display:grid;grid-template-columns:1.2fr .8fr;gap:34px;align-items:center;position:relative}
+@media(max-width:820px){.club .wrap{grid-template-columns:1fr}}
+.club .eyebrow{color:var(--gilt)}
+.club h2{font-size:clamp(2rem,4.6vw,3.2rem);font-weight:300;margin-top:12px;color:#fff}
+.club h2 em{font-style:italic;color:var(--gilt)}
+.club p{color:#BFCEB0;margin-top:16px;max-width:42ch}
+.club .btn-pri{background:var(--gilt);color:var(--sage-deep)}
+.club .btn-pri:hover{background:#fff}
+.club .card{background:color-mix(in srgb,#000 14%,var(--sage-deep));border:1px solid #ffffff1f;border-radius:var(--r-lg);padding:26px}
+.club .tier{display:flex;align-items:center;gap:14px;padding:13px 0;border-bottom:1px solid #ffffff17}
+.club .tier:last-child{border-bottom:0}
+.club .tier .p{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--gilt);color:var(--gilt);
+  display:flex;align-items:center;justify-content:center;font-family:var(--f-disp);flex:none}
+.club .tier .tt b{display:block;font-size:.95rem;color:#fff}.club .tier .tt span{font-size:.78rem;color:#AFC0A0}
+
+/* ===== FOOTER ===== */
+footer{background:var(--paper);border-top:1px solid var(--line);padding:clamp(44px,6vw,72px) 0 30px}
+.fcols{display:grid;grid-template-columns:1.4fr repeat(4,1fr);gap:30px}
+@media(max-width:820px){.fcols{grid-template-columns:1fr 1fr}}
+.fcol h4{font-family:var(--f-body);font-weight:700;font-size:.74rem;letter-spacing:.13em;text-transform:uppercase;color:var(--sage);margin-bottom:15px}
+.fcol a{display:block;text-decoration:none;color:var(--muted);font-size:.88rem;padding:5px 0;transition:.15s}
+.fcol a:hover{color:var(--ink)}
+.fbrand .wm{font-size:1.6rem;margin-bottom:8px}
+.fbrand p{color:var(--muted);font-size:.86rem;max-width:34ch}
+.news{display:flex;gap:8px;margin-top:16px;max-width:320px}
+.news input{flex:1;min-width:0;border:1px solid var(--line);border-radius:999px;padding:11px 16px;background:var(--card);color:var(--ink);font-family:inherit;font-size:.86rem}
+.news input:focus{outline:none;border-color:var(--sage)}
+.fbot{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-top:40px;padding-top:22px;border-top:1px solid var(--line);color:var(--faint);font-size:.78rem}
+.pay{display:flex;gap:8px}
+.pay span{border:1px solid var(--line);border-radius:6px;padding:3px 9px;font-size:.68rem;font-weight:700;color:var(--muted);background:var(--card)}
+
+.reveal{opacity:0;transform:translateY(22px)}
+.reveal.in{opacity:1;transform:none;transition:opacity .7s ease,transform .7s ease}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1!important;transform:none!important}}
+
+@media(max-width:560px){
+  .hero-stats .hstat+.hstat{padding-left:16px} body[dir="rtl"] .hero-stats .hstat+.hstat{padding-right:16px}
+  .nav-ico a span{display:none}
+}
+</style>
+
+<div class="ctl">
+  <button class="pill" id="lang" aria-label="Langue"><span class="lg on" data-lg="fr">FR</span><span class="sep"></span><span class="lg" data-lg="ar">ع</span></button>
+  <button class="pill" id="theme" aria-label="Thème">◐ <span data-i18n="theme">Thème</span></button>
+</div>
+
+<div class="topbar" data-i18n="topbar">Livraison partout au Maroc · Produits 100 % authentiques · Paiement sécurisé · Conseils &amp; WhatsApp</div>
+
+<header class="nav">
+  <div class="wrap">
+    <div class="nav-in">
+      <div class="brand"><span class="emblem"><span class="pr">LPR</span></span><span class="wmwrap"><span class="wm">La <b>Para</b> <span class="g">Rhazlaoui</span></span><span class="wm-tag">Parapharmacie · Dermocosmétique · Soin</span></span></div>
+      <div class="search">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <span data-i18n="search">Que recherchez-vous ? Produit, marque, besoin…</span>
+      </div>
+      <nav class="nav-ico">
+        <a href="#"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg><span data-i18n="account">Compte</span></a>
+        <a href="#"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 21s-7-4.6-9.4-9C1 9 2.5 5.5 6 5.5c2 0 3.2 1.2 4 2.4.8-1.2 2-2.4 4-2.4 3.5 0 5 3.5 3.4 6.5C19 16.4 12 21 12 21z"/></svg><span data-i18n="fav">Favoris</span></a>
+        <a href="#"><span class="ct"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 6h15l-1.5 9h-12z"/><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M6 6 5 3H2"/></svg><span class="dot">2</span></span><span data-i18n="cart">Panier</span></a>
+      </nav>
+    </div>
+    <nav class="cats">
+      <a href="#" data-i18n="c1">Visage</a><a href="#" data-i18n="c2">Corps</a><a href="#" data-i18n="c3">Cheveux</a>
+      <a href="#" data-i18n="c4">Solaires</a><a href="#" data-i18n="c5">Compléments</a><a href="#" data-i18n="c6">Bébé &amp; Maman</a>
+      <a href="#" data-i18n="c7">Homme</a><a href="#" data-i18n="c8">Bio &amp; Naturel</a><a href="#" data-i18n="c9">Marques</a>
+      <a href="#" data-i18n="c10">Conseils</a><a href="#" class="hot" data-i18n="c11">Promotions</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap hero-in">
+    <div class="hero-txt">
+      <span class="eyebrow" data-i18n="hero-eye">Rituel dermocosmétique · Maroc</span>
+      <h1 data-i18n="hero-h1">Votre beauté. Votre bien-être. <em>Notre expertise.</em></h1>
+      <p class="hero-sub" data-i18n="hero-sub">Des soins choisis avec exigence, une routine faite pour votre peau — livrés partout au Maroc, avec le conseil d'une vraie parapharmacie.</p>
+      <div class="hero-cta">
+        <a href="#rituel" class="btn btn-pri" data-i18n="hero-cta1">Trouver ma routine</a>
+        <a href="#" class="btn btn-sec" data-i18n="hero-cta2">Découvrir nos soins</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hstat"><div class="n">+3 500</div><div class="l" data-i18n="stat1">Références</div></div>
+        <div class="hstat"><div class="n">40+</div><div class="l" data-i18n="stat2">Marques expertes</div></div>
+        <div class="hstat"><div class="n">4,8/5</div><div class="l" data-i18n="stat3">Avis clients</div></div>
+      </div>
+    </div>
+    <div class="hero-vis">
+      <div class="niche">
+        <span class="leaf l1">❧</span><span class="leaf l2">✦</span><span class="leaf l3">❁</span>
+        <div class="jar"><div class="lbl"><span class="b">Sérum</span><span class="s">Éclat</span></div></div>
+      </div>
+      <div class="hero-badge">
+        <div class="ic">✓</div>
+        <div class="t"><b data-i18n="hb1">Conseil pharmacien</b><span data-i18n="hb2">7j/7 sur WhatsApp</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="reassure">
+  <div class="wrap">
+    <span><span class="ck">✓</span> <span data-i18n="r1">Produits 100 % authentiques</span></span>
+    <span><span class="ck">✓</span> <span data-i18n="r2">Paiement sécurisé</span></span>
+    <span><span class="ck">✓</span> <span data-i18n="r3">Livraison partout au Maroc</span></span>
+    <span><span class="ck">✓</span> <span data-i18n="r4">Paiement à la livraison</span></span>
+    <span><span class="ck">✓</span> <span data-i18n="r5">Conseils personnalisés</span></span>
+  </div>
+</div>
+
+<!-- RITUEL — signature interactive -->
+<section class="ritual" id="rituel">
+  <div class="wrap ritual-in">
+    <div>
+      <span class="eyebrow" data-i18n="rit-eye">L'ordonnance de beauté</span>
+      <h2 data-i18n="rit-h2">Composez votre <em>rituel</em> en un geste</h2>
+      <p class="lead" data-i18n="rit-lead">Dites-nous votre peau et votre besoin — nous dressons une routine en 4 étapes, prête à ajouter au panier. Une aide au choix, jamais un diagnostic médical.</p>
+      <div class="pick">
+        <div class="q" data-i18n="rit-q1">Votre type de peau</div>
+        <div class="opts" id="skin">
+          <button class="opt on" data-v="seche" data-i18n="sk1">Sèche</button>
+          <button class="opt" data-v="grasse" data-i18n="sk2">Grasse</button>
+          <button class="opt" data-v="mixte" data-i18n="sk3">Mixte</button>
+          <button class="opt" data-v="sensible" data-i18n="sk4">Sensible</button>
+        </div>
+        <div class="q" data-i18n="rit-q2">Votre préoccupation</div>
+        <div class="opts" id="concern">
+          <button class="opt on" data-v="eclat" data-i18n="cn1">Éclat</button>
+          <button class="opt" data-v="antiage" data-i18n="cn2">Anti-âge</button>
+          <button class="opt" data-v="acne" data-i18n="cn3">Imperfections</button>
+          <button class="opt" data-v="hydratation" data-i18n="cn4">Hydratation</button>
+        </div>
+      </div>
+    </div>
+    <div class="ord">
+      <div class="ord-top">
+        <div>
+          <div class="ttl"><span data-i18n="ord-ttl">Votre rituel</span> · <span id="ord-tag">Peau sèche · Éclat</span></div>
+          <div class="sum" data-i18n="ord-sum">4 étapes — matin &amp; soir</div>
+        </div>
+        <div class="ord-seal disp">La<br>PR</div>
+      </div>
+      <div class="steps" id="steps"></div>
+      <div class="ord-foot">
+        <div class="tot"><span data-i18n="ord-tot">Total du rituel</span> · <b id="ord-price">596 DH</b></div>
+        <button class="btn btn-pri btn-sm" data-i18n="ord-cta">Ajouter le rituel au panier</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONCERNS -->
+<section>
+  <div class="wrap">
+    <div class="shead">
+      <div><span class="eyebrow" data-i18n="con-eye">Acheter par besoin</span><h2 data-i18n="con-h2">Quel est votre <em>besoin</em> ?</h2></div>
+      <a href="#" class="lnk"><span data-i18n="con-all">Tous les besoins</span> →</a>
+    </div>
+    <div class="cgrid reveal">
+      <a class="concern" href="#"><div class="ic">✺</div><div class="nm" data-i18n="cc1">Acné</div><div class="ct" data-i18n="cc1s">&amp; imperfections</div></a>
+      <a class="concern" href="#"><div class="ic">☀</div><div class="nm" data-i18n="cc2">Taches</div><div class="ct" data-i18n="cc2s">pigmentaires</div></a>
+      <a class="concern" href="#"><div class="ic">✦</div><div class="nm" data-i18n="cc3">Anti-âge</div><div class="ct" data-i18n="cc3s">rides &amp; fermeté</div></a>
+      <a class="concern" href="#"><div class="ic">❁</div><div class="nm" data-i18n="cc4">Éclat</div><div class="ct" data-i18n="cc4s">teint terne</div></a>
+      <a class="concern" href="#"><div class="ic">≋</div><div class="nm" data-i18n="cc5">Hydratation</div><div class="ct" data-i18n="cc5s">peau sèche</div></a>
+      <a class="concern" href="#"><div class="ic">✿</div><div class="nm" data-i18n="cc6">Sensibilité</div><div class="ct" data-i18n="cc6s">rougeurs</div></a>
+      <a class="concern" href="#"><div class="ic">♨</div><div class="nm" data-i18n="cc7">Cheveux</div><div class="ct" data-i18n="cc7s">chute &amp; soin</div></a>
+      <a class="concern" href="#"><div class="ic">☾</div><div class="nm" data-i18n="cc8">Sommeil</div><div class="ct" data-i18n="cc8s">&amp; stress</div></a>
+    </div>
+  </div>
+</section>
+
+<!-- BEST SELLERS -->
+<section class="alt">
+  <div class="wrap">
+    <div class="shead">
+      <div><span class="eyebrow" data-i18n="bs-eye">Les favoris</span><h2 data-i18n="bs-h2">Nos <em>best-sellers</em></h2></div>
+      <a href="#" class="lnk"><span data-i18n="bs-all">Voir tout</span> →</a>
+    </div>
+    <div class="rail reveal" id="rail"></div>
+  </div>
+</section>
+
+<!-- BRANDS -->
+<section>
+  <div class="wrap">
+    <div class="shead" style="justify-content:center;text-align:center">
+      <div><span class="eyebrow" data-i18n="br-eye">Nos maisons</span><h2 data-i18n="br-h2">Les grandes marques dermocosmétiques</h2></div>
+    </div>
+    <div class="brands reveal">
+      <div class="brand-chip">Avène</div><div class="brand-chip">Bioderma</div><div class="brand-chip">CeraVe</div>
+      <div class="brand-chip">La Roche-Posay</div><div class="brand-chip">Vichy</div><div class="brand-chip">Uriage</div>
+      <div class="brand-chip">Nuxe</div><div class="brand-chip">Mustela</div><div class="brand-chip">ISDIN</div>
+    </div>
+    <p style="text-align:center;color:var(--faint);font-size:.78rem;margin-top:18px" data-i18n="br-note">Marques citées à titre d'exemple de structure — publiées uniquement si réellement distribuées.</p>
+  </div>
+</section>
+
+<!-- JOURNAL -->
+<section class="alt">
+  <div class="wrap">
+    <div class="shead">
+      <div><span class="eyebrow" data-i18n="jo-eye">Le Journal Rhazlaoui</span><h2 data-i18n="jo-h2">Conseils &amp; <em>expertise</em></h2></div>
+      <a href="#" class="lnk"><span data-i18n="jo-all">Tous les articles</span> →</a>
+    </div>
+    <div class="jgrid reveal">
+      <a class="jcard" href="#"><div class="cover"><span class="k" data-i18n="jk1">Peau</span><span class="mo">❁</span></div><div class="jb"><h3 data-i18n="jt1">Quelle routine pour une peau grasse ?</h3><p data-i18n="jp1">Nettoyer sans agresser, réguler, hydrater : les bons gestes.</p><div class="rd" data-i18n="rd">Lire l'article →</div></div></a>
+      <a class="jcard" href="#"><div class="cover"><span class="k" data-i18n="jk2">Solaire</span><span class="mo">☀</span></div><div class="jb"><h3 data-i18n="jt2">Comment choisir sa protection solaire ?</h3><p data-i18n="jp2">SPF, texture, type de peau : le guide pour ne plus se tromper.</p><div class="rd" data-i18n="rd2">Lire l'article →</div></div></a>
+      <a class="jcard" href="#"><div class="cover"><span class="k" data-i18n="jk3">Actifs</span><span class="mo">✦</span></div><div class="jb"><h3 data-i18n="jt3">Niacinamide : à quoi sert-il vraiment ?</h3><p data-i18n="jp3">L'actif star pour l'éclat et les imperfections, décrypté.</p><div class="rd" data-i18n="rd3">Lire l'article →</div></div></a>
+    </div>
+  </div>
+</section>
+
+<!-- CLUB -->
+<section class="club">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow" data-i18n="cl-eye">Programme fidélité</span>
+      <h2 data-i18n="cl-h2">Rejoignez le <em>Club Rhazlaoui</em></h2>
+      <p data-i18n="cl-p">Cumulez des points à chaque achat, à votre anniversaire et par parrainage. Débloquez conseils prioritaires, avant-premières et récompenses.</p>
+      <div style="margin-top:24px"><a href="#" class="btn btn-pri" data-i18n="cl-cta">Créer mon compte</a></div>
+    </div>
+    <div class="card">
+      <div class="tier"><div class="p disp">I</div><div class="tt"><b data-i18n="ti1">Découverte</b><span data-i18n="ti1s">1 DH dépensé = 1 point</span></div></div>
+      <div class="tier"><div class="p disp">II</div><div class="tt"><b data-i18n="ti2">Initiée</b><span data-i18n="ti2s">Livraison offerte dès 300 DH</span></div></div>
+      <div class="tier"><div class="p disp">III</div><div class="tt"><b data-i18n="ti3">Experte</b><span data-i18n="ti3s">Cadeaux &amp; ventes privées</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="fcols">
+      <div class="fcol fbrand">
+        <div class="brand"><span class="emblem"><span class="pr">LPR</span></span><span class="wmwrap"><span class="wm">La <b>Para</b> <span class="g">Rhazlaoui</span></span><span class="wm-tag">Parapharmacie · Dermocosmétique · Soin</span></span></div>
+        <p data-i18n="f-about">La parapharmacie digitale premium du Maroc. Confiance, expertise et beauté — livrées chez vous.</p>
+        <div class="news"><input placeholder="vous@exemple.ma" data-i18n-ph="f-news" aria-label="email"><button class="btn btn-pri btn-sm" data-i18n="f-sub">Je m'inscris</button></div>
+      </div>
+      <div class="fcol"><h4 data-i18n="f-h1">La maison</h4><a href="#" data-i18n="f-a1">À propos</a><a href="#" data-i18n="f-a2">Nos engagements</a><a href="#" data-i18n="f-a3">Contact</a></div>
+      <div class="fcol"><h4 data-i18n="f-h2">Aide</h4><a href="#" data-i18n="f-b1">FAQ</a><a href="#" data-i18n="f-b2">Livraison</a><a href="#" data-i18n="f-b3">Paiement</a><a href="#" data-i18n="f-b4">Suivi commande</a></div>
+      <div class="fcol"><h4 data-i18n="f-h3">Découvrir</h4><a href="#" data-i18n="f-c1">Marques</a><a href="#" data-i18n="f-c2">Nouveautés</a><a href="#" data-i18n="f-c3">Promotions</a><a href="#" data-i18n="f-c4">Le Journal</a></div>
+      <div class="fcol"><h4 data-i18n="f-h4">Légal</h4><a href="#" data-i18n="f-d1">CGV</a><a href="#" data-i18n="f-d2">Confidentialité</a><a href="#" data-i18n="f-d3">Cookies</a><a href="#" data-i18n="f-d4">Mentions légales</a></div>
+    </div>
+    <div class="fbot">
+      <span>© 2026 La Para Rhazlaoui · <span data-i18n="f-made">Conçu au Maroc</span></span>
+      <div class="pay"><span>CMI</span><span>VISA</span><span>Mastercard</span><span data-i18n="f-cod">Paiement livraison</span></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ============ DATA ============ */
+var PRODUCTS=[
+  {br:"Exemple",nm:"Sérum Éclat Niacinamide",be:"Unifie le teint · 30 ml",now:"189 DH",old:"239 DH",rt:"★★★★★",rn:"4,7 · 128",bd:'<span class="badge b-best" data-i18n="b-best">Best-seller</span>'},
+  {br:"Exemple",nm:"Crème Hydra-Confort",be:"48h d'hydratation · 50 ml",now:"215 DH",old:"",rt:"★★★★☆",rn:"4,5 · 86",bd:'<span class="badge b-sens" data-i18n="b-sens">Peau sensible</span>'},
+  {br:"Exemple",nm:"Fluide Solaire SPF 50+",be:"Toucher sec · 40 ml",now:"179 DH",old:"199 DH",rt:"★★★★★",rn:"4,8 · 214",bd:'<span class="badge b-promo">−10 %</span>'},
+  {br:"Exemple",nm:"Nettoyant Douceur",be:"Sans savon · 200 ml",now:"98 DH",old:"",rt:"★★★★☆",rn:"4,6 · 63",bd:'<span class="badge b-new" data-i18n="b-new">Nouveau</span>'},
+  {br:"Exemple",nm:"Contour des Yeux",be:"Regard défatigué · 15 ml",now:"245 DH",old:"289 DH",rt:"★★★★★",rn:"4,7 · 41",bd:'<span class="badge b-promo">−15 %</span>'},
+  {br:"Exemple",nm:"Huile Nourrissante Corps",be:"Peaux sèches · 100 ml",now:"165 DH",old:"",rt:"★★★★★",rn:"4,9 · 97",bd:''}
+];
+
+/* ordonnance recipes by concern */
+var RITUAL={
+  eclat:[["Nettoyer","Gel Nettoyant Éclat","Prépare la peau","89 DH"],["Traiter","Sérum Niacinamide","Unifie le teint","189 DH"],["Hydrater","Crème Illuminatrice","Ravive l'éclat","199 DH"],["Protéger","Fluide SPF 50+","Prévient les taches","119 DH"]],
+  antiage:[["Nettoyer","Mousse Régénérante","Nettoie en douceur","95 DH"],["Traiter","Sérum Rétinol Doux","Lisse les rides","259 DH"],["Hydrater","Crème Redensifiante","Nourrit &amp; raffermit","249 DH"],["Protéger","Fluide SPF 50+","Anti-photovieillissement","119 DH"]],
+  acne:[["Nettoyer","Gel Purifiant","Élimine l'excès de sébum","79 DH"],["Traiter","Sérum Zinc &amp; BHA","Cible les imperfections","169 DH"],["Hydrater","Soin Matifiant","Hydrate sans luire","149 DH"],["Protéger","Fluide SPF Anti-marques","Évite les taches","129 DH"]],
+  hydratation:[["Nettoyer","Lait Micellaire","Nettoie &amp; apaise","85 DH"],["Traiter","Sérum Acide Hyaluronique","Repulpe la peau","179 DH"],["Hydrater","Baume Hydra-Confort","48h d'hydratation","215 DH"],["Protéger","Fluide SPF Hydratant","Protège &amp; hydrate","119 DH"]]
+};
+var STEP_AR=["نظّفي","عالجي","رطّبي","احمي"];
+
+/* ============ I18N ============ */
+var I18N={ar:{
+ theme:"السمة",topbar:"توصيل لكامل المغرب · منتجات أصلية 100٪ · دفع آمن · نصائح على واتساب",
+ search:"عمّا تبحثين؟ منتج، ماركة، حاجة…",account:"حسابي",fav:"المفضلة",cart:"السلة",
+ c1:"الوجه",c2:"الجسم",c3:"الشعر",c4:"الحماية الشمسية",c5:"المكمّلات",c6:"الأم والطفل",c7:"الرجل",c8:"عضوي وطبيعي",c9:"الماركات",c10:"نصائح",c11:"تخفيضات",
+ "hero-eye":"طقوس العناية الجلدية · المغرب","hero-h1":"جمالك. عافيتك. <em>خبرتنا.</em>","hero-sub":"منتجات مختارة بعناية وروتين مصمّم لبشرتك — يصلك أينما كنتِ في المغرب، بنصيحة صيدلية حقيقية.",
+ "hero-cta1":"اكتشفي روتينك","hero-cta2":"تصفّحي منتجاتنا",stat1:"منتج",stat2:"ماركة خبيرة",stat3:"تقييم الزبناء",
+ hb1:"نصيحة الصيدلي",hb2:"7/7 على واتساب",
+ r1:"منتجات أصلية 100٪",r2:"دفع آمن",r3:"توصيل لكل المغرب",r4:"الدفع عند الاستلام",r5:"نصائح مخصّصة",
+ "rit-eye":"وصفة الجمال","rit-h2":"كوّني <em>روتينك</em> بلمسة","rit-lead":"أخبرينا عن بشرتك وحاجتك — نقترح روتيناً من 4 خطوات جاهزاً للسلة. مساعدة على الاختيار وليست تشخيصاً طبياً.",
+ "rit-q1":"نوع بشرتك","rit-q2":"همّك الأساسي",sk1:"جافة",sk2:"دهنية",sk3:"مختلطة",sk4:"حساسة",cn1:"إشراق",cn2:"مكافحة الشيخوخة",cn3:"الحبوب",cn4:"الترطيب",
+ "ord-ttl":"روتينك","ord-sum":"4 خطوات — صباحاً ومساءً","ord-tot":"مجموع الروتين","ord-cta":"أضيفي الروتين إلى السلة",
+ "con-eye":"تسوّقي حسب الحاجة","con-h2":"ما هي <em>حاجتك</em>؟","con-all":"كل الاحتياجات",
+ cc1:"حبوب",cc1s:"وعيوب",cc2:"بقع",cc2s:"تصبّغات",cc3:"مكافحة الشيخوخة",cc3s:"تجاعيد وشدّ",cc4:"إشراق",cc4s:"بشرة باهتة",cc5:"ترطيب",cc5s:"بشرة جافة",cc6:"حساسية",cc6s:"احمرار",cc7:"الشعر",cc7s:"تساقط وعناية",cc8:"النوم",cc8s:"والتوتر",
+ "bs-eye":"المفضّلات","bs-h2":"<em>الأكثر مبيعاً</em>","bs-all":"عرض الكل",
+ "br-eye":"دورنا","br-h2":"كبرى ماركات العناية الجلدية","br-note":"ماركات مذكورة كمثال على البنية — تُنشر فقط إذا كانت متوفّرة فعلاً.",
+ "jo-eye":"مجلة رزلاوي","jo-h2":"نصائح و<em>خبرة</em>","jo-all":"كل المقالات",
+ jk1:"بشرة",jt1:"أي روتين للبشرة الدهنية؟",jp1:"تنظيف دون إجهاد، تنظيم، ترطيب: الحركات الصحيحة.",rd:"اقرئي المقال ←",
+ jk2:"شمس",jt2:"كيف تختارين واقي الشمس؟",jp2:"SPF، القوام، نوع البشرة: الدليل الكامل.",rd2:"اقرئي المقال ←",
+ jk3:"مكوّنات",jt3:"النياسيناميد: ما فائدته حقاً؟",jp3:"المكوّن النجم للإشراق والعيوب، مبسّطاً.",rd3:"اقرئي المقال ←",
+ "cl-eye":"برنامج الوفاء","cl-h2":"انضمّي إلى <em>نادي رزلاوي</em>","cl-p":"اجمعي النقاط مع كل شراء وفي عيد ميلادك وبالإحالة. افتحي نصائح ذات أولوية وعروضاً حصرية ومكافآت.","cl-cta":"إنشاء حسابي",
+ ti1:"اكتشاف",ti1s:"1 درهم = 1 نقطة",ti2:"مبتدئة",ti2s:"توصيل مجاني من 300 درهم",ti3:"خبيرة",ti3s:"هدايا ومبيعات خاصة",
+ "f-about":"الصيدلية الرقمية الفاخرة بالمغرب. ثقة وخبرة وجمال — يصلك إلى بيتك.","f-sub":"اشتراك",
+ "f-h1":"الدار","f-a1":"من نحن","f-a2":"التزاماتنا","f-a3":"اتصلي بنا",
+ "f-h2":"مساعدة","f-b1":"أسئلة شائعة","f-b2":"التوصيل","f-b3":"الدفع","f-b4":"تتبّع الطلب",
+ "f-h3":"اكتشفي","f-c1":"الماركات","f-c2":"جديدنا","f-c3":"تخفيضات","f-c4":"المجلة",
+ "f-h4":"قانوني","f-d1":"الشروط العامة","f-d2":"الخصوصية","f-d3":"الكوكيز","f-d4":"معلومات قانونية",
+ "f-made":"صُمّم بالمغرب","f-cod":"الدفع عند الاستلام","b-best":"الأكثر مبيعاً","b-new":"جديد","b-sens":"بشرة حساسة",
+ skinlbl:{seche:"بشرة جافة",grasse:"بشرة دهنية",mixte:"بشرة مختلطة",sensible:"بشرة حساسة"},
+ concernlbl:{eclat:"إشراق",antiage:"مكافحة الشيخوخة",acne:"الحبوب",hydratation:"الترطيب"},
+ steps:["نظّفي","عالجي","رطّبي","احمي"]
+}};
+
+var FR_SKIN={seche:"Peau sèche",grasse:"Peau grasse",mixte:"Peau mixte",sensible:"Peau sensible"};
+var FR_CONCERN={eclat:"Éclat",antiage:"Anti-âge",acne:"Imperfections",hydratation:"Hydratation"};
+var FR_STEPS=["Nettoyer","Traiter","Hydrater","Protéger"];
+
+var lang="fr";
+function t(key){return lang==="ar"&&I18N.ar[key]!=null?I18N.ar[key]:null}
+
+/* ============ RENDER PRODUCTS ============ */
+function renderRail(){
+  var el=document.getElementById('rail');el.innerHTML=PRODUCTS.map(function(p){
+    return '<article class="pcard"><div class="ph"><div class="bd">'+p.bd+'</div>'+
+      '<button class="fav" aria-label="favori">♡</button><div class="bottle"></div></div>'+
+      '<div class="body"><div class="br">'+p.br+'</div><div class="nm">'+p.nm+'</div>'+
+      '<div class="be">'+p.be+'</div><div class="rr"><span class="st">'+p.rt+'</span> '+p.rn+' '+(t("bs-rev")||"avis")+'</div>'+
+      '<div class="foot"><div class="price"><span class="now">'+p.now+'</span>'+(p.old?'<span class="old">'+p.old+'</span>':'')+'</div>'+
+      '<button class="add" aria-label="ajouter">+</button></div></div></article>';
+  }).join('');
+  el.querySelectorAll('.fav').forEach(function(f){f.onclick=function(){f.classList.toggle('on');f.textContent=f.classList.contains('on')?'♥':'♡'}});
+  if(lang==="ar")applyI18nWithin(el);
+}
+
+/* ============ RITUEL ENGINE ============ */
+var skin="seche",concern="eclat";
+function renderSteps(){
+  var recipe=RITUAL[concern],total=0;
+  var steps=document.getElementById('steps');
+  steps.innerHTML=recipe.map(function(s,i){
+    var price=parseInt(s[3]);total+=price;
+    var act=lang==="ar"?I18N.ar.steps[i]:FR_STEPS[i];
+    return '<div class="step" style="animation-delay:'+(i*70)+'ms"><div class="idx disp">'+(i+1)+'</div>'+
+      '<div class="mini"></div><div class="info"><div class="a">'+act+'</div>'+
+      '<div class="n">'+s[1]+'</div><div class="m">'+s[2]+'</div></div>'+
+      '<div class="pr">'+s[3]+'</div></div>';
+  }).join('');
+  document.getElementById('ord-price').textContent=total+" DH";
+  var sl=lang==="ar"?I18N.ar.skinlbl[skin]:FR_SKIN[skin];
+  var cl=lang==="ar"?I18N.ar.concernlbl[concern]:FR_CONCERN[concern];
+  document.getElementById('ord-tag').textContent=sl+" · "+cl;
+}
+function bindOpts(id,setter){
+  document.getElementById(id).querySelectorAll('.opt').forEach(function(o){
+    o.onclick=function(){
+      document.getElementById(id).querySelectorAll('.opt').forEach(function(x){x.classList.remove('on')});
+      o.classList.add('on');setter(o.getAttribute('data-v'));renderSteps();
+    };
+  });
+}
+
+/* ============ I18N APPLY ============ */
+function applyI18nWithin(root){
+  root.querySelectorAll('[data-i18n]').forEach(function(e){
+    var v=t(e.getAttribute('data-i18n'));if(v!=null)e.innerHTML=v;
+  });
+}
+var FR_CACHE=null;
+function cacheFR(){
+  FR_CACHE={};document.querySelectorAll('[data-i18n]').forEach(function(e){FR_CACHE[e.getAttribute('data-i18n')+"|"+cid(e)]=e.innerHTML});
+}
+var _c=0;function cid(e){if(!e._c)e._c=++_c;return e._c}
+function setLang(l){
+  lang=l;var b=document.body;
+  document.querySelectorAll('.lg').forEach(function(x){x.classList.toggle('on',x.getAttribute('data-lg')===l)});
+  if(l==="ar"){
+    b.setAttribute('dir','rtl');document.documentElement.lang="ar";
+    document.querySelectorAll('[data-i18n]').forEach(function(e){var v=I18N.ar[e.getAttribute('data-i18n')];if(v!=null)e.innerHTML=v});
+    var ph=document.querySelector('[data-i18n-ph]');if(ph)ph.placeholder="you@exemple.ma";
+  }else{
+    b.setAttribute('dir','ltr');document.documentElement.lang="fr";
+    document.querySelectorAll('[data-i18n]').forEach(function(e){var k=e.getAttribute('data-i18n')+"|"+cid(e);if(FR_CACHE[k]!=null)e.innerHTML=FR_CACHE[k]});
+  }
+  renderRail();renderSteps();
+}
+
+/* ============ THEME ============ */
+(function(){
+  var root=document.documentElement,btn=document.getElementById('theme');
+  btn.onclick=function(){
+    var cur=root.getAttribute('data-theme');
+    var dark=cur==='dark'||(!cur&&matchMedia('(prefers-color-scheme:dark)').matches);
+    root.setAttribute('data-theme',dark?'light':'dark');
+  };
+})();
+
+/* ============ INIT ============ */
+cacheFR();
+renderRail();
+bindOpts('skin',function(v){skin=v});
+bindOpts('concern',function(v){concern=v});
+renderSteps();
+document.getElementById('lang').onclick=function(){setLang(lang==="fr"?"ar":"fr")};
+
+/* reveal */
+(function(){
+  var els=[].slice.call(document.querySelectorAll('.reveal'));
+  if(!('IntersectionObserver'in window)||matchMedia('(prefers-reduced-motion:reduce)').matches){els.forEach(function(e){e.classList.add('in')});return;}
+  var io=new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{threshold:.1});
+  els.forEach(function(e){io.observe(e)});
+})();
+</script>

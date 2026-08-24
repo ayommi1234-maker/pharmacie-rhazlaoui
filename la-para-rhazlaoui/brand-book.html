@@ -1,0 +1,821 @@
+<title>La Para Rhazlaoui</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,400&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap">
+
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --ivory:#F6F3EC;        /* ground */
+  --paper:#FCFAF4;        /* raised surface */
+  --card:#FFFFFF;
+  --sage:#5A6B54;         /* signature */
+  --sage-deep:#37432F;    /* strong green */
+  --sage-tint:#E5E9DD;    /* soft green wash */
+  --sable:#E4D8C4;        /* warm nude */
+  --sable-deep:#CDB995;
+  --brass:#A98B5D;        /* champagne accent — sparing */
+  --ink:#282B26;          /* text */
+  --muted:#6C7167;        /* secondary text */
+  --faint:#9AA093;        /* tertiary */
+  --line:#DED8CB;         /* hairline */
+  --line-soft:#E9E4D9;
+  --good:#4F7A55;
+  --warn:#B4863B;
+  --crit:#B0503F;
+  --shadow:26 32 22;      /* rgb for green-biased shadow */
+  --r-sm:8px; --r-md:14px; --r-lg:22px;
+  --maxw:1120px;
+  --f-disp:"Fraunces",Georgia,"Times New Roman",serif;
+  --f-body:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-ar:"IBM Plex Sans Arabic","Hanken Grotesk",sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ivory:#1A1E18; --paper:#212619; --card:#252B1F;
+    --sage:#9CB38C; --sage-deep:#C4D4B6; --sage-tint:#2C3427;
+    --sable:#4A4235; --sable-deep:#6F6349;
+    --brass:#CBA96A;
+    --ink:#ECE9DE; --muted:#A7AD9C; --faint:#767C6C;
+    --line:#38402F; --line-soft:#2E3527;
+    --good:#8FBE93; --warn:#D9AF6A; --crit:#DD8672;
+    --shadow:0 0 0;
+  }
+}
+:root[data-theme="dark"]{
+  --ivory:#1A1E18; --paper:#212619; --card:#252B1F;
+  --sage:#9CB38C; --sage-deep:#C4D4B6; --sage-tint:#2C3427;
+  --sable:#4A4235; --sable-deep:#6F6349;
+  --brass:#CBA96A;
+  --ink:#ECE9DE; --muted:#A7AD9C; --faint:#767C6C;
+  --line:#38402F; --line-soft:#2E3527;
+  --good:#8FBE93; --warn:#D9AF6A; --crit:#DD8672;
+  --shadow:0 0 0;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{
+  margin:0; background:var(--ivory); color:var(--ink);
+  font-family:var(--f-body); font-size:17px; line-height:1.6;
+  -webkit-font-smoothing:antialiased; letter-spacing:.005em;
+}
+h1,h2,h3,h4{font-family:var(--f-disp); font-weight:400; text-wrap:balance; margin:0; line-height:1.08}
+p{margin:0}
+a{color:inherit}
+img{max-width:100%}
+
+.wrap{max-width:var(--maxw); margin:0 auto; padding:0 clamp(20px,5vw,48px)}
+.eyebrow{font-family:var(--f-body); font-size:.72rem; font-weight:600;
+  letter-spacing:.22em; text-transform:uppercase; color:var(--brass)}
+.dim{color:var(--muted)}
+.hair{height:1px; background:var(--line); border:0}
+
+/* ============ THEME TOGGLE ============ */
+.toggle{position:fixed; top:16px; right:16px; z-index:50;
+  display:inline-flex; align-items:center; gap:7px;
+  background:color-mix(in srgb,var(--card) 80%,transparent);
+  backdrop-filter:blur(8px); border:1px solid var(--line);
+  border-radius:999px; padding:7px 13px; cursor:pointer;
+  font-family:var(--f-body); font-size:.74rem; font-weight:600;
+  letter-spacing:.04em; color:var(--ink)}
+.toggle:hover{border-color:var(--sage)}
+.toggle:focus-visible{outline:2px solid var(--sage); outline-offset:2px}
+
+/* ============ COVER ============ */
+.cover{position:relative; overflow:hidden;
+  background:
+    radial-gradient(120% 90% at 82% -10%, var(--sage-tint) 0%, transparent 55%),
+    linear-gradient(180deg, var(--paper), var(--ivory));
+  border-bottom:1px solid var(--line)}
+.cover .wrap{padding-top:clamp(64px,11vw,120px); padding-bottom:clamp(56px,9vw,104px)}
+.cover-meta{display:flex; flex-wrap:wrap; gap:10px 22px; align-items:center;
+  font-size:.74rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--muted); margin-bottom:clamp(40px,7vw,72px)}
+.cover-meta .brass{color:var(--brass)}
+.dot{width:5px;height:5px;border-radius:50%;background:var(--sable-deep);display:inline-block}
+.wordmark{font-family:var(--f-disp); font-weight:300;
+  font-size:clamp(2.6rem,9vw,6.4rem); line-height:.94; letter-spacing:-.01em}
+.wordmark b{font-weight:500}
+.wordmark .of{font-style:italic; color:var(--sage); font-weight:400}
+.cover-tag{margin-top:clamp(22px,3vw,30px); font-family:var(--f-disp);
+  font-style:italic; font-size:clamp(1.2rem,2.6vw,1.7rem); color:var(--sage-deep); font-weight:300}
+.cover-sub{margin-top:20px; max-width:52ch; color:var(--muted); font-size:1.02rem}
+.cover-rule{display:flex; align-items:center; gap:16px; margin-top:clamp(40px,6vw,60px)}
+.cover-rule .ln{flex:1; height:1px; background:var(--line)}
+.cover-rule span{font-size:.72rem; font-weight:600; letter-spacing:.2em;
+  text-transform:uppercase; color:var(--faint)}
+
+/* ============ SECTION SHELL ============ */
+section{padding:clamp(56px,9vw,104px) 0}
+.sec-head{display:flex; gap:18px; align-items:baseline; margin-bottom:clamp(30px,5vw,52px)}
+.sec-num{font-family:var(--f-disp); font-size:1.05rem; color:var(--brass);
+  font-weight:500; font-variant-numeric:tabular-nums; padding-top:.35em}
+.sec-title{font-size:clamp(1.9rem,4.6vw,3.1rem); letter-spacing:-.01em}
+.sec-intro{max-width:60ch; color:var(--muted); margin-top:16px; font-size:1.05rem}
+.alt{background:var(--paper); border-top:1px solid var(--line); border-bottom:1px solid var(--line)}
+
+/* ============ PILLARS ============ */
+.pillars{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:1px;
+  background:var(--line); border:1px solid var(--line); border-radius:var(--r-md); overflow:hidden}
+.pillar{background:var(--card); padding:26px 22px}
+.pillar .n{font-family:var(--f-disp); font-size:.8rem; color:var(--brass); font-variant-numeric:tabular-nums}
+.pillar h4{font-size:1.28rem; margin:12px 0 7px}
+.pillar p{font-size:.9rem; color:var(--muted); line-height:1.5}
+
+/* ============ DA / DO-DONT ============ */
+.da-state{font-family:var(--f-disp); font-style:italic; font-weight:300;
+  font-size:clamp(1.4rem,3.4vw,2.2rem); line-height:1.28; max-width:22ch; color:var(--ink)}
+.da-state em{color:var(--sage); font-style:italic}
+.split{display:grid; grid-template-columns:1fr 1fr; gap:clamp(20px,3vw,34px); margin-top:44px}
+@media(max-width:680px){.split{grid-template-columns:1fr}}
+.plate{background:var(--card); border:1px solid var(--line); border-radius:var(--r-md); padding:26px 26px 28px}
+.plate h4{font-family:var(--f-body); font-weight:700; font-size:.78rem; letter-spacing:.16em;
+  text-transform:uppercase; margin-bottom:18px; display:flex; align-items:center; gap:9px}
+.plate.good h4{color:var(--sage)} .plate.bad h4{color:var(--crit)}
+.plate ul{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:11px}
+.plate li{display:flex; gap:11px; font-size:.96rem; color:var(--ink); align-items:flex-start}
+.plate li .mk{flex:none; margin-top:.15em; font-weight:700}
+.good li .mk{color:var(--sage)} .bad li .mk{color:var(--crit)}
+.plate li span:last-child{color:var(--muted)}
+
+/* ============ PALETTE ============ */
+.swatches{display:grid; grid-template-columns:repeat(auto-fill,minmax(158px,1fr)); gap:14px}
+.sw{border:1px solid var(--line); border-radius:var(--r-md); overflow:hidden; background:var(--card)}
+.sw .chip{height:96px}
+.sw .meta{padding:12px 14px 14px}
+.sw .role{font-size:.9rem; font-weight:600}
+.sw .hex{font-size:.76rem; color:var(--muted); letter-spacing:.05em;
+  font-variant-numeric:tabular-nums; text-transform:uppercase; margin-top:3px}
+.sem{display:flex; flex-wrap:wrap; gap:10px; margin-top:20px}
+.sem span{display:inline-flex; align-items:center; gap:8px; font-size:.82rem; font-weight:600;
+  padding:7px 13px; border-radius:999px; border:1px solid var(--line); background:var(--card)}
+.sem i{width:9px;height:9px;border-radius:50%;display:inline-block}
+
+/* ============ TYPE ============ */
+.type-grid{display:grid; grid-template-columns:1fr; gap:26px}
+.tspec{background:var(--card); border:1px solid var(--line); border-radius:var(--r-md); padding:clamp(22px,3vw,32px)}
+.tspec .lab{display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;
+  font-size:.72rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-bottom:18px}
+.tspec .lab b{color:var(--brass); font-weight:600}
+.tspec .big{font-family:var(--f-disp); font-weight:300; font-size:clamp(2.2rem,6vw,4rem); line-height:1; letter-spacing:-.01em}
+.tspec .row2{font-family:var(--f-disp); font-style:italic; font-size:clamp(1.1rem,2.4vw,1.5rem); color:var(--sage); margin-top:14px}
+.tspec.body .big{font-family:var(--f-body); font-weight:600; font-size:clamp(1.6rem,4vw,2.4rem); letter-spacing:-.01em}
+.tspec.body p{margin-top:14px; max-width:60ch; color:var(--muted)}
+.tspec.ar{direction:rtl; text-align:right}
+.tspec.ar .lab{direction:ltr}
+.tspec.ar .big{font-family:var(--f-ar); font-weight:500; font-size:clamp(1.8rem,5vw,3rem); line-height:1.3}
+.tspec.ar p{font-family:var(--f-ar); margin-top:12px; color:var(--muted)}
+.scale{display:flex; flex-direction:column; gap:2px; margin-top:8px}
+.scale div{display:flex; align-items:baseline; gap:16px; padding:9px 0; border-top:1px solid var(--line-soft)}
+.scale .tk{font-family:var(--f-body); font-size:.72rem; color:var(--faint); width:74px; flex:none;
+  letter-spacing:.08em; text-transform:uppercase; font-variant-numeric:tabular-nums}
+.scale .ex{font-family:var(--f-disp); font-weight:300; color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+
+/* ============ LOGO ============ */
+.logos{display:grid; grid-template-columns:1.5fr 1fr; gap:16px}
+@media(max-width:760px){.logos{grid-template-columns:1fr}}
+.logo-cell{border:1px solid var(--line); border-radius:var(--r-md); padding:34px; display:flex;
+  flex-direction:column; align-items:center; justify-content:center; gap:14px; text-align:center; min-height:150px; background:var(--card)}
+.logo-cell.dark{background:var(--sage-deep); border-color:var(--sage-deep)}
+.logo-cell .tag{font-size:.68rem; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:var(--faint)}
+.logo-cell.dark .tag{color:#B9C6AC}
+.lm{font-family:var(--f-disp); font-weight:300; letter-spacing:.02em; color:var(--ink); line-height:1}
+.logo-cell.dark .lm{color:var(--ivory)}
+.lm b{font-weight:500}
+.lm .g{color:var(--sage)} .logo-cell.dark .lm .g{color:#B9C6AC}
+.lm-main{font-size:clamp(1.5rem,4vw,2.3rem)}
+.lm-sub{font-family:var(--f-body); font-size:.66rem; font-weight:600; letter-spacing:.4em;
+  text-transform:uppercase; color:var(--brass); margin-top:10px}
+.mono{width:74px;height:74px;border-radius:50%; display:flex; align-items:center; justify-content:center;
+  font-family:var(--f-disp); font-weight:500; font-size:1.7rem; letter-spacing:.02em}
+.mono.ring{border:1.5px solid var(--sage); color:var(--sage-deep); background:var(--sage-tint)}
+.mono.fill{background:var(--sage); color:var(--ivory)}
+.mono.fav{width:52px;height:52px;font-size:1.15rem;border-radius:14px}
+.logohint{display:flex; gap:26px; flex-wrap:wrap; margin-top:16px; color:var(--muted); font-size:.9rem}
+.logohint b{color:var(--ink); font-weight:600}
+
+/* ============ SITEMAP ============ */
+.tree{display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:14px}
+.branch{background:var(--card); border:1px solid var(--line); border-radius:var(--r-md); padding:20px 20px 22px}
+.branch h4{font-family:var(--f-body); font-weight:700; font-size:.76rem; letter-spacing:.13em;
+  text-transform:uppercase; color:var(--sage); margin-bottom:14px; display:flex; align-items:center; gap:9px}
+.branch h4 .ix{font-family:var(--f-disp); color:var(--brass); font-size:.85rem}
+.branch ul{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px}
+.branch li{font-size:.9rem; color:var(--muted); padding-left:14px; position:relative}
+.branch li::before{content:""; position:absolute; left:0; top:.62em; width:5px; height:1px; background:var(--sable-deep)}
+.branch li b{color:var(--ink); font-weight:600}
+
+/* ============ HOMEPAGE MOCK ============ */
+.mock{border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden;
+  box-shadow:0 30px 60px -40px rgb(var(--shadow)/.5); background:var(--card)}
+.m-top{background:var(--sage-deep); color:#DCE6D2; font-size:.7rem; letter-spacing:.1em;
+  text-transform:uppercase; text-align:center; padding:7px; font-weight:600}
+.m-nav{display:flex; align-items:center; justify-content:space-between; gap:14px;
+  padding:16px 22px; border-bottom:1px solid var(--line); flex-wrap:wrap}
+.m-nav .lm-main{font-size:1.15rem}
+.m-search{flex:1; min-width:150px; background:var(--ivory); border:1px solid var(--line);
+  border-radius:999px; padding:9px 16px; font-size:.82rem; color:var(--faint)}
+.m-icons{display:flex; gap:14px; color:var(--muted); font-size:.8rem; font-weight:600}
+.m-cats{display:flex; gap:18px; flex-wrap:wrap; padding:11px 22px; border-bottom:1px solid var(--line);
+  font-size:.78rem; font-weight:600; color:var(--muted)}
+.m-cats span:first-child{color:var(--sage)}
+.m-hero{position:relative; padding:clamp(30px,5vw,60px) clamp(22px,4vw,44px);
+  background:
+    radial-gradient(90% 120% at 88% 10%, var(--sage-tint), transparent 60%),
+    linear-gradient(120deg, var(--paper), var(--sable) 220%)}
+.m-hero .eyebrow{margin-bottom:14px}
+.m-hero h3{font-size:clamp(1.7rem,4.4vw,2.9rem); font-weight:300; max-width:16ch; letter-spacing:-.01em}
+.m-hero h3 em{font-style:italic; color:var(--sage)}
+.m-hero p{margin-top:14px; color:var(--muted); max-width:40ch; font-size:.96rem}
+.m-cta{display:flex; gap:12px; flex-wrap:wrap; margin-top:24px}
+.reassure{display:flex; flex-wrap:wrap; justify-content:space-between; gap:12px 20px;
+  padding:15px 22px; background:var(--sage-tint); font-size:.82rem; color:var(--sage-deep); font-weight:600}
+.reassure span{display:inline-flex; gap:8px; align-items:center}
+.reassure .ck{color:var(--sage)}
+.m-sec{padding:clamp(24px,4vw,38px) clamp(22px,4vw,44px)}
+.m-sec > .eyebrow{display:block; margin-bottom:6px}
+.m-sec h4{font-size:1.5rem; font-weight:300; margin-bottom:20px}
+.concerns{display:grid; grid-template-columns:repeat(auto-fill,minmax(120px,1fr)); gap:12px}
+.concern{border:1px solid var(--line); border-radius:var(--r-md); padding:16px 14px; background:var(--paper);
+  transition:transform .25s ease, border-color .25s ease, box-shadow .25s ease}
+.concern:hover{transform:translateY(-3px); border-color:var(--sage); box-shadow:0 14px 26px -20px rgb(var(--shadow)/.6)}
+.concern .ic{width:34px;height:34px;border-radius:10px;background:var(--sage-tint); color:var(--sage);
+  display:flex;align-items:center;justify-content:center; margin-bottom:12px}
+.concern .nm{font-weight:600; font-size:.92rem}
+.concern .ct{font-size:.76rem; color:var(--faint); margin-top:3px}
+
+/* ============ DESIGN SYSTEM ============ */
+.ds-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; align-items:start}
+.ds-card{background:var(--card); border:1px solid var(--line); border-radius:var(--r-md); padding:24px}
+.ds-card > .eyebrow{display:block; margin-bottom:18px}
+.stack{display:flex; flex-direction:column; gap:14px}
+.rowwrap{display:flex; flex-wrap:wrap; gap:10px; align-items:center}
+
+/* buttons */
+.btn{font-family:var(--f-body); font-weight:600; font-size:.9rem; letter-spacing:.01em;
+  border-radius:999px; padding:12px 22px; border:1px solid transparent; cursor:pointer;
+  transition:transform .18s ease, box-shadow .18s ease, background .18s ease; display:inline-flex; gap:8px; align-items:center}
+.btn:focus-visible{outline:2px solid var(--sage); outline-offset:2px}
+.btn-pri{background:var(--sage); color:var(--ivory)}
+.btn-pri:hover{background:var(--sage-deep); transform:translateY(-1px); box-shadow:0 10px 22px -12px rgb(var(--shadow)/.7)}
+.btn-sec{background:transparent; color:var(--sage-deep); border-color:var(--sage)}
+.btn-sec:hover{background:var(--sage-tint)}
+.btn-brass{background:var(--brass); color:#fff}
+.btn-ghost{background:transparent; color:var(--muted); border-color:var(--line)}
+.btn-ghost:hover{color:var(--ink); border-color:var(--muted)}
+.btn-sm{padding:8px 15px; font-size:.8rem}
+
+/* badges */
+.badge{display:inline-flex; align-items:center; gap:6px; font-size:.68rem; font-weight:700;
+  letter-spacing:.08em; text-transform:uppercase; padding:5px 11px; border-radius:999px}
+.b-best{background:var(--sage-deep); color:#DCE6D2}
+.b-new{background:var(--sage-tint); color:var(--sage-deep)}
+.b-soft{background:var(--sable); color:#6a5a3f}
+.b-promo{background:var(--crit); color:#fff}
+.b-sens{background:transparent; border:1px solid var(--sage); color:var(--sage)}
+.b-expert{background:var(--brass); color:#fff}
+
+/* form field */
+.field label{display:block; font-size:.74rem; font-weight:600; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--muted); margin-bottom:7px}
+.field input{width:100%; font-family:var(--f-body); font-size:.95rem; padding:12px 15px;
+  border:1px solid var(--line); border-radius:var(--r-sm); background:var(--paper); color:var(--ink)}
+.field input:focus{outline:none; border-color:var(--sage); box-shadow:0 0 0 3px var(--sage-tint)}
+.field .hint{font-size:.78rem; color:var(--faint); margin-top:7px}
+
+/* rating */
+.stars{color:var(--brass); letter-spacing:2px; font-size:.95rem}
+.stars .off{color:var(--line)}
+
+/* price */
+.price{display:flex; align-items:baseline; gap:10px}
+.price .now{font-family:var(--f-disp); font-weight:500; font-size:1.5rem; color:var(--ink)}
+.price .old{font-size:.9rem; color:var(--faint); text-decoration:line-through}
+.price .off{font-size:.72rem; font-weight:700; color:var(--crit); background:color-mix(in srgb,var(--crit) 12%,transparent);
+  padding:3px 8px; border-radius:6px}
+
+/* product card */
+.pcard{width:min(260px,100%); border:1px solid var(--line); border-radius:var(--r-md); overflow:hidden;
+  background:var(--card); transition:transform .25s ease, box-shadow .25s ease}
+.pcard:hover{transform:translateY(-4px); box-shadow:0 22px 44px -28px rgb(var(--shadow)/.65)}
+.pcard .ph{position:relative; aspect-ratio:1/1; background:
+   radial-gradient(70% 70% at 50% 32%, var(--paper), var(--sable-deep) 260%);
+   display:flex; align-items:center; justify-content:center}
+.pcard .bottle{width:52px; height:120px; border-radius:12px 12px 16px 16px;
+  background:linear-gradient(160deg,var(--card),var(--sage-tint)); border:1px solid var(--line);
+  position:relative; box-shadow:0 12px 24px -16px rgb(var(--shadow)/.7)}
+.pcard .bottle::before{content:""; position:absolute; inset:36px 10px auto 10px; height:40px;
+  border-radius:5px; background:var(--sage); opacity:.85}
+.pcard .bottle::after{content:""; position:absolute; top:-9px; left:50%; transform:translateX(-50%);
+  width:22px;height:12px;border-radius:4px 4px 0 0; background:var(--sage-deep)}
+.pcard .fav{position:absolute; top:11px; right:11px; width:32px;height:32px;border-radius:50%;
+  background:color-mix(in srgb,var(--card) 82%,transparent); border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center; color:var(--muted); cursor:pointer}
+.pcard .fav:hover{color:var(--crit); border-color:var(--crit)}
+.pcard .badges{position:absolute; top:11px; left:11px; display:flex; flex-direction:column; gap:6px; align-items:flex-start}
+.pcard .body{padding:15px 16px 18px}
+.pcard .brand{font-size:.7rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--sage)}
+.pcard .nm{font-family:var(--f-disp); font-weight:400; font-size:1.12rem; margin:5px 0 3px; line-height:1.15}
+.pcard .ben{font-size:.82rem; color:var(--muted); margin-bottom:10px}
+.pcard .rr{display:flex; align-items:center; gap:7px; font-size:.76rem; color:var(--faint); margin-bottom:13px}
+.pcard .foot{display:flex; align-items:center; justify-content:space-between; gap:10px}
+.pcard .add{width:38px;height:38px;border-radius:50%; background:var(--sage); color:var(--ivory);
+  border:none; cursor:pointer; font-size:1.1rem; display:flex;align-items:center;justify-content:center; flex:none}
+.pcard .add:hover{background:var(--sage-deep)}
+.pcard .stk{font-size:.72rem; font-weight:600; color:var(--good); display:inline-flex; gap:6px; align-items:center; margin-top:11px}
+.pcard .stk i{width:7px;height:7px;border-radius:50%;background:var(--good)}
+
+/* accordion */
+.acc{border:1px solid var(--line); border-radius:var(--r-sm); overflow:hidden}
+.acc details{border-bottom:1px solid var(--line-soft)}
+.acc details:last-child{border-bottom:0}
+.acc summary{cursor:pointer; padding:14px 16px; font-weight:600; font-size:.92rem; list-style:none;
+  display:flex; justify-content:space-between; align-items:center}
+.acc summary::-webkit-details-marker{display:none}
+.acc summary .pl{color:var(--sage); font-family:var(--f-disp); transition:transform .2s}
+.acc details[open] summary .pl{transform:rotate(45deg)}
+.acc .ac-body{padding:0 16px 15px; font-size:.9rem; color:var(--muted)}
+
+/* cart progress */
+.cartprog{font-size:.86rem}
+.cartprog .lbl{display:flex; justify-content:space-between; color:var(--muted); margin-bottom:8px}
+.cartprog .lbl b{color:var(--sage-deep)}
+.track{height:8px; border-radius:999px; background:var(--sage-tint); overflow:hidden}
+.track i{display:block; height:100%; width:64%; border-radius:999px;
+  background:linear-gradient(90deg,var(--sage),var(--brass))}
+
+/* chips */
+.chips{display:flex; flex-wrap:wrap; gap:8px}
+.chip-f{font-size:.8rem; font-weight:600; padding:8px 14px; border-radius:999px;
+  border:1px solid var(--line); background:var(--paper); color:var(--muted); cursor:pointer}
+.chip-f.on{background:var(--sage); color:var(--ivory); border-color:var(--sage)}
+
+/* ============ ROADMAP ============ */
+.phases{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1px;
+  background:var(--line); border:1px solid var(--line); border-radius:var(--r-md); overflow:hidden}
+.phase{background:var(--card); padding:22px}
+.phase .pn{font-family:var(--f-disp); font-size:1.6rem; color:var(--brass); font-weight:400}
+.phase h4{font-family:var(--f-body); font-weight:700; font-size:.8rem; letter-spacing:.1em;
+  text-transform:uppercase; margin:10px 0 8px}
+.phase p{font-size:.86rem; color:var(--muted); line-height:1.5}
+.phase.now{background:var(--sage-tint)}
+.phase.now h4{color:var(--sage-deep)}
+
+/* ============ FOOTER ============ */
+footer{background:var(--sage-deep); color:#CBD6BF; padding:clamp(44px,7vw,72px) 0}
+footer .wrap{display:flex; flex-wrap:wrap; gap:30px; justify-content:space-between; align-items:flex-end}
+footer .lm-main{color:var(--ivory); font-size:1.8rem}
+footer .lm-sub{color:#9DB18C}
+footer p{color:#9DB18C; font-size:.9rem; max-width:40ch; margin-top:14px}
+footer .note{font-size:.76rem; color:#7E9270; letter-spacing:.03em}
+
+.reveal{opacity:0; transform:translateY(18px)}
+.reveal.in{opacity:1; transform:none; transition:opacity .7s ease, transform .7s ease}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1!important; transform:none!important}}
+</style>
+
+<button class="toggle" id="tg" aria-label="Basculer le thème">◐ <span id="tglab">Thème</span></button>
+
+<!-- ============ COVER ============ -->
+<header class="cover">
+  <div class="wrap">
+    <div class="cover-meta">
+      <span class="brass">Brand Book</span><span class="dot"></span>
+      <span>Parapharmacie digitale</span><span class="dot"></span>
+      <span>Maroc · MAD</span><span class="dot"></span>
+      <span>FR · العربية</span>
+    </div>
+    <div class="wordmark">La <b>Para</b><br><span class="of">Rhazlaoui</span></div>
+    <div class="cover-tag">Votre beauté. Votre bien-être. Notre expertise.</div>
+    <p class="cover-sub">Présentation de marque &amp; design system — le concept, la direction artistique,
+      la palette, la typographie, l'architecture et les composants, avant la réalisation technique.</p>
+    <div class="cover-rule">
+      <span>Concept → Système</span><span class="ln"></span><span>8 chapitres</span>
+    </div>
+  </div>
+</header>
+
+<!-- ============ 01 CONCEPT ============ -->
+<section id="concept">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">01</span>
+      <div><span class="eyebrow">Le concept</span>
+        <h2 class="sec-title">Une parapharmacie<br>nouvelle génération</h2>
+        <p class="sec-intro">Réunir l'expertise et la confiance d'une pharmacie, l'élégance d'une maison
+          de cosmétique premium et la puissance commerciale d'un grand e-commerce — dans la simplicité
+          d'une app mobile. Pas un catalogue de plus : une véritable marque.</p>
+      </div>
+    </div>
+    <div class="pillars reveal">
+      <div class="pillar"><div class="n">01</div><h4>Confiance</h4><p>Le sérieux du conseil pharmaceutique, en ligne.</p></div>
+      <div class="pillar"><div class="n">02</div><h4>Expertise</h4><p>Des recommandations qui guident le bon choix.</p></div>
+      <div class="pillar"><div class="n">03</div><h4>Beauté</h4><p>Le soin de la peau comme rituel, pas comme corvée.</p></div>
+      <div class="pillar"><div class="n">04</div><h4>Élégance</h4><p>Une interface qui respire, jamais surchargée.</p></div>
+      <div class="pillar"><div class="n">05</div><h4>Santé</h4><p>Le bien-être au centre, sans jamais alarmer.</p></div>
+      <div class="pillar"><div class="n">06</div><h4>Authenticité</h4><p>Des produits vrais, des promesses tenables.</p></div>
+      <div class="pillar"><div class="n">07</div><h4>Modernité</h4><p>La fluidité d'un produit tech haut de gamme.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 02 DIRECTION ARTISTIQUE ============ -->
+<section id="da" class="alt">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">02</span>
+      <div><span class="eyebrow">Direction artistique</span>
+        <h2 class="sec-title">Premium, médical doux,<br>naturel &amp; contemporain</h2>
+      </div>
+    </div>
+    <p class="da-state">Une esthétique <em>apothicaire dermocosmétique</em>, feutrée et
+      marocaine dans l'âme — beaucoup de blanc, une typographie raffinée, des gestes discrets.</p>
+    <div class="split reveal">
+      <div class="plate good">
+        <h4>◆ Privilégier</h4>
+        <ul>
+          <li><span class="mk">+</span><span>Espace blanc généreux, respiration éditoriale</span></li>
+          <li><span class="mk">+</span><span>Grandes photographies produit, cadrage soigné</span></li>
+          <li><span class="mk">+</span><span>Cartes élégantes, coins doux, ombres très légères</span></li>
+          <li><span class="mk">+</span><span>Micro-animations discrètes, transitions naturelles</span></li>
+          <li><span class="mk">+</span><span>Iconographie minimaliste, excellent contraste</span></li>
+          <li><span class="mk">+</span><span>Mobile irréprochable, pensé en premier</span></li>
+        </ul>
+      </div>
+      <div class="plate bad">
+        <h4>✕ Éviter</h4>
+        <ul>
+          <li><span class="mk">–</span><span>Le style clinique froid, hospitalier</span></li>
+          <li><span class="mk">–</span><span>Les interfaces surchargées et les blocs de texte</span></li>
+          <li><span class="mk">–</span><span>Les couleurs criardes, l'apparence discount</span></li>
+          <li><span class="mk">–</span><span>Les gradients multiples et l'excès d'animation</span></li>
+          <li><span class="mk">–</span><span>Le template Shopify générique</span></li>
+          <li><span class="mk">–</span><span>Toute allégation médicale non justifiée</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 03 PALETTE ============ -->
+<section id="palette">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">03</span>
+      <div><span class="eyebrow">La palette</span>
+        <h2 class="sec-title">Sauge, ivoire, sable &amp; laiton</h2>
+        <p class="sec-intro">Des neutres volontairement biaisés vers le vert — choisis, jamais par
+          défaut. Le laiton champagne n'apparaît qu'en touches : prix, filets, badges d'exception.</p>
+      </div>
+    </div>
+    <div class="swatches reveal">
+      <div class="sw"><div class="chip" style="background:#5A6B54"></div><div class="meta"><div class="role">Sauge · signature</div><div class="hex">#5A6B54</div></div></div>
+      <div class="sw"><div class="chip" style="background:#37432F"></div><div class="meta"><div class="role">Vert profond</div><div class="hex">#37432F</div></div></div>
+      <div class="sw"><div class="chip" style="background:#E5E9DD"></div><div class="meta"><div class="role">Voile sauge</div><div class="hex">#E5E9DD</div></div></div>
+      <div class="sw"><div class="chip" style="background:#F6F3EC"></div><div class="meta"><div class="role">Ivoire · fond</div><div class="hex">#F6F3EC</div></div></div>
+      <div class="sw"><div class="chip" style="background:#E4D8C4"></div><div class="meta"><div class="role">Sable nude</div><div class="hex">#E4D8C4</div></div></div>
+      <div class="sw"><div class="chip" style="background:#A98B5D"></div><div class="meta"><div class="role">Laiton champagne</div><div class="hex">#A98B5D</div></div></div>
+      <div class="sw"><div class="chip" style="background:#282B26"></div><div class="meta"><div class="role">Encre anthracite</div><div class="hex">#282B26</div></div></div>
+      <div class="sw"><div class="chip" style="background:#6C7167"></div><div class="meta"><div class="role">Texte secondaire</div><div class="hex">#6C7167</div></div></div>
+    </div>
+    <div class="sem reveal">
+      <span><i style="background:#4F7A55"></i>En stock / succès</span>
+      <span><i style="background:#B4863B"></i>Stock faible / alerte</span>
+      <span><i style="background:#B0503F"></i>Rupture / promo</span>
+      <span class="dim" style="border-style:dashed">Couleur sémantique ≠ accent de marque</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 04 TYPOGRAPHIE ============ -->
+<section id="type" class="alt">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">04</span>
+      <div><span class="eyebrow">La typographie</span>
+        <h2 class="sec-title">Fraunces × Hanken Grotesk</h2>
+        <p class="sec-intro">Un serif à caractère pour l'émotion et l'éditorial ; une grotesque
+          humaniste nette pour l'interface et le commerce ; un arabe élégant pour le RTL natif.</p>
+      </div>
+    </div>
+    <div class="type-grid">
+      <div class="tspec reveal">
+        <div class="lab"><span>Display · titres</span><span><b>Fraunces</b> · 300 / italic</span></div>
+        <div class="big">Votre routine, révélée.</div>
+        <div class="row2">Éclat, hydratation &amp; protection — au quotidien.</div>
+        <div class="scale">
+          <div><span class="tk">Display</span><span class="ex" style="font-size:2.4rem">Aa Bb Cc — La Para Rhazlaoui</span></div>
+          <div><span class="tk">H2</span><span class="ex" style="font-size:1.7rem">Trouvez les soins adaptés à votre peau</span></div>
+          <div><span class="tk">H3</span><span class="ex" style="font-size:1.25rem">Nos marques dermocosmétiques</span></div>
+        </div>
+      </div>
+      <div class="tspec body reveal">
+        <div class="lab"><span>Corps · interface</span><span><b>Hanken Grotesk</b> · 400–700</span></div>
+        <div class="big">Acheter par besoin, pas par hasard.</div>
+        <p>Nettoyer, traiter, hydrater, protéger : chaque produit trouve sa place dans une routine
+          claire. Les caractères restent lisibles à toutes les tailles, les chiffres s'alignent en colonnes,
+          et l'ensemble tient sur mobile comme sur desktop.</p>
+      </div>
+      <div class="tspec ar reveal">
+        <div class="lab"><span>Arabe · RTL natif</span><span><b>IBM Plex Sans Arabic</b></span></div>
+        <div class="big">جمالك. عافيتك. خبرتنا.</div>
+        <p>تجربة عربية أصيلة من اليمين إلى اليسار — وليست مجرد ترجمة مكسورة للنسخة الفرنسية.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 05 LOGO ============ -->
+<section id="logo">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">05</span>
+      <div><span class="eyebrow">Identité &amp; logo</span>
+        <h2 class="sec-title">Un logotype premium<br>&amp; son monogramme</h2>
+        <p class="sec-intro">Une signature typographique intemporelle — jamais la croix verte
+          bas de gamme. Déclinée en principal, horizontal, monogramme, favicon, clair et sombre.</p>
+      </div>
+    </div>
+    <div class="logos">
+      <div class="logo-cell">
+        <div class="tag">Logo principal</div>
+        <div class="lm lm-main">La <b>Para</b> <span class="g">Rhazlaoui</span></div>
+        <div class="lm-sub">Parapharmacie</div>
+      </div>
+      <div class="logo-cell dark">
+        <div class="tag">Version sombre</div>
+        <div class="lm lm-main">La <b>Para</b> <span class="g">Rhazlaoui</span></div>
+      </div>
+      <div class="logo-cell">
+        <div class="tag">Monogramme</div>
+        <div class="rowwrap" style="gap:16px">
+          <div class="mono ring">PR</div>
+          <div class="mono fill">LPR</div>
+        </div>
+      </div>
+      <div class="logo-cell">
+        <div class="tag">Favicon &amp; app</div>
+        <div class="rowwrap" style="gap:16px">
+          <div class="mono fill fav">PR</div>
+          <div class="mono ring fav" style="border-radius:14px">P</div>
+        </div>
+      </div>
+    </div>
+    <div class="logohint">
+      <div><b>Horizontal</b> — pour le header &amp; les factures</div>
+      <div><b>Monogramme PR / LPR</b> — avatars, tampon, fidélité</div>
+      <div><b>Zone de protection</b> — hauteur du « P » tout autour</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 06 SITEMAP ============ -->
+<section id="sitemap" class="alt">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">06</span>
+      <div><span class="eyebrow">Architecture</span>
+        <h2 class="sec-title">Le sitemap complet</h2>
+        <p class="sec-intro">Deux navigations d'égale importance : par catégorie <em>et</em> par besoin.
+          Autour, l'écosystème qui différencie la marque — routines, diagnostic, club, journal.</p>
+      </div>
+    </div>
+    <div class="tree reveal">
+      <div class="branch"><h4><span class="ix">A</span> Boutique</h4>
+        <ul><li><b>Visage</b></li><li><b>Corps</b></li><li><b>Cheveux</b></li><li>Solaires</li><li>Hygiène</li><li>Santé &amp; bien-être</li><li>Compléments</li><li>Bébé &amp; Maman</li><li>Homme</li><li>Bio &amp; Naturel</li></ul></div>
+      <div class="branch"><h4><span class="ix">B</span> Par besoin</h4>
+        <ul><li>Acné &amp; imperfections</li><li>Taches</li><li>Anti-âge</li><li>Rougeurs</li><li>Éclat · Pores</li><li>Chute de cheveux</li><li>Solaire · Grossesse</li><li>Sommeil · Stress</li><li>Immunité · Digestion</li></ul></div>
+      <div class="branch"><h4><span class="ix">C</span> Par type de peau</h4>
+        <ul><li>Sèche · Grasse</li><li>Mixte · Normale</li><li>Sensible · Mature</li><li>Atopique</li><li>À imperfections</li></ul></div>
+      <div class="branch"><h4><span class="ix">D</span> Marques</h4>
+        <ul><li>Index A–Z</li><li><b>Page marque</b></li><li>Best-sellers</li><li>Nouveautés</li><li>Routines de marque</li></ul></div>
+      <div class="branch"><h4><span class="ix">E</span> Écosystème</h4>
+        <ul><li><b>Trouver ma routine</b></li><li>Diagnostic beauté</li><li>Comparateur</li><li>Assistant Para</li><li>Club Rhazlaoui</li></ul></div>
+      <div class="branch"><h4><span class="ix">F</span> Le Journal</h4>
+        <ul><li>Beauté · Peau</li><li>Cheveux · Solaire</li><li>Maman &amp; Bébé</li><li>Nutrition · Bien-être</li><li>Guides produits</li></ul></div>
+      <div class="branch"><h4><span class="ix">G</span> Offres</h4>
+        <ul><li>Bons plans</li><li>Nouveautés</li><li>Best-sellers</li><li>Ventes flash · Packs</li></ul></div>
+      <div class="branch"><h4><span class="ix">H</span> Compte</h4>
+        <ul><li>Commandes · Suivi</li><li>Favoris · Adresses</li><li>Fidélité · Retours</li><li>Paramètres</li></ul></div>
+      <div class="branch"><h4><span class="ix">I</span> Aide &amp; légal</h4>
+        <ul><li>FAQ · Contact</li><li>Livraison · Retours</li><li>Paiements</li><li>CGV · Confidentialité</li><li>Cookies · Mentions</li></ul></div>
+      <div class="branch"><h4><span class="ix">J</span> Tunnel</h4>
+        <ul><li>Panier latéral</li><li>Checkout invité</li><li>Livraison · Paiement</li><li>Confirmation</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 07 HOMEPAGE ============ -->
+<section id="home">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">07</span>
+      <div><span class="eyebrow">La page d'accueil</span>
+        <h2 class="sec-title">Aperçu de la homepage</h2>
+        <p class="sec-intro">Maquette de démonstration avec les tokens réels : header, hero éditorial,
+          barre de réassurance, et « acheter par besoin ». Contenu d'exemple — les données réelles
+          viendront du back-office.</p>
+      </div>
+    </div>
+    <div class="mock reveal">
+      <div class="m-top">Livraison au Maroc · Produits authentiques · Paiement sécurisé · Conseils &amp; WhatsApp</div>
+      <div class="m-nav">
+        <div class="lm lm-main">La <b>Para</b> <span class="g">Rhazlaoui</span></div>
+        <div class="m-search">Que recherchez-vous ? Produit, marque, besoin…</div>
+        <div class="m-icons"><span>Compte</span><span>♡ Favoris</span><span>Panier · 2</span></div>
+      </div>
+      <div class="m-cats"><span>Visage</span><span>Corps</span><span>Cheveux</span><span>Solaires</span><span>Compléments</span><span>Bébé &amp; Maman</span><span>Bio</span><span>Marques</span><span>Promotions</span><span>Conseils</span></div>
+      <div class="m-hero">
+        <div class="eyebrow">Rituel dermocosmétique</div>
+        <h3>Votre beauté. Votre bien-être. <em>Notre expertise.</em></h3>
+        <p>Des soins choisis avec soin, une routine faite pour votre peau — livrés partout au Maroc.</p>
+        <div class="m-cta">
+          <button class="btn btn-pri">Découvrir nos soins</button>
+          <button class="btn btn-sec">Trouver ma routine</button>
+        </div>
+      </div>
+      <div class="reassure">
+        <span><span class="ck">✓</span> Produits 100 % authentiques</span>
+        <span><span class="ck">✓</span> Paiement sécurisé</span>
+        <span><span class="ck">✓</span> Livraison partout au Maroc</span>
+        <span><span class="ck">✓</span> Service client à l'écoute</span>
+        <span><span class="ck">✓</span> Conseils personnalisés</span>
+      </div>
+      <div class="m-sec">
+        <span class="eyebrow">Acheter par besoin</span>
+        <h4>Quel est votre besoin ?</h4>
+        <div class="concerns">
+          <div class="concern"><div class="ic">✺</div><div class="nm">Acné</div><div class="ct">& imperfections</div></div>
+          <div class="concern"><div class="ic">☀</div><div class="nm">Taches</div><div class="ct">pigmentaires</div></div>
+          <div class="concern"><div class="ic">✦</div><div class="nm">Anti-âge</div><div class="ct">rides & fermeté</div></div>
+          <div class="concern"><div class="ic">❁</div><div class="nm">Éclat</div><div class="ct">teint terne</div></div>
+          <div class="concern"><div class="ic">≋</div><div class="nm">Hydratation</div><div class="ct">peau sèche</div></div>
+          <div class="concern"><div class="ic">✿</div><div class="nm">Sensibilité</div><div class="ct">rougeurs</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 08 DESIGN SYSTEM ============ -->
+<section id="ds" class="alt">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">08</span>
+      <div><span class="eyebrow">Le design system</span>
+        <h2 class="sec-title">Des composants vivants</h2>
+        <p class="sec-intro">Chaque brique est réutilisable et déclinée sur les deux thèmes. Voici les
+          plus structurants — la carte produit, les boutons, badges, filtres, avis, prix et panier.</p>
+      </div>
+    </div>
+    <div class="ds-grid">
+
+      <div class="ds-card reveal" style="grid-row:span 2">
+        <span class="eyebrow">Carte produit</span>
+        <div class="pcard">
+          <div class="ph">
+            <div class="badges"><span class="badge b-best">Best-seller</span><span class="badge b-sens">Peau sensible</span></div>
+            <div class="fav">♡</div>
+            <div class="bottle"></div>
+          </div>
+          <div class="body">
+            <div class="brand">Exemple · dermocosmétique</div>
+            <div class="nm">Sérum Éclat Niacinamide</div>
+            <div class="ben">Unifie le teint · 30 ml</div>
+            <div class="rr"><span class="stars">★★★★<span class="off">★</span></span> 4,6 · 128 avis</div>
+            <div class="foot">
+              <div class="price"><span class="now">189 DH</span><span class="old">239 DH</span></div>
+              <button class="add" aria-label="Ajouter au panier">+</button>
+            </div>
+            <div class="stk"><i></i> En stock</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ds-card reveal">
+        <span class="eyebrow">Boutons</span>
+        <div class="stack">
+          <div class="rowwrap"><button class="btn btn-pri">Ajouter au panier</button><button class="btn btn-sec">Trouver ma routine</button></div>
+          <div class="rowwrap"><button class="btn btn-brass btn-sm">Choix expert</button><button class="btn btn-ghost btn-sm">Comparer</button><button class="btn btn-ghost btn-sm">♡ Favori</button></div>
+        </div>
+      </div>
+
+      <div class="ds-card reveal">
+        <span class="eyebrow">Badges</span>
+        <div class="rowwrap">
+          <span class="badge b-best">Best-seller</span>
+          <span class="badge b-new">Nouveau</span>
+          <span class="badge b-soft">Prix doux</span>
+          <span class="badge b-promo">−20 %</span>
+          <span class="badge b-sens">Peau sensible</span>
+          <span class="badge b-expert">Choix expert</span>
+        </div>
+      </div>
+
+      <div class="ds-card reveal">
+        <span class="eyebrow">Filtres rapides</span>
+        <div class="chips">
+          <span class="chip-f on">Peau grasse</span>
+          <span class="chip-f">Acné</span>
+          <span class="chip-f on">Sérum</span>
+          <span class="chip-f">−20 % &amp; +</span>
+          <span class="chip-f">Bio</span>
+          <span class="chip-f">Note 4★+</span>
+        </div>
+      </div>
+
+      <div class="ds-card reveal">
+        <span class="eyebrow">Champ &amp; prix</span>
+        <div class="stack">
+          <div class="field"><label for="e">Adresse e-mail</label><input id="e" type="email" placeholder="vous@exemple.ma"><div class="hint">Pour le suivi de commande &amp; les conseils.</div></div>
+          <div class="price"><span class="now">149 DH</span><span class="old">199 DH</span><span class="off">−25 %</span></div>
+        </div>
+      </div>
+
+      <div class="ds-card reveal">
+        <span class="eyebrow">Accordéon fiche produit</span>
+        <div class="acc">
+          <details open><summary>Ingrédients clés <span class="pl">+</span></summary><div class="ac-body">Niacinamide, acide hyaluronique — présentés visuellement avec leur rôle.</div></details>
+          <details><summary>Comment l'utiliser <span class="pl">+</span></summary><div class="ac-body">Matin &amp; soir, sur peau propre, avant l'hydratant.</div></details>
+          <details><summary>Composition (INCI) <span class="pl">+</span></summary><div class="ac-body">Liste complète repliée par défaut pour ne pas alourdir.</div></details>
+        </div>
+      </div>
+
+      <div class="ds-card reveal">
+        <span class="eyebrow">Panier · livraison offerte</span>
+        <div class="cartprog">
+          <div class="lbl"><span>Encore <b>73 DH</b> pour la livraison offerte</span><span>320 / 393 DH</span></div>
+          <div class="track"><i></i></div>
+        </div>
+        <div class="rowwrap" style="margin-top:18px"><button class="btn btn-pri btn-sm">Commander</button><button class="btn btn-ghost btn-sm">Continuer mes achats</button></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ ROADMAP ============ -->
+<section id="roadmap">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">→</span>
+      <div><span class="eyebrow">La suite</span>
+        <h2 class="sec-title">De la présentation<br>à la plateforme</h2>
+        <p class="sec-intro">Nous sommes aux phases 1–2. Voici le chemin jusqu'à la mise en ligne —
+          chaque phase validée avant de passer à la suivante.</p>
+      </div>
+    </div>
+    <div class="phases reveal">
+      <div class="phase now"><div class="pn">1·2</div><h4>Stratégie &amp; Identité</h4><p>Concept, DA, palette, typo, logo, design system. ← vous êtes ici.</p></div>
+      <div class="phase"><div class="pn">3</div><h4>UX</h4><p>Sitemap détaillé &amp; parcours clients.</p></div>
+      <div class="phase"><div class="pn">4</div><h4>Wireframes</h4><p>Les pages clés, structure avant style.</p></div>
+      <div class="phase"><div class="pn">5</div><h4>UI premium</h4><p>Maquettes finales desktop + mobile.</p></div>
+      <div class="phase"><div class="pn">6</div><h4>Database</h4><p>Modèle de données complet &amp; scalable.</p></div>
+      <div class="phase"><div class="pn">7</div><h4>Développement</h4><p>Frontend, API, back-office.</p></div>
+      <div class="phase"><div class="pn">8</div><h4>Tests</h4><p>Panier, paiement, recherche, langues, sécurité.</p></div>
+      <div class="phase"><div class="pn">9</div><h4>Optimisation</h4><p>SEO, performance, accessibilité, conversion.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <div class="lm lm-main">La <b>Para</b> <span class="g" style="color:#B9C6AC">Rhazlaoui</span></div>
+      <div class="lm-sub" style="color:#9DB18C">Parapharmacie digitale · Maroc</div>
+      <p>Confiance · Expertise · Beauté · Élégance · Santé · Authenticité · Modernité.</p>
+    </div>
+    <div class="note">Présentation de marque — contenus &amp; produits d'exemple.<br>Toutes les données commerciales viendront du back-office.</div>
+  </div>
+</footer>
+
+<script>
+// Theme toggle (respects host stamping; lets viewer flip within the artifact)
+(function(){
+  var root=document.documentElement, btn=document.getElementById('tg'), lab=document.getElementById('tglab');
+  function sync(){
+    var dark = root.getAttribute('data-theme')==='dark' ||
+      (!root.getAttribute('data-theme') && matchMedia('(prefers-color-scheme:dark)').matches);
+    lab.textContent = dark ? 'Clair' : 'Sombre';
+  }
+  btn.addEventListener('click',function(){
+    var cur=root.getAttribute('data-theme');
+    var dark = cur==='dark' || (!cur && matchMedia('(prefers-color-scheme:dark)').matches);
+    root.setAttribute('data-theme', dark?'light':'dark'); sync();
+  });
+  matchMedia('(prefers-color-scheme:dark)').addEventListener('change',sync);
+  sync();
+})();
+// Scroll reveal
+(function(){
+  var els=[].slice.call(document.querySelectorAll('.reveal'));
+  if(!('IntersectionObserver' in window)||matchMedia('(prefers-reduced-motion:reduce)').matches){
+    els.forEach(function(e){e.classList.add('in')}); return;
+  }
+  var io=new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{threshold:.12});
+  els.forEach(function(e){io.observe(e)});
+})();
+</script>
