@@ -27,94 +27,92 @@ const MESURES: DefMesure[] = [
   { cle: "longueurRobe", label: "Longueur de robe", instruction: "De l'épaule jusqu'au bas souhaité de la robe.", obligatoire: true },
 ];
 
-/* --- Schéma de mesures : silhouette féminine + repère de la mesure active --- */
+/* --- Schéma de mesures : reproduction d'un schéma standard (silhouette + lettres a–g) --- */
 
-const OR = "#B9975B"; // doré (repères faibles)
-const BX = "#7A2E33"; // bordeaux (repère actif)
+const CORPS = "#C9B8D6";
+const CONTOUR = "#A992BE";
+const ROUGE = "#E23B32";
+const VERT = "#35A835";
+const ACTIF = "#7A2E33";
 
-// Silhouette (viewBox 200x380) construite à partir d'un profil symétrique.
-const SILHOUETTE =
-  "M91,56 C74,58 60,66 58,76 C52,92 52,104 54,112 C56,128 52,148 66,168 " +
-  "C60,182 58,196 56,208 C52,232 60,250 62,270 C66,308 68,336 76,362 " +
-  "L90,362 C92,340 96,312 100,300 C104,312 108,340 110,362 L124,362 " +
-  "C132,336 134,308 138,270 C140,250 148,232 144,208 C142,196 140,182 134,168 " +
-  "C148,148 144,128 146,112 C148,104 148,92 142,76 C140,66 126,58 109,56 Z";
+// Silhouette féminine de face, bras écartés, jambes jointes (viewBox 200x320).
+const TORSO =
+  "M82,46 L70,62 C58,92 64,112 80,126 C74,136 70,146 72,156 L78,306 L96,306 " +
+  "L99,238 L101,238 L104,306 L122,306 L128,156 C130,146 126,136 120,126 " +
+  "C136,112 142,92 130,62 L118,46 Z";
+const BRAS_G = "M70,64 L47,150 L58,153 L82,94 Z";
+const BRAS_D = "M130,64 L153,150 L142,153 L118,94 Z";
 
-type Guide =
-  | { t: "h"; y: number; x1: number; x2: number; lettre?: string }
-  | { t: "v"; x: number; y1: number; y2: number; lettre?: string }
-  | { t: "l"; x1: number; y1: number; x2: number; y2: number; lettre?: string };
-
-const GUIDES: Partial<Record<keyof Mesures, Guide>> = {
-  epaules: { t: "h", y: 78, x1: 56, x2: 144, lettre: "a" },
-  poitrine: { t: "h", y: 112, x1: 52, x2: 148, lettre: "d" },
-  sousPoitrine: { t: "h", y: 138, x1: 60, x2: 140 },
-  taille: { t: "h", y: 166, x1: 66, x2: 134, lettre: "e" },
-  hanches: { t: "h", y: 206, x1: 54, x2: 146, lettre: "f" },
-  tailleTotale: { t: "v", x: 100, y1: 20, y2: 364, lettre: "g" },
-  longueurRobe: { t: "v", x: 162, y1: 78, y2: 300, lettre: "b" },
-  longueurManche: { t: "l", x1: 150, y1: 84, x2: 158, y2: 196, lettre: "c" },
-  tourBras: { t: "h", y: 120, x1: 150, x2: 172 },
-  tourPoignet: { t: "h", y: 196, x1: 150, x2: 170 },
+// Chaque mesure surligne une lettre du schéma.
+const LETTRE: Partial<Record<keyof Mesures, string>> = {
+  epaules: "a",
+  poitrine: "d",
+  sousPoitrine: "d",
+  taille: "e",
+  hanches: "f",
+  tailleTotale: "g",
+  longueurRobe: "b",
+  longueurManche: "b",
 };
 
-// Repères toujours visibles (faibles), comme sur un schéma de couture pro.
-const FIXES: (keyof Mesures)[] = ["epaules", "poitrine", "taille", "hanches", "tailleTotale"];
-
-function ligne(g: Guide, actif: boolean) {
-  const col = actif ? BX : OR;
-  const w = actif ? 2.4 : 1.2;
-  const op = actif ? 1 : 0.4;
-  const marker = actif ? "url(#aB)" : "url(#aO)";
-  const common = { stroke: col, strokeWidth: w, opacity: op, markerStart: marker, markerEnd: marker };
-  let el: JSX.Element;
-  let lx = 0, ly = 0;
-  if (g.t === "h") {
-    el = <line x1={g.x1} y1={g.y} x2={g.x2} y2={g.y} {...common} />;
-    lx = (g.x1 + g.x2) / 2; ly = g.y - 6;
-  } else if (g.t === "v") {
-    el = <line x1={g.x} y1={g.y1} x2={g.x} y2={g.y2} {...common} />;
-    lx = g.x + 8; ly = (g.y1 + g.y2) / 2;
-  } else {
-    el = <line x1={g.x1} y1={g.y1} x2={g.x2} y2={g.y2} {...common} />;
-    lx = (g.x1 + g.x2) / 2 + 8; ly = (g.y1 + g.y2) / 2;
-  }
-  return (
-    <g key={`${g.t}-${g.lettre ?? Math.round(lx)}-${Math.round(ly)}`}>
-      {el}
-      {g.lettre && (
-        <text x={lx} y={ly} fontSize="13" fontWeight="700" fill={col} opacity={op} textAnchor="middle">
-          {g.lettre}
-        </text>
-      )}
-    </g>
-  );
-}
-
 function Schema({ cle }: { cle: keyof Mesures }) {
-  const actif = GUIDES[cle];
-  const fixes = FIXES.filter((k) => k !== cle);
+  const act = LETTRE[cle];
+  const on = (id: string) => act === id;
+  const w = (id: string) => (on(id) ? 3 : 1.6);
+  const col = (id: string, base: string) => (on(id) ? ACTIF : base);
+  const lab = (id: string, base: string) => (on(id) ? ACTIF : base);
+  const fw = (id: string) => (on(id) ? 800 : 700);
+
   return (
-    <svg viewBox="0 0 200 384" className="mx-auto h-48 w-auto" role="img" aria-label="Schéma de mesure">
+    <svg viewBox="0 0 200 320" className="mx-auto h-52 w-auto" role="img" aria-label="Schéma de mesure">
       <defs>
-        <marker id="aO" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
-          <path d="M1,1 L7,4 L1,7 Z" fill={OR} />
+        <marker id="rA" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto">
+          <path d="M1,1 L6,3.5 L1,6 Z" fill={ROUGE} />
         </marker>
-        <marker id="aB" markerWidth="9" markerHeight="9" refX="4.5" refY="4.5" orient="auto">
-          <path d="M1,1 L8,4.5 L1,8 Z" fill={BX} />
+        <marker id="vA" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto">
+          <path d="M1,1 L6,3.5 L1,6 Z" fill={VERT} />
+        </marker>
+        <marker id="bA" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto">
+          <path d="M1,1 L6,3.5 L1,6 Z" fill={ACTIF} />
         </marker>
       </defs>
+
       {/* corps */}
-      <circle cx="100" cy="36" r="17" fill="#F3ECE1" stroke={OR} strokeWidth="1.5" />
-      <path d="M92,52 L108,52 L106,62 L94,62 Z" fill="#F3ECE1" stroke={OR} strokeWidth="1.5" />
-      <path d={SILHOUETTE} fill="#F3ECE1" stroke={OR} strokeWidth="1.5" />
-      {/* bras (repères de manche/bras) */}
-      <path d="M58,80 C44,110 44,150 52,196" fill="none" stroke={OR} strokeWidth="1.5" opacity="0.7" />
-      <path d="M142,80 C156,110 156,150 148,196" fill="none" stroke={OR} strokeWidth="1.5" opacity="0.7" />
-      {/* repères fixes (faibles) */}
-      {fixes.map((k) => (GUIDES[k] ? ligne(GUIDES[k] as Guide, false) : null))}
-      {/* repère actif (bordeaux) */}
-      {actif && ligne(actif, true)}
+      <path d={BRAS_G} fill={CORPS} stroke={CONTOUR} strokeWidth="1" />
+      <path d={BRAS_D} fill={CORPS} stroke={CONTOUR} strokeWidth="1" />
+      <path d="M92,34 L108,34 L106,48 L94,48 Z" fill={CORPS} stroke={CONTOUR} strokeWidth="1" />
+      <path d={TORSO} fill={CORPS} stroke={CONTOUR} strokeWidth="1" />
+      <circle cx="100" cy="24" r="14" fill={CORPS} stroke={CONTOUR} strokeWidth="1" />
+
+      {(() => {
+        const mk = (id: string) => (on(id) ? "url(#bA)" : id === "b" || id === "c" || id === "d" ? "url(#vA)" : "url(#rA)");
+        return (
+          <>
+            {/* a — épaules (rouge) + étoile verte */}
+            <line x1="66" y1="60" x2="134" y2="60" stroke={col("a", ROUGE)} strokeWidth={w("a")} markerStart={mk("a")} markerEnd={mk("a")} />
+            <text x="100" y="52" fontSize="12" fontWeight={fw("a")} fill={lab("a", ROUGE)} textAnchor="middle">a</text>
+            <text x="142" y="54" fontSize="12" fill={VERT} textAnchor="middle">✳</text>
+            {/* c — encolure (vert) */}
+            <line x1="100" y1="42" x2="100" y2="59" stroke={col("c", VERT)} strokeWidth={w("c")} markerStart={mk("c")} markerEnd={mk("c")} />
+            <text x="112" y="50" fontSize="12" fill={VERT} fontWeight="700" textAnchor="middle">c</text>
+            {/* d — poitrine (vert) */}
+            <line x1="76" y1="86" x2="124" y2="86" stroke={col("d", VERT)} strokeWidth={w("d")} markerStart={mk("d")} markerEnd={mk("d")} />
+            <text x="66" y="90" fontSize="12" fontWeight={fw("d")} fill={lab("d", VERT)} textAnchor="middle">d</text>
+            {/* e — taille (rouge) */}
+            <line x1="80" y1="122" x2="120" y2="122" stroke={col("e", ROUGE)} strokeWidth={w("e")} markerStart={mk("e")} markerEnd={mk("e")} />
+            <text x="70" y="126" fontSize="12" fontWeight={fw("e")} fill={lab("e", ROUGE)} textAnchor="middle">e</text>
+            {/* f — hanches (rouge) */}
+            <line x1="72" y1="154" x2="128" y2="154" stroke={col("f", ROUGE)} strokeWidth={w("f")} markerStart={mk("f")} markerEnd={mk("f")} />
+            <text x="62" y="158" fontSize="12" fontWeight={fw("f")} fill={lab("f", ROUGE)} textAnchor="middle">f</text>
+            {/* b — longueur de côté (vert) */}
+            <line x1="150" y1="64" x2="150" y2="156" stroke={col("b", VERT)} strokeWidth={w("b")} markerStart={mk("b")} markerEnd={mk("b")} />
+            <text x="162" y="112" fontSize="12" fontWeight={fw("b")} fill={lab("b", VERT)} textAnchor="middle">b</text>
+            {/* g — hauteur totale (rouge) */}
+            <line x1="100" y1="60" x2="100" y2="306" stroke={col("g", ROUGE)} strokeWidth={w("g")} markerStart={mk("g")} markerEnd={mk("g")} />
+            <text x="109" y="240" fontSize="12" fontWeight={fw("g")} fill={lab("g", ROUGE)} textAnchor="middle">g</text>
+          </>
+        );
+      })()}
     </svg>
   );
 }
