@@ -37,20 +37,60 @@ const MESURES: DefMesure[] = [
   { cle: "longueurRobe", label: "Longueur de robe", instruction: "De l'épaule jusqu'au bas souhaité de la robe.", obligatoire: true, horizontal: false, depart: "Sommet de l'épaule, près du cou", arrivee: "Bas souhaité de la robe", trace: "M63 24 L63 92", a: [63,24], b: [63,92], departCourt: "Épaule près du cou", arriveeCourt: "Bas souhaité" },
 ];
 
+/* Zone du schéma à mettre en avant selon la mesure (en % de la hauteur de
+   l'image guide-mesures.png). `haut` = début de la bande, `bas` = fin. */
+const ZONE: Partial<Record<keyof Mesures, { haut: number; bas: number }>> = {
+  epaules: { haut: 14, bas: 22 },
+  poitrine: { haut: 22, bas: 32 },
+  sousPoitrine: { haut: 28, bas: 37 },
+  taille: { haut: 31, bas: 41 },
+  hanches: { haut: 39, bas: 50 },
+  longueurManche: { haut: 16, bas: 55 },
+  tourBras: { haut: 22, bas: 40 },
+  tourPoignet: { haut: 45, bas: 56 },
+  longueurRobe: { haut: 16, bas: 96 },
+  tailleTotale: { haut: 0, bas: 100 },
+};
+
 function GuidePhoto({ mesure }: { mesure: DefMesure }) {
+  const z = ZONE[mesure.cle];
   return (
-    <figure className="mx-auto w-full max-w-[280px]">
-      <div className="rounded-lg border border-encre/15 bg-white p-4 shadow-[0_12px_35px_rgba(43,35,32,0.08)]">
-        <Image
-          src="/products/guide-mesures-reference.png"
-          alt={`Guide de prise de mesure : ${mesure.label}`}
-          width={126}
-          height={251}
-          className="mx-auto h-auto w-full object-contain [image-rendering:auto]"
-          priority
-        />
+    <figure className="mx-auto w-full max-w-[260px]">
+      <div className="relative overflow-hidden rounded-lg border border-encre/15 bg-white p-3 shadow-[0_12px_35px_rgba(43,35,32,0.08)]">
+        <div className="relative">
+          <Image
+            src="/products/guide-mesures.png"
+            alt={`Guide de prise de mesure : ${mesure.label}`}
+            width={900}
+            height={1747}
+            className="mx-auto h-auto w-full object-contain"
+            priority
+          />
+          {/* Voile sur les zones hors mesure + bande claire sur la zone visée */}
+          {z && (
+            <>
+              <div
+                className="pointer-events-none absolute inset-x-0 top-0 bg-creme/70"
+                style={{ height: `${z.haut}%` }}
+                aria-hidden
+              />
+              <div
+                className="pointer-events-none absolute inset-x-0 bottom-0 bg-creme/70"
+                style={{ height: `${100 - z.bas}%` }}
+                aria-hidden
+              />
+              <div
+                className="pointer-events-none absolute inset-x-0 rounded-sm ring-2 ring-bordeaux/60"
+                style={{ top: `${z.haut}%`, height: `${z.bas - z.haut}%` }}
+                aria-hidden
+              />
+            </>
+          )}
+        </div>
       </div>
-      <figcaption className="mt-2 text-center text-xs font-semibold text-bordeaux">{mesure.label}</figcaption>
+      <figcaption className="mt-2 text-center text-xs font-semibold text-bordeaux">
+        {mesure.label}
+      </figcaption>
     </figure>
   );
 }
