@@ -2,6 +2,15 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Règle mémoire de l'utilisateur (tous projets)
+À CHAQUE création/évolution de projet demandée par l'utilisateur :
+1. Faire une **vraie recherche web** (jamais superficielle, jamais une seule source ni une seule référence IA).
+2. **Comparer plusieurs solutions/concurrents** et en tirer les meilleures pratiques.
+3. **Proposer des améliorations** au-delà du minimum demandé (fonctionnalités, UX, design, performance).
+4. Rester **honnête et factuel** : « inventer mieux » = de meilleures solutions, JAMAIS de faux faits, faux avis ou fausses données.
+5. Si le réseau est bloqué, le **dire** et continuer avec mes meilleures connaissances (ne pas prétendre avoir cherché).
+Répondre en **français** par défaut.
+
 ## Project
 
 Static marketing website for **Pharmacie Rhazlaoui** (a pharmacy/parapharmacy in Khouribga, Morocco). Single-page site in French — no build step, no framework, no package manager. Plain HTML + CSS + vanilla JS, deployed on **Netlify** (`publish = "."`). The content owner is non-technical; see `GUIDE.md` for the end-user editing instructions (French).
