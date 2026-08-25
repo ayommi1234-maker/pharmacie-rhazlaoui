@@ -13,11 +13,11 @@ export const FPS = 30;
  * vous détenez les droits.
  */
 const PHOTOS: string[] = [
-  "robe-1.png",  // scène 1 — l'accroche
-  "modele.png",  // scène 2 — choisir son modèle
-  "mesures.png", // scène 3 — prendre ses mesures
+  "robe-1.jpg",  // scène 1 — l'accroche
+  "modele.jpg",  // scène 2 — choisir son modèle
+  "mesures.jpg", // scène 3 — prendre ses mesures
   "",            // scène 4 — envoi WhatsApp (fond dégradé)
-  "robe-1.png",  // scène 5 — la robe finale
+  "robe-1.jpg",  // scène 5 — la robe finale
 ];
 
 // Durées des scènes (frames @30fps)
