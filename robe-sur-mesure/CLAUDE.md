@@ -9,6 +9,7 @@ Guidance pour Claude Code sur ce sous-projet.
 3. **Proposer des améliorations** au-delà du minimum demandé (fonctionnalités, UX, design, performance).
 4. Rester **honnête et factuel** : « inventer mieux » = de meilleures solutions, JAMAIS de faux faits, faux avis ou fausses données.
 5. Si le réseau est bloqué, le **dire** et continuer avec mes meilleures connaissances.
+6. **Suivi & continuité** : garder le contexte des discussions, faire le point régulièrement, reprendre là où on s'est arrêté — ne pas repartir de zéro ni oublier les décisions prises.
 Répondre en **français** par défaut ; prévoir l'arabe (+ RTL) pour les projets destinés au Maroc.
 
 ## Projet
