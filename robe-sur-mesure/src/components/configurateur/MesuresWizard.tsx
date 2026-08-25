@@ -12,38 +12,109 @@ interface DefMesure {
   label: string;
   instruction: string;
   obligatoire: boolean;
-  zone: number; // 0..1 hauteur du corps pour le schéma
-  horizontal: boolean; // bande horizontale (tour) ou ligne verticale (longueur)
 }
 
 const MESURES: DefMesure[] = [
-  { cle: "tailleTotale", label: "Taille totale", instruction: "Debout, du sommet de la tête jusqu'au sol.", obligatoire: true, zone: 0.5, horizontal: false },
-  { cle: "poitrine", label: "Tour de poitrine", instruction: "Autour de la partie la plus forte de la poitrine.", obligatoire: true, zone: 0.28, horizontal: true },
-  { cle: "sousPoitrine", label: "Tour sous-poitrine", instruction: "Juste sous la poitrine (facultatif).", obligatoire: false, zone: 0.34, horizontal: true },
-  { cle: "taille", label: "Tour de taille", instruction: "À l'endroit le plus étroit du buste.", obligatoire: true, zone: 0.42, horizontal: true },
-  { cle: "hanches", label: "Tour de hanches", instruction: "Autour de la partie la plus forte des hanches.", obligatoire: true, zone: 0.55, horizontal: true },
-  { cle: "epaules", label: "Largeur des épaules", instruction: "D'une épaule à l'autre, dans le dos.", obligatoire: true, zone: 0.2, horizontal: true },
-  { cle: "longueurManche", label: "Longueur de manche", instruction: "De l'épaule jusqu'au poignet, bras légèrement plié.", obligatoire: true, zone: 0.4, horizontal: false },
-  { cle: "tourBras", label: "Tour de bras", instruction: "Autour de la partie la plus forte du bras (facultatif).", obligatoire: false, zone: 0.3, horizontal: true },
-  { cle: "tourPoignet", label: "Tour de poignet", instruction: "Autour du poignet (facultatif).", obligatoire: false, zone: 0.5, horizontal: true },
-  { cle: "longueurRobe", label: "Longueur de robe", instruction: "De l'épaule jusqu'au bas souhaité de la robe.", obligatoire: true, zone: 0.7, horizontal: false },
+  { cle: "tailleTotale", label: "Taille totale", instruction: "Debout, du sommet de la tête jusqu'au sol.", obligatoire: true },
+  { cle: "epaules", label: "Largeur des épaules", instruction: "D'une épaule à l'autre, dans le dos.", obligatoire: true },
+  { cle: "poitrine", label: "Tour de poitrine", instruction: "Autour de la partie la plus forte de la poitrine.", obligatoire: true },
+  { cle: "sousPoitrine", label: "Tour sous-poitrine", instruction: "Juste sous la poitrine (facultatif).", obligatoire: false },
+  { cle: "taille", label: "Tour de taille", instruction: "À l'endroit le plus étroit du buste.", obligatoire: true },
+  { cle: "hanches", label: "Tour de hanches", instruction: "Autour de la partie la plus forte des hanches.", obligatoire: true },
+  { cle: "longueurManche", label: "Longueur de manche", instruction: "De l'épaule jusqu'au poignet, bras légèrement plié.", obligatoire: true },
+  { cle: "tourBras", label: "Tour de bras", instruction: "Autour de la partie la plus forte du bras (facultatif).", obligatoire: false },
+  { cle: "tourPoignet", label: "Tour de poignet", instruction: "Autour du poignet (facultatif).", obligatoire: false },
+  { cle: "longueurRobe", label: "Longueur de robe", instruction: "De l'épaule jusqu'au bas souhaité de la robe.", obligatoire: true },
 ];
 
-function Schema({ zone, horizontal }: { zone: number; horizontal: boolean }) {
-  const y = 20 + zone * 200;
+/* --- Schéma de mesures : silhouette féminine + repère de la mesure active --- */
+
+const OR = "#B9975B"; // doré (repères faibles)
+const BX = "#7A2E33"; // bordeaux (repère actif)
+
+// Silhouette (viewBox 200x380) construite à partir d'un profil symétrique.
+const SILHOUETTE =
+  "M91,56 C74,58 60,66 58,76 C52,92 52,104 54,112 C56,128 52,148 66,168 " +
+  "C60,182 58,196 56,208 C52,232 60,250 62,270 C66,308 68,336 76,362 " +
+  "L90,362 C92,340 96,312 100,300 C104,312 108,340 110,362 L124,362 " +
+  "C132,336 134,308 138,270 C140,250 148,232 144,208 C142,196 140,182 134,168 " +
+  "C148,148 144,128 146,112 C148,104 148,92 142,76 C140,66 126,58 109,56 Z";
+
+type Guide =
+  | { t: "h"; y: number; x1: number; x2: number; lettre?: string }
+  | { t: "v"; x: number; y1: number; y2: number; lettre?: string }
+  | { t: "l"; x1: number; y1: number; x2: number; y2: number; lettre?: string };
+
+const GUIDES: Partial<Record<keyof Mesures, Guide>> = {
+  epaules: { t: "h", y: 78, x1: 56, x2: 144, lettre: "a" },
+  poitrine: { t: "h", y: 112, x1: 52, x2: 148, lettre: "d" },
+  sousPoitrine: { t: "h", y: 138, x1: 60, x2: 140 },
+  taille: { t: "h", y: 166, x1: 66, x2: 134, lettre: "e" },
+  hanches: { t: "h", y: 206, x1: 54, x2: 146, lettre: "f" },
+  tailleTotale: { t: "v", x: 100, y1: 20, y2: 364, lettre: "g" },
+  longueurRobe: { t: "v", x: 162, y1: 78, y2: 300, lettre: "b" },
+  longueurManche: { t: "l", x1: 150, y1: 84, x2: 158, y2: 196, lettre: "c" },
+  tourBras: { t: "h", y: 120, x1: 150, x2: 172 },
+  tourPoignet: { t: "h", y: 196, x1: 150, x2: 170 },
+};
+
+// Repères toujours visibles (faibles), comme sur un schéma de couture pro.
+const FIXES: (keyof Mesures)[] = ["epaules", "poitrine", "taille", "hanches", "tailleTotale"];
+
+function ligne(g: Guide, actif: boolean) {
+  const col = actif ? BX : OR;
+  const w = actif ? 2.4 : 1.2;
+  const op = actif ? 1 : 0.4;
+  const marker = actif ? "url(#aB)" : "url(#aO)";
+  const common = { stroke: col, strokeWidth: w, opacity: op, markerStart: marker, markerEnd: marker };
+  let el: JSX.Element;
+  let lx = 0, ly = 0;
+  if (g.t === "h") {
+    el = <line x1={g.x1} y1={g.y} x2={g.x2} y2={g.y} {...common} />;
+    lx = (g.x1 + g.x2) / 2; ly = g.y - 6;
+  } else if (g.t === "v") {
+    el = <line x1={g.x} y1={g.y1} x2={g.x} y2={g.y2} {...common} />;
+    lx = g.x + 8; ly = (g.y1 + g.y2) / 2;
+  } else {
+    el = <line x1={g.x1} y1={g.y1} x2={g.x2} y2={g.y2} {...common} />;
+    lx = (g.x1 + g.x2) / 2 + 8; ly = (g.y1 + g.y2) / 2;
+  }
   return (
-    <svg viewBox="0 0 160 260" className="mx-auto h-40 w-auto" role="img" aria-label="Schéma de mesure">
-      <g fill="none" stroke="#B9975B" strokeWidth="2">
-        <circle cx="80" cy="24" r="14" />
-        <path d="M80 38 L52 66 L60 78 L60 150 Q80 162 100 150 L100 78 L108 66 Z" />
-        <path d="M60 78 L40 150 M100 78 L120 150" />
-        <path d="M62 150 L58 235 M98 150 L102 235" />
-      </g>
-      {horizontal ? (
-        <line x1="30" y1={y} x2="130" y2={y} stroke="#7A2E33" strokeWidth="3" strokeDasharray="5 4" />
-      ) : (
-        <line x1="80" y1="20" x2="80" y2={20 + zone * 210} stroke="#7A2E33" strokeWidth="3" strokeDasharray="5 4" />
+    <g key={`${g.t}-${g.lettre ?? Math.round(lx)}-${Math.round(ly)}`}>
+      {el}
+      {g.lettre && (
+        <text x={lx} y={ly} fontSize="13" fontWeight="700" fill={col} opacity={op} textAnchor="middle">
+          {g.lettre}
+        </text>
       )}
+    </g>
+  );
+}
+
+function Schema({ cle }: { cle: keyof Mesures }) {
+  const actif = GUIDES[cle];
+  const fixes = FIXES.filter((k) => k !== cle);
+  return (
+    <svg viewBox="0 0 200 384" className="mx-auto h-48 w-auto" role="img" aria-label="Schéma de mesure">
+      <defs>
+        <marker id="aO" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+          <path d="M1,1 L7,4 L1,7 Z" fill={OR} />
+        </marker>
+        <marker id="aB" markerWidth="9" markerHeight="9" refX="4.5" refY="4.5" orient="auto">
+          <path d="M1,1 L8,4.5 L1,8 Z" fill={BX} />
+        </marker>
+      </defs>
+      {/* corps */}
+      <circle cx="100" cy="36" r="17" fill="#F3ECE1" stroke={OR} strokeWidth="1.5" />
+      <path d="M92,52 L108,52 L106,62 L94,62 Z" fill="#F3ECE1" stroke={OR} strokeWidth="1.5" />
+      <path d={SILHOUETTE} fill="#F3ECE1" stroke={OR} strokeWidth="1.5" />
+      {/* bras (repères de manche/bras) */}
+      <path d="M58,80 C44,110 44,150 52,196" fill="none" stroke={OR} strokeWidth="1.5" opacity="0.7" />
+      <path d="M142,80 C156,110 156,150 148,196" fill="none" stroke={OR} strokeWidth="1.5" opacity="0.7" />
+      {/* repères fixes (faibles) */}
+      {fixes.map((k) => (GUIDES[k] ? ligne(GUIDES[k] as Guide, false) : null))}
+      {/* repère actif (bordeaux) */}
+      {actif && ligne(actif, true)}
     </svg>
   );
 }
@@ -51,7 +122,6 @@ function Schema({ zone, horizontal }: { zone: number; horizontal: boolean }) {
 export function MesuresWizard({ config, patchMesures }: StepProps) {
   const total = MESURES.length + 1; // +1 écran d'infos complémentaires
   const [idx, setIdx] = useState(0);
-  // état local des saisies (texte + unité) par mesure
   const [textes, setTextes] = useState<Record<string, string>>(() => {
     const init: Record<string, string> = {};
     MESURES.forEach((m) => {
@@ -80,9 +150,7 @@ export function MesuresWizard({ config, patchMesures }: StepProps) {
   };
 
   const peutSuivant =
-    surInfos ||
-    !m.obligatoire ||
-    (texte.trim() !== "" && validation.niveau !== "erreur");
+    surInfos || !m.obligatoire || (texte.trim() !== "" && validation.niveau !== "erreur");
 
   return (
     <div className="space-y-4">
@@ -95,9 +163,12 @@ export function MesuresWizard({ config, patchMesures }: StepProps) {
 
       {!surInfos ? (
         <div className="space-y-3">
-          <Schema zone={m.zone} horizontal={m.horizontal} />
+          <Schema cle={m.cle} />
           <div>
-            <h2 className="font-serif text-lg font-bold">{m.label}{!m.obligatoire && <span className="text-xs font-normal text-encre/50"> (facultatif)</span>}</h2>
+            <h2 className="font-serif text-lg font-bold">
+              {m.label}
+              {!m.obligatoire && <span className="text-xs font-normal text-encre/50"> (facultatif)</span>}
+            </h2>
             <p className="text-sm text-encre/60">{m.instruction}</p>
           </div>
 
