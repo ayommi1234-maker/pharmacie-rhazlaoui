@@ -6,7 +6,7 @@ import type { Modele } from "@/lib/types";
  * `prixBaseDH: 0` => affiché « À partir de … DH » (à confirmer).
  */
 export const MODELES: Modele[] = [
-  { id: "caftan", nom: "Caftan marocain", reference: "CAF-001", description: "Caftan traditionnel, coupe fluide et col travaillé.", photo: "/products/placeholder.svg", prixBaseDH: 900, tissusConseilles: ["brocart","satin","velours"], delaiEstime: "10 à 20 jours", demo: true },
+  { id: "caftan", nom: "Caftan marocain", reference: "CAF-001", description: "Caftan traditionnel, coupe fluide et col travaillé.", photo: "/products/hero-caftan-bordeaux.png", prixBaseDH: 900, tissusConseilles: ["brocart","satin","velours"], delaiEstime: "10 à 20 jours", demo: true },
   { id: "takchita", nom: "Takchita", reference: "TAK-002", description: "Deux pièces de cérémonie avec ceinture (mdamma).", photo: "/products/placeholder.svg", prixBaseDH: 1200, tissusConseilles: ["brocart","satin","dentelle"], delaiEstime: "14 à 25 jours", demo: true },
   { id: "djellaba", nom: "Djellaba femme", reference: "DJE-003", description: "Djellaba élégante à capuche, port quotidien ou fête.", photo: "/products/placeholder.svg", prixBaseDH: 600, tissusConseilles: ["lin","coton","crepe"], delaiEstime: "7 à 14 jours", demo: true },
   { id: "abaya", nom: "Abaya", reference: "ABA-004", description: "Abaya moderne, coupe droite et sobre.", photo: "/products/placeholder.svg", prixBaseDH: 500, tissusConseilles: ["crepe","satin","coton"], delaiEstime: "7 à 14 jours", demo: true },

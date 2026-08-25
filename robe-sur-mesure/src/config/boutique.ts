@@ -42,3 +42,4 @@ export function estPlaceholder(valeur: string | number): boolean {
 export function whatsappPret(): boolean {
   return /^\d{8,15}$/.test(BOUTIQUE.whatsapp);
 }
+

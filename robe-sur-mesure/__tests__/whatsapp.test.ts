@@ -51,3 +51,4 @@ describe("lienWhatsApp", () => {
     expect(url).toContain("Bonjour%20%C3%A0%20vous");
   });
 });
+

@@ -27,3 +27,4 @@ export function nomValide(nom: string): boolean {
   const n = nettoyerTexte(nom, 60);
   return n.length >= 2 && /^[\p{L}][\p{L}\s'-]*$/u.test(n);
 }
+

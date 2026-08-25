@@ -63,3 +63,4 @@ export function lienWhatsApp(numero: string, message: string): string {
 export function lienCommande(r: ResumeCommande): string {
   return lienWhatsApp(BOUTIQUE.whatsapp, construireMessageWhatsApp(r));
 }
+

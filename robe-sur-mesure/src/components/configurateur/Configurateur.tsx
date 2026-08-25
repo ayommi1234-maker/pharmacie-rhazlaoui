@@ -109,17 +109,20 @@ export function Configurateur() {
   return (
     <>
       <Header />
-      <main className="py-5">
-        <Container>
-          <div className="mb-2 flex items-center justify-between">
-            <h1 className="font-serif text-xl font-bold">{TITRES[etape]}</h1>
+      <main className="py-8 sm:py-12">
+        <Container className="max-w-3xl">
+          <div className="mb-5 flex items-end justify-between border-b border-encre/10 pb-5">
+            <div>
+              <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.2em] text-bordeaux">Votre création</p>
+              <h1 className="font-serif text-4xl font-semibold">{TITRES[etape]}</h1>
+            </div>
             <Link href="/catalogue" className="text-xs text-encre/50 underline">
               Voir le catalogue
             </Link>
           </div>
           <ProgressBar current={etape} total={TITRES.length} />
 
-          <div className="mt-5">
+          <div className="mt-7 rounded-[1.5rem] border border-encre/10 bg-white/55 p-4 shadow-[0_20px_70px_rgba(43,35,32,.07)] backdrop-blur sm:p-7">
             {etape === 0 && <StepModele {...stepProps} />}
             {etape === 1 && <StepTissu {...stepProps} />}
             {etape === 2 && <StepCouleur {...stepProps} />}

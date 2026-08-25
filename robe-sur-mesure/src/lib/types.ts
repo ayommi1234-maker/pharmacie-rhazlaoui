@@ -136,3 +136,4 @@ export function configurationVide(): Configuration {
     maj: 0,
   };
 }
+

@@ -143,3 +143,4 @@ export function construireResume(config: Configuration): ResumeCommande {
 export function lignesMesuresTexte(resume: ResumeCommande): string[] {
   return resume.mesures.map((m) => `- ${m.label} : ${formatCm(m.cm)}`);
 }
+

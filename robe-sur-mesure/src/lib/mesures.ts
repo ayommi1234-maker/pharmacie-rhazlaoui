@@ -86,3 +86,4 @@ export function formatCm(cm?: number): string {
   const arr = Math.round(cm * 10) / 10;
   return `${Number.isInteger(arr) ? arr : arr.toFixed(1)} cm`;
 }
+

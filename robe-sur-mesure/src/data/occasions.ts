@@ -12,3 +12,4 @@ export const OCCASIONS: { id: string; nom: string }[] = [
 export function occasionParId(id?: string): string {
   return OCCASIONS.find((o) => o.id === id)?.nom ?? "—";
 }
+

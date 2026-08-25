@@ -7,3 +7,4 @@ Placez ici 5 à 8 vraies photos (ou courtes vidéos) de robes pour la publicité
   un fond dégradé de secours s'affiche.
 - N'ajoutez aucun média protégé par des droits d'auteur.
 - La vidéo exportée (`pub-robe.mp4`) sera également écrite dans ce dossier.
+

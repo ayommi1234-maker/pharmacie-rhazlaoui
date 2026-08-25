@@ -37,3 +37,4 @@ export function estimerPrix(args: {
 export function formatDH(montant: number): string {
   return `${montant.toLocaleString("fr-FR")} DH`;
 }
+

@@ -68,3 +68,4 @@ export function libelle(liste: Option[], id?: string): string {
 export function supplementOption(liste: Option[], id?: string): number {
   return liste.find((o) => o.id === id)?.supplementDH ?? 0;
 }
+

@@ -23,3 +23,4 @@ export const ID_COULEUR_PERSO = "personnalisee";
 export function couleurParId(id?: string): Couleur | undefined {
   return COULEURS.find((c) => c.id === id);
 }
+

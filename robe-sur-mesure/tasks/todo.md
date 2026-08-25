@@ -71,3 +71,4 @@ Projet **isolé** dans `robe-sur-mesure/` (le site pharmacie à la racine n'est 
 - Arabe préparé (i18n) mais non traduit ; RTL non activé.
 - Les photos sont des placeholders tant que la boutique n'ajoute pas ses images.
 - Le rendu vidéo télécharge un navigateur la 1re fois (option `--browser-executable` sinon).
+

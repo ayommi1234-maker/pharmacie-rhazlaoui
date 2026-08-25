@@ -8,3 +8,4 @@ Placez ici vos photos de robes (format `.jpg` ou `.webp` recommandé, portrait).
 
 `placeholder.svg` est l'image par défaut affichée tant qu'aucune vraie photo n'est fournie.
 Ce sont des **données de démonstration** : n'utilisez que des images dont vous avez les droits.
+

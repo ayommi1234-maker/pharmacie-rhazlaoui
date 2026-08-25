@@ -13,14 +13,15 @@ export default function Catalogue() {
   return (
     <>
       <Header />
-      <main className="py-6">
+      <main className="py-12 sm:py-16">
         <Container>
-          <h1 className="mb-1 font-serif text-2xl font-bold">Nos modèles</h1>
-          <p className="mb-4 text-sm text-encre/60">
+          <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-bordeaux">La collection</p>
+          <h1 className="mt-2 font-serif text-5xl font-semibold sm:text-6xl">Nos modèles</h1>
+          <p className="mb-10 mt-3 max-w-xl text-sm leading-6 text-encre/60">
             Modèles de démonstration. Chaque robe est confectionnée à vos mesures.
           </p>
 
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {MODELES.map((m) => {
               const tissus = m.tissusConseilles
                 .map((id) => tissuParId(id)?.nom)
@@ -28,7 +29,7 @@ export default function Catalogue() {
                 .slice(0, 3);
               return (
                 <Card key={m.id} className="overflow-hidden">
-                  <div className="relative aspect-[4/5] w-full bg-ivoire">
+                  <div className="relative aspect-[4/5] w-full overflow-hidden bg-ivoire">
                     <Image src={m.photo} alt={m.nom} fill className="object-cover" />
                     {m.demo && (
                       <span className="absolute left-2 top-2">
@@ -36,7 +37,7 @@ export default function Catalogue() {
                       </span>
                     )}
                   </div>
-                  <div className="space-y-2 p-3">
+                  <div className="space-y-3 p-5">
                     <div className="flex items-center justify-between gap-2">
                       <h2 className="font-semibold leading-tight">{m.nom}</h2>
                       <span className="text-xs text-encre/50">{m.reference}</span>

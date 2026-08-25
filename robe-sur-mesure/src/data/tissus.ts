@@ -34,3 +34,4 @@ export function tissuParId(id?: string): Tissu | undefined {
 export function tissuCommandable(t: Tissu): boolean {
   return t.disponibilite !== "indisponible";
 }
+

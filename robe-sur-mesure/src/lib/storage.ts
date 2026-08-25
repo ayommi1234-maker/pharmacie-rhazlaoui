@@ -35,3 +35,4 @@ export function effacerConfig(): void {
     /* ignore */
   }
 }
+

@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --font-sans: "Segoe UI", system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
-  --font-serif: "Playfair Display", Georgia, "Times New Roman", serif;
+  --font-sans: "Avenir Next", Avenir, "Helvetica Neue", sans-serif;
+  --font-serif: "Iowan Old Style", "Baskerville", "Times New Roman", serif;
 }
 
 html {
@@ -16,7 +16,10 @@ body {
   color: #2b2320; /* encre */
   font-family: var(--font-sans);
   min-height: 100dvh;
+  background-image: radial-gradient(circle at 8% 4%, rgba(185,151,91,.09), transparent 25rem);
 }
+
+::selection { background: #7a2e33; color: #fbf7f0; }
 
 /* Accessibilité : focus visible net */
 :focus-visible {

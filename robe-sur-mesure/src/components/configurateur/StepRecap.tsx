@@ -191,3 +191,4 @@ export function StepRecap({ config, patchInfos, goTo }: StepProps & { goTo: (i: 
     </div>
   );
 }
+

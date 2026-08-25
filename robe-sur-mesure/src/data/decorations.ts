@@ -21,3 +21,4 @@ export const DECORATIONS: Decoration[] = [
 export function decorationParId(id: string): Decoration | undefined {
   return DECORATIONS.find((d) => d.id === id);
 }
+

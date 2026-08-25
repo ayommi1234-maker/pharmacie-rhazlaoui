@@ -412,3 +412,4 @@ export function StepOccasion({ config, patchOccasion }: StepProps) {
     </div>
   );
 }
+

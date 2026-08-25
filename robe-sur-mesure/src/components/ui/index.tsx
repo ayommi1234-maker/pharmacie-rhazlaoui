@@ -24,7 +24,7 @@ export function Card({
   children: React.ReactNode;
 }) {
   return (
-    <div className={`rounded-xl2 bg-white/70 border border-encre/10 shadow-sm ${className}`}>
+    <div className={`rounded-[1.25rem] bg-white/70 border border-encre/10 shadow-[0_12px_40px_rgba(43,35,32,.06)] ${className}`}>
       {children}
     </div>
   );
@@ -51,10 +51,10 @@ export function SelectCard({
       disabled={disabled}
       aria-pressed={selected}
       aria-label={ariaLabel}
-      className={`text-left rounded-xl2 border p-3 min-h-[48px] transition-colors w-full ${
+      className={`text-left rounded-[1rem] border p-3 min-h-[48px] transition-all w-full ${
         selected
-          ? "border-bordeaux ring-2 ring-bordeaux/40 bg-bordeaux/5"
-          : "border-encre/15 bg-white/60 hover:border-bordeaux/40"
+          ? "border-bordeaux ring-2 ring-bordeaux/25 bg-bordeaux/5 shadow-sm"
+          : "border-encre/15 bg-white/60 hover:-translate-y-0.5 hover:border-bordeaux/40"
       } ${disabled ? "opacity-50 cursor-not-allowed" : ""}`}
     >
       {children}
@@ -98,14 +98,14 @@ export function ProgressBar({ current, total }: { current: number; total: number
   return (
     <div>
       <div
-        className="h-2 w-full rounded-full bg-encre/10 overflow-hidden"
+        className="h-[3px] w-full bg-encre/10 overflow-hidden"
         role="progressbar"
         aria-valuenow={current + 1}
         aria-valuemin={1}
         aria-valuemax={total}
         aria-label={`Étape ${current + 1} sur ${total}`}
       >
-        <div className="h-full bg-bordeaux transition-all" style={{ width: `${pct}%` }} />
+        <div className="h-full bg-bordeaux transition-all duration-500" style={{ width: `${pct}%` }} />
       </div>
       <p className="mt-1 text-xs text-encre/60">
         Étape {current + 1} sur {total}
