@@ -12,7 +12,13 @@ export const FPS = 30;
  * secours et reste exportable sans aucune image. N'ajoutez que des médias dont
  * vous détenez les droits.
  */
-const PHOTOS: string[] = [];
+const PHOTOS: string[] = [
+  "robe-1.png",  // scène 1 — l'accroche
+  "modele.png",  // scène 2 — choisir son modèle
+  "mesures.png", // scène 3 — prendre ses mesures
+  "",            // scène 4 — envoi WhatsApp (fond dégradé)
+  "robe-1.png",  // scène 5 — la robe finale
+];
 
 // Durées des scènes (frames @30fps)
 const D = { s1: 90, s2: 120, s3: 150, s4: 120, s5: 120, s6: 90 };
@@ -39,8 +45,8 @@ function Fond({ from, to, photoIndex }: { from: string; to: string; photoIndex?:
   if (photo) {
     return (
       <AbsoluteFill>
-        <Img src={staticFile(photo)} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-        <AbsoluteFill style={{ background: "linear-gradient(180deg, rgba(0,0,0,0.15), rgba(0,0,0,0.55))" }} />
+        <Img src={staticFile(`video-assets/${photo}`)} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+        <AbsoluteFill style={{ background: "linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.72))" }} />
       </AbsoluteFill>
     );
   }
@@ -116,7 +122,7 @@ export const PubRobe: React.FC = () => {
       </Sequence>
 
       <Sequence {...at(D.s2)}>
-        <Scene dur={D.s2} from={COUL.ivoire} to="#E4D6C2" photoIndex={1} couleurTitre={COUL.encre}
+        <Scene dur={D.s2} from={COUL.ivoire} to="#E4D6C2" photoIndex={1}
           sur="Étape 1" titre="Choisissez votre modèle préféré" />
       </Sequence>
 
