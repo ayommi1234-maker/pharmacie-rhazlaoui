@@ -40,15 +40,15 @@ const MESURES: DefMesure[] = [
 /* Zone du schéma à mettre en avant selon la mesure (en % de la hauteur de
    l'image guide-mesures.png). `haut` = début de la bande, `bas` = fin. */
 const ZONE: Partial<Record<keyof Mesures, { haut: number; bas: number }>> = {
-  epaules: { haut: 14, bas: 22 },
-  poitrine: { haut: 22, bas: 32 },
-  sousPoitrine: { haut: 28, bas: 37 },
-  taille: { haut: 31, bas: 41 },
-  hanches: { haut: 39, bas: 50 },
-  longueurManche: { haut: 16, bas: 55 },
-  tourBras: { haut: 22, bas: 40 },
+  epaules: { haut: 15, bas: 22 },      // ligne verte
+  poitrine: { haut: 23, bas: 31 },     // ligne rose
+  sousPoitrine: { haut: 27, bas: 34 }, // entre poitrine et taille
+  taille: { haut: 32, bas: 39 },       // 1re ellipse rouge
+  hanches: { haut: 40, bas: 48 },      // 2e ellipse rouge
+  longueurManche: { haut: 17, bas: 50 },
+  tourBras: { haut: 21, bas: 38 },
   tourPoignet: { haut: 45, bas: 56 },
-  longueurRobe: { haut: 16, bas: 96 },
+  longueurRobe: { haut: 17, bas: 96 },
   tailleTotale: { haut: 0, bas: 100 },
 };
 
