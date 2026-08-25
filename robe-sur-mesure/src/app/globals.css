@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-sans: "Segoe UI", system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
+  --font-serif: "Playfair Display", Georgia, "Times New Roman", serif;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: #fbf7f0; /* creme */
+  color: #2b2320; /* encre */
+  font-family: var(--font-sans);
+  min-height: 100dvh;
+}
+
+/* Accessibilité : focus visible net */
+:focus-visible {
+  outline: 3px solid #7a2e33;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Respecte les préférences de mouvement réduit */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
