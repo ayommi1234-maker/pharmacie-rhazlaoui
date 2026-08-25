@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import type { StepProps } from "./Configurateur";
 import { Button, Field, TextInput, TextArea, Notice } from "@/components/ui";
 import { saisieEnCm, validerMesure, formatCm, type Unite } from "@/lib/mesures";
@@ -36,155 +37,18 @@ const MESURES: DefMesure[] = [
   { cle: "longueurRobe", label: "Longueur de robe", instruction: "De l'épaule jusqu'au bas souhaité de la robe.", obligatoire: true, horizontal: false, depart: "Sommet de l'épaule, près du cou", arrivee: "Bas souhaité de la robe", trace: "M63 24 L63 92", a: [63,24], b: [63,92], departCourt: "Épaule près du cou", arriveeCourt: "Bas souhaité" },
 ];
 
-/* ---------- Schéma de prise de mesures (dessin au trait) ----------
-   Silhouette féminine dessinée au trait, tours de mesure figurés par des
-   ellipses (arc avant plein, arc arrière en pointillé) et cotes repérées
-   par les lettres a → g. La cote correspondant à la mesure en cours est
-   mise en évidence. */
-
-const TRAIT = "#8C8C8C";
-const ROUGE = "#D33A31";
-const VERT = "#2FA02F";
-const ACTIF = "#7A2E33";
-
-/** Contour du corps (viewBox 200×390). */
-const CORPS =
-  "M94,54 C86,57 80,62 78,70 C76,82 78,92 80,100 " +
-  "C82,115 79,125 78,135 C77,145 75,152 74,162 " +
-  "C72,175 73,185 76,195 C78,215 80,240 82,265 " +
-  "C83,290 84,315 85,340 C86,355 86,365 87,372 L95,372 " +
-  "C95,350 94,320 96,290 C97,265 99,240 100,215 " +
-  "C101,240 103,265 104,290 C106,320 105,350 105,372 L113,372 " +
-  "C114,365 114,355 115,340 C116,315 117,290 118,265 " +
-  "C120,240 122,215 124,195 C127,185 128,175 126,162 " +
-  "C125,152 123,145 122,135 C121,125 118,115 120,100 " +
-  "C122,92 124,82 122,70 C120,62 114,57 106,54 Z";
-const BRAS_G = "M78,70 C68,85 63,105 61,125 C59,145 58,165 60,182 C61,190 64,195 67,196";
-const BRAS_D = "M122,70 C132,85 137,105 139,125 C141,145 142,165 140,182 C139,190 136,195 133,196";
-
-/** Lettre du schéma correspondant à chaque mesure. */
-const LETTRE: Partial<Record<keyof Mesures, string>> = {
-  epaules: "a",
-  longueurRobe: "b",
-  longueurManche: "b",
-  sousPoitrine: "c",
-  poitrine: "d",
-  taille: "e",
-  hanches: "f",
-  tailleTotale: "g",
-  tourBras: "b",
-  tourPoignet: "b",
-};
-
-function SchemaMesures({ mesure }: { mesure: DefMesure }) {
-  const actif = LETTRE[mesure.cle];
-  const on = (id: string) => actif === id;
-  const c = (id: string, base: string) => (on(id) ? ACTIF : base);
-  const w = (id: string) => (on(id) ? 2.6 : 1.4);
-  const o = (id: string) => (on(id) ? 1 : 0.75);
-  const mk = (id: string, base: string) =>
-    on(id) ? "url(#fA)" : base === VERT ? "url(#fV)" : "url(#fR)";
-
-  /** Tour de corps : arc avant plein + arc arrière pointillé. */
-  const tour = (id: string, x1: number, x2: number, y: number, k: number) => (
-    <g opacity={o(id)}>
-      <path
-        d={`M${x1},${y} Q${(x1 + x2) / 2},${y - k} ${x2},${y}`}
-        fill="none"
-        stroke={c(id, ROUGE)}
-        strokeWidth={w(id)}
-        strokeDasharray="3 3"
-      />
-      <path
-        d={`M${x1},${y} Q${(x1 + x2) / 2},${y + k} ${x2},${y}`}
-        fill="none"
-        stroke={c(id, ROUGE)}
-        strokeWidth={w(id)}
-        markerStart={mk(id, ROUGE)}
-        markerEnd={mk(id, ROUGE)}
-      />
-    </g>
-  );
-
+function GuidePhoto({ mesure }: { mesure: DefMesure }) {
   return (
     <figure className="mx-auto w-full max-w-[280px]">
       <div className="rounded-lg border border-encre/15 bg-white p-4 shadow-[0_12px_35px_rgba(43,35,32,0.08)]">
-        <svg viewBox="0 0 200 390" className="mx-auto h-auto w-full" role="img"
-             aria-label={`Schéma de prise de mesure : ${mesure.label}`}>
-          <defs>
-            <marker id="fR" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto">
-              <path d="M0.5,0.5 L6.5,3.5 L0.5,6.5 Z" fill={ROUGE} />
-            </marker>
-            <marker id="fV" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto">
-              <path d="M0.5,0.5 L6.5,3.5 L0.5,6.5 Z" fill={VERT} />
-            </marker>
-            <marker id="fA" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
-              <path d="M0.5,0.5 L7.5,4 L0.5,7.5 Z" fill={ACTIF} />
-            </marker>
-          </defs>
-
-          {/* silhouette au trait */}
-          <g fill="none" stroke={TRAIT} strokeWidth="1.3" strokeLinecap="round">
-            <ellipse cx="100" cy="30" rx="13" ry="17" />
-            <path d="M94,45 L94,55 M106,45 L106,55" />
-            <path d={CORPS} />
-            <path d={BRAS_G} />
-            <path d={BRAS_D} />
-          </g>
-
-          {/* sol */}
-          <line x1="70" y1="378" x2="130" y2="378" stroke={TRAIT} strokeWidth="1.3" />
-
-          {/* a — largeur d'épaules */}
-          <g opacity={o("a")}>
-            <line x1="76" y1="62" x2="124" y2="62" stroke={c("a", ROUGE)} strokeWidth={w("a")}
-                  markerStart={mk("a", ROUGE)} markerEnd={mk("a", ROUGE)} />
-            <text x="88" y="56" fontSize="14" fontStyle="italic" fontWeight="700"
-                  fill={c("a", ROUGE)} textAnchor="middle">a</text>
-          </g>
-
-          {/* étoile verte (point d'épaule) */}
-          <text x="134" y="56" fontSize="13" fill={VERT} textAnchor="middle">✳</text>
-
-          {/* c — hauteur d'encolure */}
-          <g opacity={o("c")}>
-            <line x1="110" y1="50" x2="110" y2="74" stroke={c("c", VERT)} strokeWidth={w("c")}
-                  markerStart={mk("c", VERT)} markerEnd={mk("c", VERT)} />
-            <text x="120" y="64" fontSize="14" fontStyle="italic" fontWeight="700"
-                  fill={c("c", VERT)} textAnchor="middle">c</text>
-          </g>
-
-          {/* d — tour de poitrine */}
-          {tour("d", 78, 122, 100, 8)}
-          <text x="68" y="103" fontSize="14" fontStyle="italic" fontWeight="700"
-                fill={c("d", ROUGE)} opacity={o("d")} textAnchor="middle">d</text>
-
-          {/* e — tour de taille */}
-          {tour("e", 78, 122, 137, 7)}
-          <text x="68" y="140" fontSize="14" fontStyle="italic" fontWeight="700"
-                fill={c("e", ROUGE)} opacity={o("e")} textAnchor="middle">e</text>
-
-          {/* f — tour de hanches */}
-          {tour("f", 73, 127, 172, 9)}
-          <text x="63" y="175" fontSize="14" fontStyle="italic" fontWeight="700"
-                fill={c("f", ROUGE)} opacity={o("f")} textAnchor="middle">f</text>
-
-          {/* b — longueur de côté (épaule → bas) */}
-          <g opacity={o("b")}>
-            <line x1="142" y1="64" x2="152" y2="192" stroke={c("b", ROUGE)} strokeWidth={w("b")}
-                  markerStart={mk("b", ROUGE)} markerEnd={mk("b", ROUGE)} />
-            <text x="163" y="130" fontSize="14" fontStyle="italic" fontWeight="700"
-                  fill={c("b", ROUGE)} textAnchor="middle">b</text>
-          </g>
-
-          {/* g — hauteur totale */}
-          <g opacity={o("g")}>
-            <line x1="100" y1="12" x2="100" y2="377" stroke={c("g", ROUGE)} strokeWidth={w("g")}
-                  markerStart={mk("g", ROUGE)} markerEnd={mk("g", ROUGE)} />
-            <text x="110" y="300" fontSize="14" fontStyle="italic" fontWeight="700"
-                  fill={c("g", ROUGE)} textAnchor="middle">g</text>
-          </g>
-        </svg>
+        <Image
+          src="/products/guide-mesures-reference.png"
+          alt={`Guide de prise de mesure : ${mesure.label}`}
+          width={126}
+          height={251}
+          className="mx-auto h-auto w-full object-contain [image-rendering:auto]"
+          priority
+        />
       </div>
       <figcaption className="mt-2 text-center text-xs font-semibold text-bordeaux">{mesure.label}</figcaption>
     </figure>
@@ -238,7 +102,7 @@ export function MesuresWizard({ config, patchMesures }: StepProps) {
 
       {!surInfos ? (
         <div className="space-y-3">
-          <SchemaMesures mesure={m} />
+          <GuidePhoto mesure={m} />
           <div>
             <h2 className="font-serif text-lg font-bold">{m.label}{!m.obligatoire && <span className="text-xs font-normal text-encre/50"> (facultatif)</span>}</h2>
             <p className="text-sm text-encre/60">{m.instruction}</p>
