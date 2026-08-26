@@ -1,6 +1,6 @@
 import React from "react";
 import {
-  AbsoluteFill, Sequence, useCurrentFrame, interpolate, spring, useVideoConfig, staticFile, Img,
+  AbsoluteFill, Sequence, useCurrentFrame, interpolate, spring, useVideoConfig, staticFile, Img, OffthreadVideo,
 } from "remotion";
 import { BOUTIQUE, estPlaceholder } from "../config/boutique";
 
@@ -13,12 +13,15 @@ export const FPS = 30;
  * vous détenez les droits.
  */
 const PHOTOS: string[] = [
-  "robe-1.jpg",  // scène 1 — l'accroche
-  "modele.jpg",  // scène 2 — choisir son modèle
-  "mesures.jpg", // scène 3 — prendre ses mesures
-  "",            // scène 4 — envoi WhatsApp (fond dégradé)
-  "robe-1.jpg",  // scène 5 — la robe finale
+  "clip-1.mp4",  // scène 1 — l'accroche (robe bleue à motifs)
+  "clip-3.mp4",  // scène 2 — choisir son modèle (défilé)
+  "mesures.jpg", // scène 3 — prendre ses mesures (guide)
+  "clip-4.mp4",  // scène 4 — envoi WhatsApp (robe sur mannequin)
+  "clip-2.mp4",  // scène 5 — la robe finale (djellaba bleue)
 ];
+
+/** true si le média est une vidéo (sinon image). */
+const estVideo = (nom: string) => /\.(mp4|webm|mov)$/i.test(nom);
 
 // Durées des scènes (frames @30fps)
 const D = { s1: 90, s2: 120, s3: 150, s4: 120, s5: 120, s6: 90 };
@@ -43,9 +46,14 @@ const SAFE: React.CSSProperties = {
 function Fond({ from, to, photoIndex }: { from: string; to: string; photoIndex?: number }) {
   const photo = photoIndex !== undefined ? PHOTOS[photoIndex] : undefined;
   if (photo) {
+    const remplir: React.CSSProperties = { width: "100%", height: "100%", objectFit: "cover" };
     return (
       <AbsoluteFill>
-        <Img src={staticFile(`video-assets/${photo}`)} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+        {estVideo(photo) ? (
+          <OffthreadVideo src={staticFile(`video-assets/${photo}`)} muted style={remplir} />
+        ) : (
+          <Img src={staticFile(`video-assets/${photo}`)} style={remplir} />
+        )}
         <AbsoluteFill style={{ background: "linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.72))" }} />
       </AbsoluteFill>
     );

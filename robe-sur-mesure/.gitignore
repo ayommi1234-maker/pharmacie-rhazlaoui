@@ -12,7 +12,8 @@
 
 # remotion
 /out
-public/video-assets/*.mp4
+# sortie du rendu (regenerable)
+public/video-assets/pub-robe.mp4
 
 # misc
 .DS_Store
