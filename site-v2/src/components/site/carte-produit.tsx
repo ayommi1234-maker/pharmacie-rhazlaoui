@@ -45,11 +45,17 @@ export function CarteProduit({ produit }: { produit: ProduitCarte }) {
         </div>
 
         <CardContent className="flex flex-1 flex-col gap-2 p-4">
-          {produit.marque ? (
-            <p className="text-xs font-semibold uppercase tracking-wider text-primary">
-              {produit.marque}
-            </p>
-          ) : null}
+          {/*
+            La ligne « marque » est TOUJOURS rendue, même vide : sinon les cartes sans
+            marque remontent leur titre et se désalignent de leurs voisines dans la grille.
+            `aria-hidden` quand elle est vide pour ne rien annoncer d'inutile.
+          */}
+          <p
+            className="text-xs font-semibold uppercase tracking-wider text-primary"
+            aria-hidden={produit.marque ? undefined : true}
+          >
+            {produit.marque || " "}
+          </p>
           <h3 className="font-display text-base font-semibold leading-snug">{produit.nom}</h3>
           {produit.description ? (
             <p className="line-clamp-2 text-sm text-muted-foreground">{produit.description}</p>

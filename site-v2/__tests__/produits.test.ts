@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  etendreTermes,
   filtrer,
   imageProduit,
   lienWhatsApp,
@@ -128,6 +129,114 @@ describe("filtrer", () => {
 
   it("cherche aussi dans la composition", () => {
     expect(filtrer(liste, { recherche: "ceramides" }).map((p) => p.id)).toEqual(["b"]);
+  });
+
+  it("classe par pertinence : le nom passe avant la composition", () => {
+    const avecPertinence: ProduitListe[] = [
+      // Ne correspond QUE par sa composition : doit finir dernier.
+      versListe(
+        produit({
+          id: "creme",
+          nom: "Crème anti-tâches",
+          marque: "Oxyskin",
+          description: "Unifie le teint",
+          bienfaits: [],
+          composition: "Niacinamide, Vitamine C, Arbutine",
+        }),
+      ),
+      versListe(
+        produit({
+          id: "vitamine-d3",
+          nom: "Vitamine D3",
+          marque: "MGD",
+          description: "Complément",
+          bienfaits: [],
+          composition: "Cholécalciférol",
+        }),
+      ),
+      versListe(
+        produit({
+          id: "pack",
+          nom: "Pack vitalité",
+          marque: "Indoka",
+          description: "Contient de la vitamine B12",
+          bienfaits: [],
+          composition: "",
+        }),
+      ),
+    ];
+    // Le produit qui s’APPELLE « Vitamine … » d’abord, la crème (composition seule) en dernier.
+    expect(filtrer(avecPertinence, { recherche: "vitamine" }).map((p) => p.id)).toEqual([
+      "vitamine-d3",
+      "pack",
+      "creme",
+    ]);
+  });
+
+  it("trouve un tensiomètre en cherchant « tension » (synonymes de besoin)", () => {
+    const appareils: ProduitListe[] = [
+      versListe(
+        produit({
+          id: "tensio",
+          nom: "Tensiomètre bras",
+          marque: "Omron",
+          description: "Mesure automatique au bras",
+          bienfaits: [],
+          composition: "",
+        }),
+      ),
+      versListe(
+        produit({
+          id: "gluco",
+          nom: "Glucomètre",
+          marque: "Accu-Chek",
+          description: "Lecteur de glycémie",
+          bienfaits: [],
+          composition: "",
+        }),
+      ),
+    ];
+    expect(filtrer(appareils, { recherche: "tension" }).map((p) => p.id)).toEqual(["tensio"]);
+    expect(filtrer(appareils, { recherche: "sucre" }).map((p) => p.id)).toEqual(["gluco"]);
+    expect(filtrer(appareils, { recherche: "diabete" }).map((p) => p.id)).toEqual(["gluco"]);
+  });
+
+  it("classe la correspondance exacte devant la correspondance par synonyme", () => {
+    const mixte: ProduitListe[] = [
+      versListe(
+        produit({
+          id: "par-synonyme",
+          nom: "Tensiomètre poignet",
+          marque: "Microlife",
+          description: "",
+          bienfaits: [],
+          composition: "",
+        }),
+      ),
+      versListe(
+        produit({
+          id: "exact",
+          nom: "Tension artérielle — guide",
+          marque: "",
+          description: "",
+          bienfaits: [],
+          composition: "",
+        }),
+      ),
+    ];
+    expect(filtrer(mixte, { recherche: "tension" })[0].id).toBe("exact");
+  });
+
+  it("n’élargit rien quand le mot n’est dans aucun groupe de synonymes", () => {
+    expect(etendreTermes("cerave")).toEqual([{ terme: "cerave", alternatives: [] }]);
+  });
+
+  it("conserve l’ordre du catalogue à pertinence égale (tri stable)", () => {
+    const egaux: ProduitListe[] = [
+      versListe(produit({ id: "x1", nom: "Magnésium marin", bienfaits: [], composition: "" })),
+      versListe(produit({ id: "x2", nom: "Magnésium marin", bienfaits: [], composition: "" })),
+    ];
+    expect(filtrer(egaux, { recherche: "magnesium" }).map((p) => p.id)).toEqual(["x1", "x2"]);
   });
 
   it("combine recherche, catégorie et marque", () => {
