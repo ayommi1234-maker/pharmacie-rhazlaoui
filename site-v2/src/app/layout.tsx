@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 
 import "./globals.css";
 import { BarreContactMobile } from "@/components/site/barre-contact-mobile";
+import { ChromeSite } from "@/components/site/chrome-site";
 import { EnTete } from "@/components/site/en-tete";
 import { PiedDePage } from "@/components/site/pied-de-page";
 import { infos } from "@/data/source";
@@ -94,14 +95,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <a href="#contenu" className="lien-evitement">
           Aller au contenu principal
         </a>
-        <EnTete
-          nom={pharmacie.nom}
-          sousNom={pharmacie.sousNom}
-          telephone={pharmacie.telephone}
-        />
+        {/* Le chrome du site est masqué sur les maquettes `/propositions/*`,
+            qui portent leur propre en-tête et leur propre palette. */}
+        <ChromeSite>
+          <EnTete
+            nom={pharmacie.nom}
+            sousNom={pharmacie.sousNom}
+            telephone={pharmacie.telephone}
+          />
+        </ChromeSite>
         <main id="contenu">{children}</main>
-        <PiedDePage infos={pharmacie} />
-        <BarreContactMobile infos={pharmacie} />
+        <ChromeSite>
+          <PiedDePage infos={pharmacie} />
+          <BarreContactMobile infos={pharmacie} />
+        </ChromeSite>
       </body>
     </html>
   );

@@ -28,6 +28,17 @@ export function Catalogue({
   const [filtresOuverts, setFiltresOuverts] = React.useState(false);
   const [limite, setLimite] = React.useState(PAS);
 
+  /*
+    Pré-remplissage depuis l'URL (`/produits/?q=tension`) : c'est ainsi que les
+    raccourcis « par besoin » des pages d'accueil arrivent ici.
+    On lit `window.location` plutôt que `useSearchParams` pour rester compatible
+    avec l'export statique sans imposer une frontière Suspense.
+  */
+  React.useEffect(() => {
+    const q = new URLSearchParams(window.location.search).get("q");
+    if (q) setRecherche(q);
+  }, []);
+
   const resultats = React.useMemo(
     () => filtrer(produits, { recherche, categorie, marque }),
     [produits, recherche, categorie, marque],
