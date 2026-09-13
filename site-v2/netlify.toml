@@ -1,0 +1,56 @@
+# ══════════════════════════════════════════════════════════════
+#  PARA RHAZLAOUI — Configuration Netlify du NOUVEAU site (site-v2)
+#
+#  ⚠️ Ce fichier ne s'applique QUE si Netlify est configuré avec
+#     « Base directory = site-v2 ». Le `netlify.toml` de la racine,
+#     qui publie le site actuel, n'est pas modifié.
+#
+#  Pour basculer le nouveau site en production :
+#    Netlify → Site settings → Build & deploy →
+#      Base directory     : site-v2
+#      Build command      : npm run build
+#      Publish directory  : site-v2/out
+# ══════════════════════════════════════════════════════════════
+
+[build]
+  base = "site-v2"
+  command = "npm run build"
+  publish = "out"
+
+[build.environment]
+  NODE_VERSION = "22"
+  # L'adaptateur Next de Netlify est inutile : on publie un export 100 % statique.
+  NETLIFY_NEXT_PLUGIN_SKIP = "true"
+
+# ── En-têtes de sécurité (toutes les pages) ──
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+    Cross-Origin-Opener-Policy = "same-origin"
+
+    # CSP adaptée à ce site :
+    #  • aucune police ni feuille de style externe (polices système) ;
+    #  • 'unsafe-inline' en style-src : Tailwind injecte des styles en ligne ;
+    #  • 'unsafe-inline' en script-src : requis par le script de thème et par
+    #    les données d'hydratation de Next ;
+    #  • frame-src OpenStreetMap : carte de la page Contact (remplace Google Maps
+    #    de l'ancien site — pas de traceur publicitaire) ;
+    #  • aucune origine d'image externe : toutes les photos sont servies en local.
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; frame-src https://www.openstreetmap.org; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
+
+# ── Cache ──
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Les fichiers de `_next/static` portent une empreinte dans leur nom : cache permanent.
+[[headers]]
+  for = "/_next/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

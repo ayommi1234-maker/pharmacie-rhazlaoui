@@ -16,6 +16,16 @@ Répondre en **français** par défaut.
 
 Static marketing website for **Pharmacie Rhazlaoui** (a pharmacy/parapharmacy in Khouribga, Morocco). Single-page site in French — no build step, no framework, no package manager. Plain HTML + CSS + vanilla JS, deployed on **Netlify** (`publish = "."`). The content owner is non-technical; see `GUIDE.md` for the end-user editing instructions (French).
 
+### Sous-projets du dépôt
+- **`site-v2/`** — refonte du site pharmacie avec Next.js 14 + **shadcn/ui** (export statique).
+  Il **ne duplique pas** les données : `src/data/source.ts` lit `js/products-data.js` et
+  `js/gallery-data.js` au moment du build (bac à sable `node:vm`). Donc **toute modification
+  de `js/products-data.js` met à jour les deux sites**, et `GUIDE.md` + `admin/` restent valables.
+  Le site racine reste celui publié tant que la configuration Netlify n'est pas changée.
+  Plan et vérifications : `tasks/todo.md`. Détails : `site-v2/README.md`.
+- **`robe-sur-mesure/`** — application indépendante (robes sur mesure via WhatsApp) ;
+  voir son propre `CLAUDE.md`. Ne pas mélanger avec le site pharmacie.
+
 ## Running locally
 
 No build. Open `index.html` directly in a browser, or serve it (needed so relative paths and the admin panel behave like production):
