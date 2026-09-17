@@ -13,7 +13,7 @@ const SORTIE = process.argv[2] ?? "images";
 const FPS    = Number(process.argv[3] ?? 30);
 const DUREE  = Number(process.argv[4] ?? 10);
 const TOTAL  = Math.round(FPS * DUREE);
-const CALQUE = process.argv[5] === "calque" || process.argv[5] === "helice";   // superposition transparente
+const CALQUE = ["calque","helice","emergence"].includes(process.argv[5]);   // superposition transparente
 const COTE   = Number(process.argv[6] ?? 1080); // côté de sortie (960 pour coller à la source)
 
 await mkdir(SORTIE, { recursive: true });
@@ -34,9 +34,9 @@ if (COTE !== 1080) {
 await page.waitForTimeout(400);   // laisse les polices se poser avant la mesure
 if (COTE !== 1080) await page.evaluate((f) => window.definirEchelle && window.definirEchelle(f), COTE / 1080);
 const MODE = process.argv[5];
-if (MODE === "helice") {
+if (MODE === "helice" || MODE === "emergence") {
   // même page, paramètre différent
-  await page.goto("http://127.0.0.1:4400/scene.html?helice=1", { waitUntil: "networkidle" });
+  await page.goto("http://127.0.0.1:4400/scene.html?" + MODE + "=1", { waitUntil: "networkidle" });
   if (COTE !== 1080) {
     await page.addStyleTag({ content: `#scene{transform:scale(${COTE / 1080});transform-origin:0 0} html,body{width:${COTE}px;height:${COTE}px}` });
     await page.evaluate((f) => window.definirEchelle(f), COTE / 1080);

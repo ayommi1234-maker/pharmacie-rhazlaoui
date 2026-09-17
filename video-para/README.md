@@ -20,8 +20,14 @@ propre, voir plus bas).
   noir transparent), **sans le texte du logo d'origine**, qui contenait une faute
   (« LAPRA »). Le nom est réécrit par `drawtext` : « LA PARA RHAZLAOUI ».
 - `montage-logo.txt` : le graphe ffmpeg complet (plaque → halo → montée du
-  monogramme, `y = 216 + (1-e)³·470` → cache de la partie immergée → reflet →
-  nom). Pas de rendu navigateur : tout est ffmpeg.
+  monogramme → cache de la partie immergée → reflet → réaction de l'eau → nom).
+- **Montée** : de 0,5 s à 5,5 s, courbe en S (`smoothstep`), pour qu'on voie
+  réellement le logo traverser la surface (la première version, avec une sortie
+  cubique, avait fait 75 % du trajet en 2,5 s : il « surgissait »).
+- **Réaction de l'eau** (`scene.html?emergence=1`, rendu par `rendu.mjs … emergence`) :
+  ondes concentriques émises toutes les 0,3 s pendant la montée, gerbe de gouttes
+  avec gravité, écume lumineuse à la base proportionnelle à la vitesse de sortie,
+  filets de ruissellement le long du logo. Calque transparent superposé en dernier.
 
 ### 0. Logo formé par les lettres
 Les lettres **forment elles-mêmes le logo** : une colonne en spirale à la place

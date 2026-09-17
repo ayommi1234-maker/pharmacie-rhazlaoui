@@ -100,7 +100,8 @@
 const TEXTE = "LA PARA RHAZLAOUI";
 const PARAMS = new URLSearchParams(location.search);
 const MODE_HELICE = PARAMS.get("helice") === "1";          // colonne de lettres en spirale
-const MODE_CALQUE = MODE_HELICE || PARAMS.get("calque") === "1";
+const MODE_EMERGENCE = PARAMS.get("emergence") === "1";    // gerbe + ondes + écume, sans lettres
+const MODE_CALQUE = MODE_HELICE || MODE_EMERGENCE || PARAMS.get("calque") === "1";
 const DUREE = 10;            // secondes
 const L = 1080;              // côté du carré
 let MER_Y = 0.58 * L;        // hauteur de la ligne d'eau en pixels (réglée en mode calque)
@@ -470,6 +471,87 @@ function poseHelice(t){
   return e;
 }
 
+/* ═══════════════ Réaction de l'eau à l'émergence (mode emergence) ═══════════════ */
+/* Même courbe que le montage ffmpeg : montée de 0,5 s à 5,5 s, en S (smoothstep). */
+function progressionMontee(t){ const p = clamp((t - 0.5) / 5); return p * p * (3 - 2 * p); }
+function vitesseMontee(t){ return (progressionMontee(t + 0.04) - progressionMontee(t - 0.04)) / 0.08; }
+
+function dessineEmergence(t){
+  const c = eclats;                     // on réutilise le canvas des éclaboussures
+  c.clearRect(0, 0, L, L);
+  const cx = L / 2, cy = MER_Y + 6;     // point d'émergence, sur la ligne d'eau
+  const v = clamp(vitesseMontee(t) * 2.2);   // 0 → 1 : intensité de la perturbation
+  const e = progressionMontee(t);
+
+  // 1) Ondes concentriques : une nouvelle onde toutes les 0,3 s tant que ça monte.
+  for (let k = 0; k < 18; k++) {
+    const naissance = 0.55 + k * 0.3;
+    const age = (t - naissance) / 2.6;
+    if (age < 0 || age > 1) continue;
+    const rx = 70 + age * 520, ry = rx * 0.17;
+    const force = clamp(vitesseMontee(naissance) * 2.2);
+    c.beginPath();
+    c.ellipse(cx, cy + age * 26, rx, ry, 0, 0, 6.2832);
+    c.strokeStyle = `rgba(200,230,255,${(1 - age) * 0.55 * (0.35 + 0.65 * force)})`;
+    c.lineWidth = 2.5 - age * 1.2;
+    c.stroke();
+    // liseré doré (reflet de l'or sur la crête)
+    c.beginPath();
+    c.ellipse(cx, cy + age * 26 + 3, rx, ry, 0, 0, 6.2832);
+    c.strokeStyle = `rgba(255,205,110,${(1 - age) * 0.22 * force})`;
+    c.lineWidth = 1.2;
+    c.stroke();
+  }
+
+  // 2) Écume lumineuse au pied du logo, proportionnelle à la vitesse de sortie.
+  if (v > 0.02) {
+    const g = c.createRadialGradient(cx, cy, 4, cx, cy, 170);
+    g.addColorStop(0, `rgba(235,245,255,${0.55 * v})`);
+    g.addColorStop(0.35, `rgba(200,225,255,${0.28 * v})`);
+    g.addColorStop(1, "rgba(200,225,255,0)");
+    c.save(); c.scale(1, 0.22); c.translate(0, cy / 0.22 - cy);
+    c.fillStyle = g; c.beginPath(); c.arc(cx, cy, 170, 0, 6.2832); c.fill();
+    c.restore();
+  }
+
+  // 3) Gerbe de gouttes : projetées vers le haut depuis la base, retombent (gravité).
+  for (let i = 0; i < 220; i++) {
+    const naissance = 0.55 + alea(i) * 4.6;             // pendant la montée
+    const vie = 0.9 + alea(i + 33) * 1.1;
+    const age = (t - naissance) / vie;
+    if (age < 0 || age > 1) continue;
+    const force = clamp(vitesseMontee(naissance) * 2.2);
+    const dir = (alea(i + 7) - 0.5) * 2;
+    const v0 = (260 + alea(i + 13) * 520) * (0.5 + 0.5 * force);
+    const x = cx + dir * (60 + alea(i + 91) * 40) + dir * v0 * 0.55 * age * vie;
+    const y = cy - 10 - (v0 * age * vie - 700 * (age * vie) * (age * vie));
+    if (y > cy + 8) continue;                           // retombée dans l'eau
+    const r = (1.8 + alea(i + 21) * 4.2) * (1 - age * 0.45);
+    const op = (1 - age) * 0.9 * (0.4 + 0.6 * force);
+    const dore = alea(i + 55) > 0.72;
+    const gg = c.createRadialGradient(x - r * .3, y - r * .3, r * .15, x, y, r);
+    gg.addColorStop(0, `rgba(255,255,255,${op})`);
+    gg.addColorStop(1, dore ? `rgba(255,205,110,${op * 0.6})` : `rgba(170,215,255,${op * 0.55})`);
+    c.fillStyle = gg;
+    c.beginPath(); c.arc(x, y, r, 0, 6.2832); c.fill();
+  }
+
+  // 4) Ruissellement : filets d'eau qui coulent le long du logo pendant la sortie.
+  if (e > 0.05 && e < 0.995) {
+    for (let k = 0; k < 14; k++) {
+      const xk = cx - 150 + alea(k + 200) * 300;
+      const haut = cy - e * 470 * (0.3 + alea(k + 300) * 0.7);
+      const long = 40 + alea(k + 400) * 90;
+      const g2 = c.createLinearGradient(0, haut, 0, haut + long);
+      g2.addColorStop(0, "rgba(220,240,255,0)");
+      g2.addColorStop(0.5, `rgba(220,240,255,${0.35 * (1 - e)})`);
+      g2.addColorStop(1, "rgba(220,240,255,0)");
+      c.strokeStyle = g2; c.lineWidth = 1.2 + alea(k + 500) * 1.4;
+      c.beginPath(); c.moveTo(xk, haut); c.lineTo(xk + Math.sin(t * 3 + k) * 2, haut + long); c.stroke();
+    }
+  }
+}
+
 /* ═══════════════ Fonction maîtresse ═══════════════ */
 window.poser = function(t){
   // Rayons : léger balancement.
@@ -479,6 +561,13 @@ window.poser = function(t){
     r.style.opacity = 0.30 + 0.22 * Math.sin(t * 0.7 + ph);
   });
 
+  if (MODE_EMERGENCE) {
+    dessineEmergence(t);
+    document.getElementById("titre").style.display = "none";
+    document.getElementById("reflet").style.display = "none";
+    document.getElementById("sous").style.display = "none";
+    return;
+  }
   dessineMer(t);
   const avancement = MODE_HELICE ? poseHelice(t) : poseLettres(t);
   dessineRuban(t, clamp((t - 0.7) / 3.4) * (1 - adouci(clamp((t - 7.2) / 2.0)) * 0.9));
