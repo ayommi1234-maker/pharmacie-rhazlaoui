@@ -3,9 +3,27 @@
 Animation du nom en lettres capitales dorées qui **sortent de la mer en tournant
 en hélice**, inspirée de la vidéo de référence fournie par la propriétaire.
 
-## Trois versions
+## Quatre versions
 
-### 0. Logo formé par les lettres (celle retenue)
+### ★ Monogramme LR (celle retenue)
+Le logo fourni par la propriétaire — monogramme **LR** doré au ruban hélicoïdal —
+à la place exacte de l'ancienne sculpture. Il sort de la vraie mer, se reflète sur
+l'eau, puis le nom apparaît dessous. Ancienne sculpture réellement retirée (plaque
+propre, voir plus bas).
+
+| Fichier | Format |
+|---|---|
+| `la-para-rhazlaoui-monogramme.mp4` | 960×960, 24 i/s |
+| `la-para-rhazlaoui-monogramme-vertical.mp4` | 1080×1920 |
+
+- `monogramme.png` : le logo détouré (alpha = luminance : l'or devient opaque, le
+  noir transparent), **sans le texte du logo d'origine**, qui contenait une faute
+  (« LAPRA »). Le nom est réécrit par `drawtext` : « LA PARA RHAZLAOUI ».
+- `montage-logo.txt` : le graphe ffmpeg complet (plaque → halo → montée du
+  monogramme, `y = 216 + (1-e)³·470` → cache de la partie immergée → reflet →
+  nom). Pas de rendu navigateur : tout est ffmpeg.
+
+### 0. Logo formé par les lettres
 Les lettres **forment elles-mêmes le logo** : une colonne en spirale à la place
 exacte de l'ancienne sculpture, qui sort de la vraie mer et tourne en continu ;
 sphère d'or au sommet, en écho à l'original. On lit le nom au fil de la rotation,
