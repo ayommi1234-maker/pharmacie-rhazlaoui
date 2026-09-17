@@ -102,9 +102,10 @@ const PARAMS = new URLSearchParams(location.search);
 const MODE_HELICE = PARAMS.get("helice") === "1";          // colonne de lettres en spirale
 const MODE_EMERGENCE = PARAMS.get("emergence") === "1";    // gerbe + ondes + écume, sans lettres
 const COURBE = PARAMS.get("courbe") || "douce";              // douce (S sur 5 s) | jaillir (0,4→1,7 s avec rebond)
-const RUBANS = PARAMS.get("rubans");                         // "avant" | "arriere" : moitié du ruban à dessiner
+const RUBANS = PARAMS.get("rubans");
+const MODE_RAYONS = PARAMS.get("rayons") === "1";   // faisceaux lumineux animés, seuls                         // "avant" | "arriere" : moitié du ruban à dessiner
 const DEBUT_RUBANS = parseFloat(PARAMS.get("debut") || "1.2");
-const MODE_CALQUE = MODE_HELICE || MODE_EMERGENCE || !!RUBANS || PARAMS.get("calque") === "1";
+const MODE_CALQUE = MODE_HELICE || MODE_EMERGENCE || MODE_RAYONS || !!RUBANS || PARAMS.get("calque") === "1";
 const DUREE = 10;            // secondes
 const L = 1080;              // côté du carré
 let MER_Y = 0.58 * L;        // hauteur de la ligne d'eau en pixels (réglée en mode calque)
@@ -293,7 +294,7 @@ function dessineRuban(t, avancement, moitie){
   const garde = (angle) => !moitie || (moitie === "avant" ? Math.sin(angle) > 0 : Math.sin(angle) <= 0);
 
   const baseY = MER_Y + 16;      // départ : la surface de l'eau
-  const hautY = MER_Y - 470;     // arrivée : au-dessus du texte
+  const hautY = MER_Y - 610;     // arrivée : au-dessus du logo
   const tours = 2.6;
 
   for (const [ep, alpha, decal] of [[9, 0.20, 0], [4.5, 0.55, 0], [1.8, 0.95, 0.06]]) {
@@ -304,7 +305,7 @@ function dessineRuban(t, avancement, moitie){
     for (let i = 0; i <= visible; i++) {
       const p = i / n;
       const angle = p * tours * 6.2832 + t * 1.15 + decal * 6.28;
-      const rayon = (215 - p * 40) * Math.sin(Math.PI * clamp(p * 1.05, 0, 1)) + 46;
+      const rayon = (265 - p * 46) * Math.sin(Math.PI * clamp(p * 1.05, 0, 1)) + 52;
       const x = L / 2 + Math.cos(angle) * rayon;
       const y = lerp(baseY, hautY, p) + Math.sin(angle) * rayon * 0.15;
       if (!garde(angle)) { enCours = false; continue; }
@@ -325,7 +326,7 @@ function dessineRuban(t, avancement, moitie){
     const p = ((t * 0.16 + k / 7) % 1) * clamp(avancement);
     const angle = p * tours * 6.2832 + t * 1.15;
     if (!garde(angle)) continue;
-    const rayon = (215 - p * 40) * Math.sin(Math.PI * clamp(p * 1.05, 0, 1)) + 46;
+    const rayon = (265 - p * 46) * Math.sin(Math.PI * clamp(p * 1.05, 0, 1)) + 52;
     const x = L / 2 + Math.cos(angle) * rayon;
     const y = lerp(baseY, hautY, p) + Math.sin(angle) * rayon * 0.15;
     const r = 5 + 5 * Math.sin(p * Math.PI);
@@ -531,33 +532,70 @@ function dessineEmergence(t){
     c.restore();
   }
 
-  // 3) Gerbe de gouttes : projetées vers le haut depuis la base, retombent (gravité).
-  for (let i = 0; i < 220; i++) {
-    const naissance = COURBE === "jaillir" ? 0.45 + alea(i) * 1.6 : 0.55 + alea(i) * 4.6;
-    const vie = 0.9 + alea(i + 33) * 1.1;
+  // 3) Gerbe de gouttelettes d'OR : projetées vers le haut, elles retombent (gravité)
+  //    et frappent l'eau en créant un petit anneau d'impact.
+  for (let i = 0; i < 150; i++) {
+    const naissance = COURBE === "jaillir" ? 0.45 + alea(i) * 1.7 : 0.55 + alea(i) * 4.8;
+    const vie = 1.5 + alea(i + 33) * 1.4;               // assez longue pour voir la retombée
     const age = (t - naissance) / vie;
     if (age < 0 || age > 1) continue;
     const force = clamp(vitesseMontee(naissance) * gain);
     const dir = (alea(i + 7) - 0.5) * 2;
-    const v0 = (260 + alea(i + 13) * 520) * (0.5 + 0.5 * force);
-    const x = cx + dir * (60 + alea(i + 91) * 40) + dir * v0 * 0.55 * age * vie;
-    const y = cy - 10 - (v0 * age * vie - 700 * (age * vie) * (age * vie));
-    if (y > cy + 8) continue;                           // retombée dans l'eau
-    const r = (1.8 + alea(i + 21) * 4.2) * (1 - age * 0.45);
-    const op = (1 - age) * 0.9 * (0.4 + 0.6 * force);
-    const dore = alea(i + 55) > 0.72;
-    const gg = c.createRadialGradient(x - r * .3, y - r * .3, r * .15, x, y, r);
-    gg.addColorStop(0, `rgba(255,255,255,${op})`);
-    gg.addColorStop(1, dore ? `rgba(255,205,110,${op * 0.6})` : `rgba(170,215,255,${op * 0.55})`);
+    const v0 = (330 + alea(i + 13) * 600) * (0.55 + 0.45 * force);
+    const tv = age * vie;                                // temps réel de vol, en secondes
+    const x = cx + dir * (40 + alea(i + 91) * 70) + dir * v0 * 0.60 * tv;
+    const y = cy - 10 - (v0 * tv - 620 * tv * tv);       // parabole : montée puis chute
+    const r = (5.0 + alea(i + 21) * 9.5) * (0.78 + 0.22 * (1 - age));
+
+    if (y > cy + 4) {
+      // Impact : la goutte est retombée dans la mer → petit anneau doré qui s'ouvre.
+      const apresChute = (y - cy) / 60;
+      if (apresChute > 1) continue;
+      const rr = r * (2 + apresChute * 9);
+      c.beginPath();
+      c.ellipse(x, cy + 4, rr, rr * 0.3, 0, 0, 6.2832);
+      c.strokeStyle = `rgba(255,205,110,${(1 - apresChute) * 0.5})`;
+      c.lineWidth = 1.6;
+      c.stroke();
+      continue;
+    }
+
+    const op = Math.min(1, (1 - age * 0.55)) * (0.45 + 0.55 * force);
+
+    // Traînée dorée derrière la goutte (sens du déplacement).
+    const vx = dir * v0 * 0.55, vy = -(v0 - 1240 * tv);
+    const n = Math.hypot(vx, vy) || 1;
+    const lg = Math.min(62, n * 0.055);
+    const tg = c.createLinearGradient(x, y, x - vx / n * lg, y - vy / n * lg);
+    tg.addColorStop(0, `rgba(255,214,130,${op * 0.55})`);
+    tg.addColorStop(1, "rgba(255,214,130,0)");
+    c.strokeStyle = tg; c.lineWidth = r * 0.9; c.lineCap = "round";
+    c.beginPath(); c.moveTo(x, y); c.lineTo(x - vx / n * lg, y - vy / n * lg); c.stroke();
+
+    // Sphère d'or : dégradé métal (clair en haut-gauche, brun doré en bas) + reflet net.
+    const gg = c.createRadialGradient(x - r * 0.35, y - r * 0.40, r * 0.10, x, y, r);
+    gg.addColorStop(0.00, `rgba(255,250,220,${op})`);
+    gg.addColorStop(0.28, `rgba(250,215,120,${op})`);
+    gg.addColorStop(0.68, `rgba(212,160,38,${op})`);
+    gg.addColorStop(1.00, `rgba(140,96,12,${op})`);
     c.fillStyle = gg;
     c.beginPath(); c.arc(x, y, r, 0, 6.2832); c.fill();
+    // éclat spéculaire
+    c.fillStyle = `rgba(255,255,240,${op * 0.85})`;
+    c.beginPath(); c.arc(x - r * 0.34, y - r * 0.38, r * 0.26, 0, 6.2832); c.fill();
+    // halo chaud
+    const hg = c.createRadialGradient(x, y, r * 0.8, x, y, r * 2.6);
+    hg.addColorStop(0, `rgba(255,200,100,${op * 0.30})`);
+    hg.addColorStop(1, "rgba(255,200,100,0)");
+    c.fillStyle = hg;
+    c.beginPath(); c.arc(x, y, r * 2.6, 0, 6.2832); c.fill();
   }
 
   // 4) Ruissellement : filets d'eau qui coulent le long du logo pendant la sortie.
   if (e > 0.05 && e < 0.995) {
     for (let k = 0; k < 14; k++) {
-      const xk = cx - 150 + alea(k + 200) * 300;
-      const haut = cy - e * 470 * (0.3 + alea(k + 300) * 0.7);
+      const xk = cx - 190 + alea(k + 200) * 380;
+      const haut = cy - e * 582 * (0.3 + alea(k + 300) * 0.7);
       const long = 40 + alea(k + 400) * 90;
       const g2 = c.createLinearGradient(0, haut, 0, haut + long);
       g2.addColorStop(0, "rgba(220,240,255,0)");
@@ -569,6 +607,44 @@ function dessineEmergence(t){
   }
 }
 
+/* ═══════════════ Faisceaux lumineux animés ═══════════════ */
+function dessineRayons(t){
+  const c = eclats;
+  c.clearRect(0, 0, L, L);
+  const bas = MER_Y;                                  // les faisceaux meurent sur l'eau
+  c.save();
+  c.globalCompositeOperation = "lighter";             // lumière : s'ajoute au fond
+  c.filter = 'blur(34px)';
+  for (let i = 0; i < 7; i++) {
+    const phase = alea(i + 70) * 6.28;
+    const xh = L * (0.12 + i * 0.128) + Math.sin(t * 0.28 + phase) * 30;   // dérive lente
+    const pente = (-0.26 + i * 0.087) + Math.sin(t * 0.21 + phase) * 0.020;
+    const xb = xh + pente * bas;
+    const large = 26 + alea(i + 12) * 46;
+    const force = (0.045 + alea(i + 31) * 0.045) * (0.72 + 0.28 * Math.sin(t * 0.75 + phase));
+    const g = c.createLinearGradient(0, 0, 0, bas);
+    g.addColorStop(0.00, `rgba(150,200,255,${force})`);
+    g.addColorStop(0.45, `rgba(120,175,245,${force * 0.42})`);
+    g.addColorStop(1.00, "rgba(90,150,230,0)");
+    c.fillStyle = g;
+    c.beginPath();
+    c.moveTo(xh - large * 0.34, -20);
+    c.lineTo(xh + large * 0.34, -20);
+    c.lineTo(xb + large * 1.5, bas);
+    c.lineTo(xb - large * 1.5, bas);
+    c.closePath();
+    c.fill();
+  }
+  // Halo central : le « projecteur » qui éclaire le logo.
+  c.filter = "none";
+  const h = c.createRadialGradient(L / 2, bas * 0.30, 10, L / 2, bas * 0.30, L * 0.55);
+  h.addColorStop(0, `rgba(170,215,255,${0.055 + 0.018 * Math.sin(t * 0.6)})`);
+  h.addColorStop(1, "rgba(170,215,255,0)");
+  c.fillStyle = h;
+  c.fillRect(0, 0, L, bas);
+  c.restore();
+}
+
 /* ═══════════════ Fonction maîtresse ═══════════════ */
 window.poser = function(t){
   // Rayons : léger balancement.
@@ -578,6 +654,12 @@ window.poser = function(t){
     r.style.opacity = 0.30 + 0.22 * Math.sin(t * 0.7 + ph);
   });
 
+  if (MODE_RAYONS) {
+    document.getElementById("eclats").style.display = "block";
+    for (const id of ["titre", "reflet", "sous", "ruban"]) { const n = document.getElementById(id); if (n) n.style.display = "none"; }
+    dessineRayons(t);
+    return;
+  }
   if (RUBANS) {
     document.getElementById("ruban").style.display = "block";
     for (const id of ["titre", "reflet", "sous", "eclats"]) document.getElementById(id).style.display = "none";
@@ -626,7 +708,7 @@ if (MODE_CALQUE) {
   // Les lettres sous la ligne d'eau doivent être coupées, pas peintes :
   // on rogne le bloc du titre à la ligne d'eau.
   // Ligne d'eau de la VRAIE vidéo : ≈ 65,6 % de la hauteur (mesuré sur les images).
-  MER_Y = 0.656 * L;
+  MER_Y = 0.818 * L;   // ligne d'eau mesuree dans la video source (785 px sur 960)
   TITRE_TOP = 0.39;
   mer.style.top = "65.6%";
   document.getElementById("sol").style.clipPath = `inset(0 0 ${L - MER_Y}px 0)`;

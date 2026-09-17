@@ -23,3 +23,9 @@
 - **Corrigé** : reflet visible sous l'eau avant la sortie (élégante) ; jointures sur la croix.
 - **À décider par le propriétaire** : quel logo garder (LR reçu, ou un des 3 dessinés) ; envoyer d'autres logos si besoin — le pipeline accepte n'importe quel PNG transparent 420×432.
 - **Prochaine fois** : intégrer le logo choisi au site v2 (en-tête + favicon), Reels 15 s avec produits.
+
+### 2026-09-17 (nuit) — intros v2 : eau réelle, gouttelettes d'or, fond animé
+- **Mesuré** : ligne d'eau réelle à y=785 (les intros précédentes plaçaient le logo sur l'horizon à 630, d'où l'effet « flottant ») ; sculpture absente au-delà de 240 px du bord gauche.
+- **Fait** : fond entièrement animé (nuages, brume, mer) reconstruit depuis la bande de 240 px de l'image courante ; rayons lumineux redessinés et animés ; gouttelettes d'or en relief qui jaillissent, retombent et font des anneaux ; logo agrandi et calé sur l'eau ; 3 nouveaux logos (mortier et pilon, coupe d'Hygie, blason R).
+- **À décider** : quel logo garder pour l'identité de la pharmacie.
+- **Prochaine fois** : intégrer le logo choisi au site (en-tête + favicon).

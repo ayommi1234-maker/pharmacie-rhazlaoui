@@ -188,3 +188,28 @@ Livrables : `intro-jaillissement.mp4`, `intro-elegante.mp4` (monogramme LR),
 
 Limites honnêtes : les logos sont des images plates (pas de vraie 3D tournante) ; la mer
 est celle de la référence (droits de la musique à vérifier avant diffusion publique).
+
+## Version 2 des intros — ligne d'eau réelle, gouttelettes d'or, fond animé (17 sept. 2026)
+
+Trois corrections mesurées sur la vidéo source, et non estimées à l'œil :
+
+1. **Ligne d'eau à y = 785** (et non 630). Vérifiée en agrandissant la base de la
+   sculpture image par image : c'est là que l'or rencontre son reflet. Les versions
+   précédentes plaçaient le logo sur la ligne d'horizon, d'où l'impression qu'il flottait.
+2. **Fond entièrement animé** (`plaque3.txt`). Mesure `signalstats` sur toutes les images :
+   au-delà de 240 px depuis le bord gauche, la sculpture apparaît (or max 235 à 260 px,
+   16 à 240 px). On prend donc la bande de 240 px de **l'image courante**, on la
+   symétrise puis on l'étire à 960. Nuages, brume et mer bougent ; aucune image figée.
+3. **Rayons redessinés** (`?rayons=1`) : le haut de l'image contient de l'or à toutes les
+   hauteurs (les billes montent très haut), impossible de le reprendre de la source.
+   7 faisceaux translucides, floutés à 34 px, qui dérivent et « respirent ».
+
+Gouttelettes d'**or** (`dessineEmergence`) : 150 sphères métalliques avec dégradé,
+éclat spéculaire, halo chaud et traînée orientée selon la vitesse. Trajectoire
+parabolique réelle (montée puis chute) ; à la retombée, un anneau doré s'ouvre sur l'eau.
+
+Montage : `montage-v2.txt`. Logo agrandi à 560×576, base calée sur y = 785,
+course de 800 → 218 px. Reflet dégradé par `geq` (plus de rectangle visible).
+
+Logos ajoutés dans `logos.html` : `mortier`, `coupe` (coupe d'Hygie), `blason`.
+Livrables : `intro2-{mortier,coupe,blason,monogramme}.mp4` + `-vertical.mp4`.
