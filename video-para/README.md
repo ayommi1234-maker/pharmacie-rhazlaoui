@@ -159,3 +159,32 @@ générée ou téléchargée ailleurs — je ne connais pas ses droits. Pour une
 diffusion publique (Instagram, TikTok, publicité), mieux vaut une piste dont
 vous détenez les droits ou une musique libre. Remplacer le fichier suffit,
 l'animation ne change pas.
+
+## Intros « logo qui jaillit de l'eau + ruban » (17 septembre 2026)
+
+Demande : des intros comme la vidéo de référence — logo en or qui **jaillit** de l'eau,
+avec des **rubans dorés qui tournent autour**. Pipeline 100 % local (ffmpeg + Chromium).
+
+Calques rendus par `rendu.mjs` (transparents, 960×960, 24 i/s) :
+
+| commande | rôle |
+|---|---|
+| `node rendu.mjs em-jaillir 24 10.04 emergence 960 "courbe=jaillir"` | gerbe, anneaux, écume (sortie brusque 0,4→1,7 s, rebond) |
+| `node rendu.mjs em-douce 24 10.04 emergence 960 "courbe=douce"` | idem, montée lente 0,5→5,5 s |
+| `node rendu.mjs rub-ar 24 10.04 rubans 960 "rubans=arriere&debut=1.4"` | moitié du ruban **derrière** le logo |
+| `node rendu.mjs rub-av 24 10.04 rubans 960 "rubans=avant&debut=1.4"` | moitié du ruban **devant** le logo |
+
+Le ruban est coupé en deux moitiés (`sin(angle)` > 0 = devant) pour qu'il tourne vraiment
+*autour* du logo. Montage : `montage-jaillissement.txt`, `montage-elegante.txt`,
+`montage-logos.txt` (inputs : 0 seq.mp4, 1 plein-00.png en boucle, 2 le logo PNG,
+3 gerbe, 4 ruban arrière, 5 ruban avant). Dans « élégante », le reflet n'apparaît qu'à
+4,2 s (avant, il se voyait sous l'eau avant la sortie du logo).
+
+Logos dessinés en or (Canvas, police Cinzel via Google Fonts, extrusion + dégradé + brillance)
+dans `logos.html`, rendus par `node rendu-logo.mjs croix|pr|feuille` → `logo-*.png` (420×432).
+
+Livrables : `intro-jaillissement.mp4`, `intro-elegante.mp4` (monogramme LR),
+`intro-croix.mp4`, `intro-pr.mp4`, `intro-feuille.mp4` (+ `-vertical.mp4` 1080×1920).
+
+Limites honnêtes : les logos sont des images plates (pas de vraie 3D tournante) ; la mer
+est celle de la référence (droits de la musique à vérifier avant diffusion publique).

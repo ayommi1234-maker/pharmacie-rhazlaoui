@@ -101,7 +101,10 @@ const TEXTE = "LA PARA RHAZLAOUI";
 const PARAMS = new URLSearchParams(location.search);
 const MODE_HELICE = PARAMS.get("helice") === "1";          // colonne de lettres en spirale
 const MODE_EMERGENCE = PARAMS.get("emergence") === "1";    // gerbe + ondes + écume, sans lettres
-const MODE_CALQUE = MODE_HELICE || MODE_EMERGENCE || PARAMS.get("calque") === "1";
+const COURBE = PARAMS.get("courbe") || "douce";              // douce (S sur 5 s) | jaillir (0,4→1,7 s avec rebond)
+const RUBANS = PARAMS.get("rubans");                         // "avant" | "arriere" : moitié du ruban à dessiner
+const DEBUT_RUBANS = parseFloat(PARAMS.get("debut") || "1.2");
+const MODE_CALQUE = MODE_HELICE || MODE_EMERGENCE || !!RUBANS || PARAMS.get("calque") === "1";
 const DUREE = 10;            // secondes
 const L = 1080;              // côté du carré
 let MER_Y = 0.58 * L;        // hauteur de la ligne d'eau en pixels (réglée en mode calque)
@@ -283,9 +286,11 @@ function dessineMer(t){
 
 /* ═══════════════ Ruban hélicoïdal ═══════════════ */
 const ruban = document.getElementById("ruban").getContext("2d");
-function dessineRuban(t, avancement){
+function dessineRuban(t, avancement, moitie){
   ruban.clearRect(0, 0, L, L);
   if (avancement <= 0.01) return;
+  // moitie : "avant" = points côté spectateur (sin > 0), "arriere" = derrière le logo.
+  const garde = (angle) => !moitie || (moitie === "avant" ? Math.sin(angle) > 0 : Math.sin(angle) <= 0);
 
   const baseY = MER_Y + 16;      // départ : la surface de l'eau
   const hautY = MER_Y - 470;     // arrivée : au-dessus du texte
@@ -295,13 +300,16 @@ function dessineRuban(t, avancement){
     ruban.beginPath();
     const n = 260;
     const visible = Math.floor(n * clamp(avancement));
+    let enCours = false;
     for (let i = 0; i <= visible; i++) {
       const p = i / n;
       const angle = p * tours * 6.2832 + t * 1.15 + decal * 6.28;
       const rayon = (215 - p * 40) * Math.sin(Math.PI * clamp(p * 1.05, 0, 1)) + 46;
       const x = L / 2 + Math.cos(angle) * rayon;
       const y = lerp(baseY, hautY, p) + Math.sin(angle) * rayon * 0.15;
-      i === 0 ? ruban.moveTo(x, y) : ruban.lineTo(x, y);
+      if (!garde(angle)) { enCours = false; continue; }
+      enCours ? ruban.lineTo(x, y) : ruban.moveTo(x, y);
+      enCours = true;
     }
     ruban.strokeStyle = `rgba(255,205,105,${alpha * clamp(avancement * 1.4)})`;
     ruban.lineWidth = ep;
@@ -316,6 +324,7 @@ function dessineRuban(t, avancement){
   for (let k = 0; k < 7; k++) {
     const p = ((t * 0.16 + k / 7) % 1) * clamp(avancement);
     const angle = p * tours * 6.2832 + t * 1.15;
+    if (!garde(angle)) continue;
     const rayon = (215 - p * 40) * Math.sin(Math.PI * clamp(p * 1.05, 0, 1)) + 46;
     const x = L / 2 + Math.cos(angle) * rayon;
     const y = lerp(baseY, hautY, p) + Math.sin(angle) * rayon * 0.15;
@@ -473,14 +482,22 @@ function poseHelice(t){
 
 /* ═══════════════ Réaction de l'eau à l'émergence (mode emergence) ═══════════════ */
 /* Même courbe que le montage ffmpeg : montée de 0,5 s à 5,5 s, en S (smoothstep). */
-function progressionMontee(t){ const p = clamp((t - 0.5) / 5); return p * p * (3 - 2 * p); }
+function progressionMontee(t){
+  if (COURBE === "jaillir") {
+    // Sortie brusque avec léger dépassement puis retombée (easeOutBack), de 0,4 s à 1,7 s.
+    const p = clamp((t - 0.4) / 1.3);
+    return 1 + 2.70158 * Math.pow(p - 1, 3) + 1.70158 * Math.pow(p - 1, 2);
+  }
+  const p = clamp((t - 0.5) / 5); return p * p * (3 - 2 * p);
+}
 function vitesseMontee(t){ return (progressionMontee(t + 0.04) - progressionMontee(t - 0.04)) / 0.08; }
 
 function dessineEmergence(t){
   const c = eclats;                     // on réutilise le canvas des éclaboussures
   c.clearRect(0, 0, L, L);
   const cx = L / 2, cy = MER_Y + 6;     // point d'émergence, sur la ligne d'eau
-  const v = clamp(vitesseMontee(t) * 2.2);   // 0 → 1 : intensité de la perturbation
+  const gain = COURBE === "jaillir" ? 1.15 : 2.2;
+  const v = clamp(vitesseMontee(t) * gain);   // 0 → 1 : intensité de la perturbation
   const e = progressionMontee(t);
 
   // 1) Ondes concentriques : une nouvelle onde toutes les 0,3 s tant que ça monte.
@@ -489,7 +506,7 @@ function dessineEmergence(t){
     const age = (t - naissance) / 2.6;
     if (age < 0 || age > 1) continue;
     const rx = 70 + age * 520, ry = rx * 0.17;
-    const force = clamp(vitesseMontee(naissance) * 2.2);
+    const force = clamp(vitesseMontee(naissance) * gain);
     c.beginPath();
     c.ellipse(cx, cy + age * 26, rx, ry, 0, 0, 6.2832);
     c.strokeStyle = `rgba(200,230,255,${(1 - age) * 0.55 * (0.35 + 0.65 * force)})`;
@@ -516,11 +533,11 @@ function dessineEmergence(t){
 
   // 3) Gerbe de gouttes : projetées vers le haut depuis la base, retombent (gravité).
   for (let i = 0; i < 220; i++) {
-    const naissance = 0.55 + alea(i) * 4.6;             // pendant la montée
+    const naissance = COURBE === "jaillir" ? 0.45 + alea(i) * 1.6 : 0.55 + alea(i) * 4.6;
     const vie = 0.9 + alea(i + 33) * 1.1;
     const age = (t - naissance) / vie;
     if (age < 0 || age > 1) continue;
-    const force = clamp(vitesseMontee(naissance) * 2.2);
+    const force = clamp(vitesseMontee(naissance) * gain);
     const dir = (alea(i + 7) - 0.5) * 2;
     const v0 = (260 + alea(i + 13) * 520) * (0.5 + 0.5 * force);
     const x = cx + dir * (60 + alea(i + 91) * 40) + dir * v0 * 0.55 * age * vie;
@@ -561,6 +578,13 @@ window.poser = function(t){
     r.style.opacity = 0.30 + 0.22 * Math.sin(t * 0.7 + ph);
   });
 
+  if (RUBANS) {
+    document.getElementById("ruban").style.display = "block";
+    for (const id of ["titre", "reflet", "sous", "eclats"]) document.getElementById(id).style.display = "none";
+    // Le ruban s'enroule une fois le logo sorti, et reste en rotation jusqu'à la fin.
+    dessineRuban(t, adouci(clamp((t - DEBUT_RUBANS) / 1.6)), RUBANS);
+    return;
+  }
   if (MODE_EMERGENCE) {
     dessineEmergence(t);
     document.getElementById("titre").style.display = "none";
