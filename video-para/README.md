@@ -3,9 +3,26 @@
 Animation du nom en lettres capitales dorées qui **sortent de la mer en tournant
 en hélice**, inspirée de la vidéo de référence fournie par la propriétaire.
 
-## Deux versions
+## Trois versions
 
-### 1. Sur la vidéo d'origine (celle retenue)
+### 0. Logo formé par les lettres (celle retenue)
+Les lettres **forment elles-mêmes le logo** : une colonne en spirale à la place
+exacte de l'ancienne sculpture, qui sort de la vraie mer et tourne en continu ;
+sphère d'or au sommet, en écho à l'original. On lit le nom au fil de la rotation,
+et le sous-titre le donne en clair.
+
+| Fichier | Format |
+|---|---|
+| `la-para-rhazlaoui-logo-helice.mp4` | 960×960, 24 i/s (format d'origine) |
+| `la-para-rhazlaoui-logo-helice-vertical.mp4` | 1080×1920 |
+
+Réglages dans `scene.html`, objet `HELICE` : `taille` (corps des lettres),
+`pas` (montée par lettre), `rayon`, `tours`, `vitesse` (°/s), `montee` (durée
+d'émergence). Rendu : `node rendu.mjs helice 24 10.04 helice 960`, puis le même
+montage ffmpeg que la version 1 avec `helice/` au lieu de `calque/`
+(halo réglé à `brightness=-0.05`).
+
+### 1. Nom en deux lignes sur la vidéo d'origine
 La **vraie** vidéo de référence (mer, rayons, éclaboussures, musique) avec le nom
 par-dessus. La sculpture dorée du centre n'est pas effacée — c'est de l'inpainting
 vidéo, hors de portée de ffmpeg — mais **fondue en colonne de lumière** : un flou

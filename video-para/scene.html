@@ -62,6 +62,11 @@
   /* ── Ruban de lumière hélicoïdal ── */
   #ruban{position:absolute;inset:0;mix-blend-mode:screen;pointer-events:none}
 
+  /* ── Colonne hélicoïdale (mode helice) ── */
+  #sphere{position:absolute;left:50%;top:0;width:34px;height:34px;margin-left:-17px;border-radius:50%;
+    background:radial-gradient(circle at 32% 28%,#fffbe6 0%,#f6cf63 32%,#b8811c 70%,#6e4a0c 100%);
+    box-shadow:0 0 26px rgba(255,205,100,.85),0 0 60px rgba(255,190,80,.45);display:none}
+
   /* ── Sous-titre ── */
   #sous{position:absolute;left:0;right:0;top:86%;text-align:center;
     font-size:30px;letter-spacing:.42em;text-transform:uppercase;
@@ -78,6 +83,7 @@
   <div id="brume"></div>
   <div id="sol">
     <div id="titre"></div>
+    <div id="sphere"></div>
   </div>
   <div id="mer">
     <canvas id="eau" width="1080" height="454"></canvas>
@@ -92,7 +98,9 @@
 <script>
 /* ═══════════════ Réglages ═══════════════ */
 const TEXTE = "LA PARA RHAZLAOUI";
-const MODE_CALQUE = new URLSearchParams(location.search).get("calque") === "1";
+const PARAMS = new URLSearchParams(location.search);
+const MODE_HELICE = PARAMS.get("helice") === "1";          // colonne de lettres en spirale
+const MODE_CALQUE = MODE_HELICE || PARAMS.get("calque") === "1";
 const DUREE = 10;            // secondes
 const L = 1080;              // côté du carré
 let MER_Y = 0.58 * L;        // hauteur de la ligne d'eau en pixels (réglée en mode calque)
@@ -392,6 +400,76 @@ function poseLettres(t){
   return dernier;
 }
 
+/* ═══════════════ Colonne de lettres en spirale (mode helice) ═══════════════ */
+const HELICE = {
+  taille: 118,     // corps des lettres (unités scène 1080)
+  pas: 36,         // montée verticale d'une lettre à la suivante
+  rayon: 150,      // rayon de la spirale
+  tours: 1.7,      // nombre de tours sur toute la hauteur
+  vitesse: 42,     // degrés par seconde
+  montee: 5.4,     // durée d'émergence hors de l'eau (s)
+};
+let HELICE_PRETE = false;
+function prepareHelice(){
+  const t = HELICE.taille;
+  lettres.forEach(el => { el.style.fontSize = t + "px"; el.style.left = "0"; el.style.marginLeft = "0"; });
+  reflets.forEach(el => { el.style.fontSize = t + "px"; });
+  // Chaque lettre est centrée sur l'axe : on la décale de la moitié de sa largeur mesurée.
+  lettres.forEach((el, i) => {
+    el.style.transform = "none";
+    const w = el.getBoundingClientRect().width / (COTE_ECHELLE || 1);
+    el.dataset.demi = w / 2;
+    reflets[i].dataset.demi = w / 2;
+  });
+  const sphere = document.getElementById("sphere");
+  sphere.style.display = "block";
+  HELICE_PRETE = true;
+}
+
+function poseHelice(t){
+  if (!HELICE_PRETE) prepareHelice();
+  const visibles = CARS.map((c, i) => ({ c: c.c, i })).filter(x => x.c !== " ");
+  const N = visibles.length;
+  const H = (N - 1) * HELICE.pas;                       // hauteur de la colonne
+  const e = adouci(clamp((t - 0.25) / HELICE.montee));  // émergence hors de l'eau
+  const descente = (1 - e) * (H + HELICE.taille + 40);  // combien la colonne est encore immergée
+  const baseY = MER_Y - TITRE_TOP * L;                  // ligne d'eau, dans le repère du titre
+  const pasAngle = (360 * HELICE.tours) / N;
+
+  // Lettres non affichées (espaces) : cachées
+  CARS.forEach((c, i) => { if (c.c === " ") { lettres[i].style.opacity = 0; reflets[i].style.opacity = 0; } });
+
+  visibles.forEach(({ i }, k) => {
+    // k = 0 est la lettre du HAUT (« L ») : elle sort de l'eau la première.
+    const hauteur = H - k * HELICE.pas;                 // hauteur au-dessus de la base
+    const y = baseY - hauteur - HELICE.taille + descente;
+    const angle = k * pasAngle + t * HELICE.vitesse;
+    const rad = angle * Math.PI / 180;
+    const face = Math.cos(rad);                         // 1 = face au spectateur, -1 = dos
+    const demi = parseFloat(lettres[i].dataset.demi) || 0;
+
+    const l = lettres[i];
+    l.style.opacity = (0.16 + 0.84 * Math.pow((face + 1) / 2, 1.6)).toFixed(3);
+    l.style.filter = `brightness(${(0.45 + 0.75 * (face + 1) / 2).toFixed(3)}) drop-shadow(0 0 14px rgba(255,200,90,.55)) drop-shadow(0 2px 3px rgba(0,0,0,.6))`;
+    l.style.transform =
+      `translate3d(${-demi}px, ${y}px, 0) rotateY(${angle}deg) translateZ(${HELICE.rayon}px)`;
+
+    // Reflet : miroir sous la ligne d'eau, uniquement pour la partie émergée.
+    const r = reflets[i];
+    const auDessus = baseY - y - HELICE.taille;         // distance lettre → surface
+    r.style.opacity = (auDessus > 0 ? 0.32 * (0.4 + 0.6 * (face + 1) / 2) : 0).toFixed(3);
+    r.style.transform =
+      `translate3d(${-demi}px, ${auDessus * 0.35 + 6}px, 0) rotateY(${angle}deg) translateZ(${HELICE.rayon}px) scaleY(-1)`;
+  });
+
+  // Sphère au sommet de la colonne
+  const sphere = document.getElementById("sphere");
+  const ySommet = baseY - H - HELICE.taille + descente - 30 + TITRE_TOP * L;
+  sphere.style.top = ySommet + "px";
+  sphere.style.opacity = clamp(e * 2);
+  return e;
+}
+
 /* ═══════════════ Fonction maîtresse ═══════════════ */
 window.poser = function(t){
   // Rayons : léger balancement.
@@ -402,7 +480,7 @@ window.poser = function(t){
   });
 
   dessineMer(t);
-  const avancement = poseLettres(t);
+  const avancement = MODE_HELICE ? poseHelice(t) : poseLettres(t);
   dessineRuban(t, clamp((t - 0.7) / 3.4) * (1 - adouci(clamp((t - 7.2) / 2.0)) * 0.9));
   dessineEclats(t);
 
@@ -440,7 +518,16 @@ if (MODE_CALQUE) {
   mer.style.top = "65.6%";
   document.getElementById("sol").style.clipPath = `inset(0 0 ${L - MER_Y}px 0)`;
   document.getElementById("titre").style.top = (TITRE_TOP * 100) + "%";
+  if (MODE_HELICE) {
+    // La colonne est perspective 3D autour de son axe : le point de fuite doit
+    // être sur l'axe, à mi-hauteur de la colonne.
+    document.getElementById("sol").style.perspectiveOrigin = "50% 42%";
+    document.getElementById("sol").style.perspective = "1100px";
+  }
 }
+/* Échelle appliquée par rendu.mjs (960/1080) : nécessaire pour mesurer les glyphes. */
+let COTE_ECHELLE = 1;
+window.definirEchelle = (f) => { COTE_ECHELLE = f; HELICE_PRETE = false; };
 
 window.poser(0);
 </script>
