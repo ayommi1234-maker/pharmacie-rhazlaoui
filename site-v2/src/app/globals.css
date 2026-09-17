@@ -1,0 +1,225 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  Palette « pharmacie » : vert soin + blanc, beaucoup de respiration.
+  Les guides UX santé recommandent une palette sobre et des contrastes élevés
+  (objectif WCAG 2.2 AA : 4,5:1 sur le texte, 3:1 sur les éléments d'interface).
+*/
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 170 25% 12%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 170 25% 12%;
+
+    /* Vert pharmacie — contraste ≈ 5,6:1 sur blanc */
+    --primary: 168 72% 24%;
+    --primary-foreground: 0 0% 100%;
+    --primary-soft: 168 45% 95%;
+
+    --secondary: 168 30% 96%;
+    --secondary-foreground: 168 60% 18%;
+
+    /* Ambre chaleureux pour les accents (jamais seul porteur d'information).
+       Le texte posé dessus est brun très foncé : contraste 5,5:1 (AA).
+       Du blanc sur cet ambre ne donnerait que 3,07:1 — insuffisant. */
+    --accent: 32 85% 46%;
+    --accent-foreground: 25 90% 10%;
+
+    --muted: 170 16% 96%;
+    --muted-foreground: 170 12% 38%;
+
+    --destructive: 0 72% 42%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* `border` = séparateurs décoratifs (cartes, filets) : peut rester clair.
+       `input` = contour des champs de saisie : WCAG 2.2 impose 3:1 minimum
+       pour délimiter un contrôle de formulaire → teinte nettement plus soutenue. */
+    --border: 170 16% 87%;
+    --input: 170 16% 50%;
+    --ring: 168 72% 30%;
+
+    --radius: 0.85rem;
+
+    /*
+      Polices système : zéro requête réseau, zéro origine à ajouter à la CSP,
+      affichage instantané. C'est le meilleur compromis pour un site consulté
+      surtout en mobile et en 4G.
+    */
+    --police-texte: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+    --police-titre: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia,
+      "Times New Roman", serif;
+  }
+
+  .dark {
+    --background: 172 28% 7%;
+    --foreground: 160 20% 94%;
+
+    --card: 172 26% 10%;
+    --card-foreground: 160 20% 94%;
+
+    --primary: 164 55% 55%;
+    --primary-foreground: 172 40% 8%;
+    --primary-soft: 170 30% 15%;
+
+    --secondary: 172 22% 15%;
+    --secondary-foreground: 160 20% 94%;
+
+    --accent: 34 80% 58%;
+    --accent-foreground: 172 40% 8%;
+
+    --muted: 172 20% 15%;
+    --muted-foreground: 165 12% 68%;
+
+    --destructive: 0 62% 52%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 172 18% 20%;
+    --input: 172 18% 42%; /* 3:1 minimum face au fond sombre (WCAG 1.4.11) */
+    --ring: 164 55% 48%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "kern";
+  }
+
+  /* Focus toujours visible : exigence WCAG 2.2 (critère 2.4.11). */
+  :focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+
+  /* Respect de « réduire les animations » du système. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* Lien d'évitement affiché uniquement au focus clavier. */
+  .lien-evitement {
+    @apply sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100]
+           focus:rounded-md focus:bg-primary focus:px-4 focus:py-2
+           focus:text-primary-foreground;
+  }
+
+  /* Dégradé discret utilisé en fond de section. */
+  .fond-soin {
+    background-image: radial-gradient(
+        60rem 30rem at 15% -10%,
+        hsl(var(--primary-soft)) 0%,
+        transparent 60%
+      ),
+      radial-gradient(50rem 26rem at 95% 0%, hsl(var(--secondary)) 0%, transparent 55%);
+  }
+}
+
+/*
+  ─────────────────────────────────────────────────────────────
+  PALETTES DES 5 PROPOSITIONS DE PAGE D'ACCUEIL
+  Chaque variante redéfinit seulement les jetons de couleur :
+  le reste du système (composants, espacements) est commun.
+  Toutes les valeurs ont été mesurées pour respecter WCAG 2.2 AA.
+  ─────────────────────────────────────────────────────────────
+*/
+@layer components {
+  /* A — « Comptoir » : vert pharmacie + ambre. Proximité, service. */
+  .variante-a {
+    --primary: 168 72% 24%;
+    --primary-foreground: 0 0% 100%;
+    --primary-soft: 168 45% 95%;
+    --secondary: 168 30% 96%;
+    --secondary-foreground: 168 60% 18%;
+    --accent: 32 85% 46%;
+    --accent-foreground: 25 90% 10%;
+  }
+
+  /* B — « Recherche d'abord » : bleu clinique + vert. Codes e-commerce santé. */
+  .variante-b {
+    --primary: 206 82% 28%;
+    --primary-foreground: 0 0% 100%;
+    --primary-soft: 206 60% 95%;
+    --secondary: 206 45% 96%;
+    --secondary-foreground: 206 70% 20%;
+    --accent: 160 70% 26%;
+    --accent-foreground: 0 0% 100%;
+    --muted: 206 20% 96%;
+    --muted-foreground: 206 14% 36%;
+    --ring: 206 82% 34%;
+  }
+
+  /* C — « Bento » : vert profond sur fond gris-vert, cartes blanches. */
+  .variante-c {
+    --background: 160 14% 96%;
+    --card: 0 0% 100%;
+    --primary: 163 68% 20%;
+    --primary-foreground: 0 0% 100%;
+    --primary-soft: 163 40% 92%;
+    --secondary: 163 24% 92%;
+    --secondary-foreground: 163 55% 16%;
+    --accent: 14 72% 40%;
+    --accent-foreground: 0 0% 100%;
+    --muted: 160 14% 92%;
+    --muted-foreground: 163 12% 34%;
+    --border: 163 14% 86%;
+    --ring: 163 68% 26%;
+  }
+
+  /* D — « Éditorial » : sauge sombre sur crème. Calme, conseil, premium. */
+  .variante-d {
+    --background: 40 34% 96%;
+    --foreground: 150 22% 12%;
+    --card: 40 40% 98%;
+    --card-foreground: 150 22% 12%;
+    --primary: 152 30% 22%;
+    --primary-foreground: 40 40% 97%;
+    --primary-soft: 150 22% 90%;
+    --secondary: 42 28% 92%;
+    --secondary-foreground: 152 30% 18%;
+    --accent: 18 52% 36%;
+    --accent-foreground: 40 40% 97%;
+    --muted: 42 24% 92%;
+    --muted-foreground: 150 12% 34%;
+    --border: 40 18% 86%;
+    --input: 150 14% 48%;
+    --ring: 152 30% 28%;
+    --radius: 0.35rem;
+  }
+
+  /* E — « Vitrine » : émeraude foncée, blanc pur, photos plein cadre. */
+  .variante-e {
+    --background: 0 0% 100%;
+    --foreground: 174 30% 10%;
+    --primary: 172 76% 18%;
+    --primary-foreground: 0 0% 100%;
+    --primary-soft: 172 40% 94%;
+    --secondary: 172 26% 95%;
+    --secondary-foreground: 172 60% 14%;
+    --accent: 44 90% 40%;
+    --accent-foreground: 40 90% 8%;
+    --muted: 172 14% 95%;
+    --muted-foreground: 174 12% 34%;
+    --border: 172 14% 88%;
+    --ring: 172 76% 24%;
+    --radius: 1.5rem;
+  }
+}

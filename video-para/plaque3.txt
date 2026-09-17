@@ -1,0 +1,3 @@
+[0:v]crop=240:960:0:0[bande];
+[bande]split[p1][p2];[p2]hflip[p2f];[p1][p2f]hstack=2[demi];
+[demi]scale=960:960:flags=lanczos[plaque]

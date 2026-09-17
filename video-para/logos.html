@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8">
+<title>Logos dorés — Para / Pharmacie Rhazlaoui</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
+<style>html,body{margin:0;background:transparent}canvas{display:block}</style>
+</head><body>
+<canvas id="c" width="420" height="432"></canvas>
+<script>
+// Rendu d'un logo doré en relief sur fond transparent (même gabarit que monogramme.png : 420×432).
+// ?logo=croix | pr | feuille
+const P = new URLSearchParams(location.search);
+const LOGO = P.get("logo") || "pr";
+const cv = document.getElementById("c"), c = cv.getContext("2d");
+const W = cv.width, H = cv.height;
+
+// Dégradé « or » vertical (haut clair → milieu brun doré → bas clair) : le look métal classique.
+function degradeOr(y0, y1){
+  const g = c.createLinearGradient(0, y0, 0, y1);
+  g.addColorStop(0.00, "#fff4c2"); g.addColorStop(0.18, "#f5d76e"); g.addColorStop(0.42, "#c99a1e");
+  g.addColorStop(0.52, "#8a5f0a"); g.addColorStop(0.62, "#d8ae3a"); g.addColorStop(0.85, "#f7e08a"); g.addColorStop(1, "#b8860b");
+  return g;
+}
+// Dessine une forme (fonction traceur) avec extrusion 3D vers le bas-droite, puis face dorée + brillance.
+function enRelief(tracer, prof = 9, y0 = 0, y1 = H, lisere = true){
+  for (let i = prof; i >= 1; i--) {            // épaisseur : couches sombres décalées
+    c.save(); c.translate(i * 0.7, i * 0.9);
+    c.fillStyle = i > prof * 0.6 ? "#3a2604" : "#6b4a08";
+    tracer(); c.fill(); c.restore();
+  }
+  c.save(); c.fillStyle = degradeOr(y0, y1); tracer(); c.fill();
+  // brillance diagonale
+  c.clip();
+  const g = c.createLinearGradient(0, 0, W, H);
+  g.addColorStop(0.30, "rgba(255,255,255,0)"); g.addColorStop(0.45, "rgba(255,255,255,0.35)"); g.addColorStop(0.55, "rgba(255,255,255,0)");
+  c.fillStyle = g; c.fillRect(0, 0, W, H); c.restore();
+  // liseré fin
+  if (lisere) { c.save(); c.strokeStyle = "rgba(255,240,180,0.55)"; c.lineWidth = 1; tracer(); c.stroke(); c.restore(); }
+}
+function texte(t, x, y, taille, police = "700 'Cinzel'", espacement = 0){
+  c.font = `${police.split("'")[0]}${taille}px ${police.slice(police.indexOf("'"))}`;
+  c.textAlign = "center"; c.textBaseline = "middle";
+  c.letterSpacing = espacement + "px";
+  c.fillText(t, x, y);
+}
+function traceTexte(t, x, y, taille, police, esp){ return () => { c.beginPath(); texte(t, x, y, taille, police, esp); }; }
+// Le texte : fillText ne trace pas de chemin → on gère l'extrusion à part.
+function texteRelief(t, x, y, taille, police = "700 'Cinzel'", esp = 0, prof = 8){
+  for (let i = prof; i >= 1; i--) { c.save(); c.translate(i * 0.7, i * 0.9); c.fillStyle = i > prof * 0.6 ? "#3a2604" : "#6b4a08"; texte(t, x, y, taille, police, esp); c.restore(); }
+  c.save(); c.fillStyle = degradeOr(y - taille * 0.55, y + taille * 0.55); texte(t, x, y, taille, police, esp);
+  c.globalCompositeOperation = "source-atop";
+  const g = c.createLinearGradient(0, 0, W, H);
+  g.addColorStop(0.30, "rgba(255,255,255,0)"); g.addColorStop(0.45, "rgba(255,255,255,0.35)"); g.addColorStop(0.55, "rgba(255,255,255,0)");
+  c.fillStyle = g; c.fillRect(0, 0, W, H); c.restore();
+}
+
+function croix(){
+  // Croix de pharmacie aux bras arrondis, en relief, avec un petit « R » au centre.
+  const cx = 210, cy = 170, b = 62, l = 150, r = 22;
+  const tracer = () => {
+    c.beginPath();
+    c.roundRect(cx - l, cy - b, 2 * l, 2 * b, r);
+    c.roundRect(cx - b, cy - l, 2 * b, 2 * l, r);
+  };
+  enRelief(tracer, 12, cy - l, cy + l, false);
+  // creux central sombre + lettre
+  c.save(); c.fillStyle = "rgba(50,30,3,0.78)"; c.beginPath(); c.arc(cx, cy, 46, 0, 6.2832); c.fill(); c.restore();
+  texteRelief("R", cx, cy + 3, 74, "900 'Cinzel'", 0, 4);
+  texteRelief("PHARMACIE", 210, 368, 34, "700 'Cinzel'", 4, 5);
+  texteRelief("RHAZLAOUI", 210, 408, 34, "700 'Cinzel'", 4, 5);
+}
+function pr(){
+  // Monogramme P + R entrelacés, grand, puis le nom en petit.
+  texteRelief("P", 168, 170, 250, "700 'Cinzel Decorative'", 0, 12);
+  c.save(); c.globalAlpha = 0.97; texteRelief("R", 262, 200, 250, "700 'Cinzel Decorative'", 0, 12); c.restore();
+  texteRelief("PHARMACIE RHAZLAOUI", 210, 396, 27, "700 'Cinzel'", 3, 5);
+}
+function feuille(){
+  // Anneau doré + feuille (deux arcs) avec nervure, puis « LA PARA ».
+  const cx = 210, cy = 172, R = 150;
+  enRelief(() => { c.beginPath(); c.arc(cx, cy, R, 0, 6.2832); c.arc(cx, cy, R - 22, 0, 6.2832, true); }, 10, cy - R, cy + R);
+  const feuilleTrace = () => {
+    c.beginPath();
+    c.moveTo(cx - 88, cy + 84);
+    c.bezierCurveTo(cx - 100, cy - 40, cx - 10, cy - 110, cx + 92, cy - 90);
+    c.bezierCurveTo(cx + 100, cy + 10, cx + 30, cy + 100, cx - 88, cy + 84);
+    c.closePath();
+  };
+  enRelief(feuilleTrace, 10, cy - 110, cy + 100);
+  // nervure centrale (creux)
+  c.save(); c.strokeStyle = "rgba(70,45,5,0.7)"; c.lineWidth = 5; c.lineCap = "round";
+  c.beginPath(); c.moveTo(cx - 84, cy + 80); c.quadraticCurveTo(cx - 10, cy + 10, cx + 86, cy - 84); c.stroke();
+  for (let i = 1; i <= 4; i++) { const t = i / 5, x = cx - 84 + t * 170, y = cy + 80 - t * 164; c.beginPath(); c.moveTo(x - 10, y + 10); c.quadraticCurveTo(x + 10, y - 30, x + 30 * t, y - 46); c.stroke(); }
+  c.restore();
+  texteRelief("LA PARA", 210, 372, 44, "700 'Cinzel'", 6, 6);
+  texteRelief("RHAZLAOUI", 210, 412, 26, "700 'Cinzel'", 5, 4);
+}
+
+function mortier(){
+  // Mortier et pilon : l'emblème du pharmacien préparateur.
+  const cx = 210, cyb = 250;
+  // pilon, incliné dans le mortier
+  enRelief(() => { c.beginPath();
+    c.save(); c.translate(cx + 40, cyb - 120); c.rotate(0.42);
+    c.roundRect(-13, -128, 26, 176, 12); c.roundRect(-24, 40, 48, 40, 18); c.restore();
+  }, 9, 60, 300);
+  // coupe du mortier
+  enRelief(() => { c.beginPath();
+    c.moveTo(cx - 108, cyb - 74);
+    c.bezierCurveTo(cx - 104, cyb + 52, cx - 58, cyb + 84, cx, cyb + 84);
+    c.bezierCurveTo(cx + 58, cyb + 84, cx + 104, cyb + 52, cx + 108, cyb - 74);
+    c.closePath();
+  }, 12, cyb - 80, cyb + 90);
+  // lèvre supérieure
+  enRelief(() => { c.beginPath(); c.roundRect(cx - 124, cyb - 92, 248, 30, 15); }, 10, cyb - 92, cyb - 62);
+  // pied
+  enRelief(() => { c.beginPath(); c.roundRect(cx - 62, cyb + 78, 124, 22, 11); }, 8, cyb + 78, cyb + 100);
+  texteRelief("PHARMACIE RHAZLAOUI", 210, 396, 26, "700 'Cinzel'", 3, 5);
+}
+
+function coupe(){
+  // Coupe d'Hygie : la coupe et le serpent, emblème officiel des pharmaciens.
+  const cx = 210, cy = 200;
+  // coupe
+  enRelief(() => { c.beginPath();
+    c.moveTo(cx - 74, cy - 60);
+    c.bezierCurveTo(cx - 70, cy + 40, cx - 34, cy + 66, cx, cy + 66);
+    c.bezierCurveTo(cx + 34, cy + 66, cx + 70, cy + 40, cx + 74, cy - 60);
+    c.closePath();
+    c.roundRect(cx - 11, cy + 60, 22, 62, 8);            // tige
+    c.roundRect(cx - 66, cy + 116, 132, 22, 11);         // pied
+  }, 11, cy - 70, cy + 140);
+  // serpent enroulé : un ruban qui descend dans la coupe
+  const serpent = () => { c.beginPath();
+    c.moveTo(cx + 96, cy - 150);
+    c.bezierCurveTo(cx + 150, cy - 96, cx + 92, cy - 34, cx + 28, cy - 44);
+    c.bezierCurveTo(cx - 40, cy - 54, cx - 66, cy - 8, cx - 30, cy + 22);
+    c.lineWidth = 19; c.lineCap = "round"; c.stroke();
+  };
+  for (let i = 9; i >= 1; i--) { c.save(); c.translate(i * 0.7, i * 0.9); c.strokeStyle = i > 5 ? "#3a2604" : "#6b4a08"; serpent(); c.restore(); }
+  c.save(); c.strokeStyle = degradeOr(cy - 150, cy + 30); serpent(); c.restore();
+  // tête du serpent
+  enRelief(() => { c.beginPath(); c.ellipse(cx + 96, cy - 156, 20, 14, -0.5, 0, 6.2832); }, 7, cy - 172, cy - 140);
+  texteRelief("PHARMACIE RHAZLAOUI", 210, 400, 25, "700 'Cinzel'", 3, 5);
+}
+
+function blason(){
+  // Écusson doré avec « R » et deux rameaux de laurier.
+  const cx = 210, cy = 190;
+  enRelief(() => { c.beginPath();
+    c.moveTo(cx - 116, cy - 128);
+    c.lineTo(cx + 116, cy - 128);
+    c.lineTo(cx + 116, cy + 24);
+    c.bezierCurveTo(cx + 116, cy + 112, cx + 52, cy + 150, cx, cy + 168);
+    c.bezierCurveTo(cx - 52, cy + 150, cx - 116, cy + 112, cx - 116, cy + 24);
+    c.closePath();
+  }, 13, cy - 130, cy + 170);
+  // creux intérieur pour détacher la lettre
+  c.save(); c.fillStyle = "rgba(48,30,3,0.62)";
+  c.beginPath();
+  c.moveTo(cx - 92, cy - 104); c.lineTo(cx + 92, cy - 104); c.lineTo(cx + 92, cy + 20);
+  c.bezierCurveTo(cx + 92, cy + 92, cx + 42, cy + 122, cx, cy + 138);
+  c.bezierCurveTo(cx - 42, cy + 122, cx - 92, cy + 92, cx - 92, cy + 20);
+  c.closePath(); c.fill(); c.restore();
+  texteRelief("R", cx, cy + 6, 150, "900 'Cinzel'", 0, 9);
+  // rameaux de laurier de part et d'autre
+  for (const cote of [-1, 1]) {
+    for (let k = 0; k < 5; k++) {
+      const yy = cy - 46 + k * 42, xx = cx + cote * (128 + k * 2);
+      enRelief(() => { c.beginPath(); c.ellipse(xx, yy, 26, 11, cote * (-0.5 + k * 0.12), 0, 6.2832); }, 5, yy - 12, yy + 12, false);
+    }
+  }
+  texteRelief("RHAZLAOUI", 210, 400, 34, "700 'Cinzel'", 5, 5);
+}
+
+document.fonts.ready
+  .then(() => Promise.all([
+    document.fonts.load("700 20px 'Cinzel'"),
+    document.fonts.load("900 20px 'Cinzel'"),
+    document.fonts.load("700 20px 'Cinzel Decorative'"),
+  ]))
+  .then(() => {
+    ({ croix, pr, feuille, mortier, coupe, blason })[LOGO]();
+    window.pret = true;
+  })
+  .catch((e) => { window.erreur = String(e); });
+</script></body></html>

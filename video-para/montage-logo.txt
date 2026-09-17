@@ -1,0 +1,12 @@
+[0:v]crop=300:320:0:640[bas0];[bas0]split[b1][b2];[b2]hflip[b2f];[b1][b2f]hstack=2[bas];[1:v]crop=300:700:0:0[haut0];[haut0]split[h1][h2];[h2]hflip[h2f];[h1][h2f]hstack=2,format=rgba,geq=r='r(X,Y)':g='g(X,Y)':b='b(X,Y)':a='255*min(1,(699-Y)/60)'[haut];[bas]pad=600:960:0:640:black[fondbas];[fondbas][haut]overlay=0:0:shortest=1[plein];[plein]scale=960:960:flags=lanczos[sym];[1:v]crop=220:150:370:0,format=rgba,geq=r='r(X,Y)':g='g(X,Y)':b='b(X,Y)':a='255*min(1,min(X,219-X)/80)*min(1,(149-Y)/50)'[faisceau];[sym][faisceau]overlay=370:0:shortest=1[plaque];
+[plaque]split=2[fond][pourEau];
+[pourEau]crop=960:330:0:630[eau];
+[2:v]split=3[m1][m2][m3];
+[m2]gblur=sigma=24,colorchannelmixer=aa=0.6[halo];
+[m3]vflip,scale=420:190,gblur=sigma=3,colorchannelmixer=aa=0.32[reflet];
+[fond][halo]overlay=x=270:y='686-470*(pow(clip((t-0.5)/5,0,1),2)*(3-2*clip((t-0.5)/5,0,1)))':eval=frame:shortest=1[a1];
+[a1][m1]overlay=x=270:y='686-470*(pow(clip((t-0.5)/5,0,1),2)*(3-2*clip((t-0.5)/5,0,1)))':eval=frame:shortest=1[a2];
+[a2][eau]overlay=0:630:shortest=1[a3];
+[a3][reflet]overlay=x=270:y=634:enable='gte(t,1.2)':shortest=1[a4];
+[a4][3:v]overlay=0:0:shortest=1[a5];
+[a5]drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf:text='LA PARA RHAZLAOUI':fontsize=44:fontcolor=0xF0C04A:x=(w-text_w)/2:y=790:shadowcolor=black@0.7:shadowx=2:shadowy=2:alpha='clip((t-6.8)/1.2,0,1)'[v]
