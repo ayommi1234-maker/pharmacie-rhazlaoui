@@ -1,0 +1,7 @@
+[1:v]crop=560:130:200:0,format=rgba,geq=r='r(X,Y)':g='g(X,Y)':b='b(X,Y)':a='255*min(1,min(X,559-X)/60)'[haut];
+[0:v]split=3[base][g][d];
+[g]crop=200:860:0:100,scale=280:860,hflip[gm];
+[d]crop=200:860:760:100,scale=280:860,hflip[dm];
+[gm][dm]hstack=2,format=rgba,geq=r='r(X,Y)':g='g(X,Y)':b='b(X,Y)':a='255*min(1,min(X,559-X)/14)*min(1,Y/30)'[bas];
+[base][haut]overlay=200:0:shortest=1[t1];
+[t1][bas]overlay=200:100:shortest=1[plaque]

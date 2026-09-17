@@ -405,8 +405,8 @@ const HELICE = {
   taille: 118,     // corps des lettres (unités scène 1080)
   pas: 36,         // montée verticale d'une lettre à la suivante
   rayon: 150,      // rayon de la spirale
-  tours: 1.7,      // nombre de tours sur toute la hauteur
-  vitesse: 42,     // degrés par seconde
+  tours: 1.2,      // nombre de tours sur toute la hauteur
+  vitesse: 30,     // degrés par seconde
   montee: 5.4,     // durée d'émergence hors de l'eau (s)
 };
 let HELICE_PRETE = false;
@@ -449,7 +449,7 @@ function poseHelice(t){
     const demi = parseFloat(lettres[i].dataset.demi) || 0;
 
     const l = lettres[i];
-    l.style.opacity = (0.16 + 0.84 * Math.pow((face + 1) / 2, 1.6)).toFixed(3);
+    l.style.opacity = (face > 0 ? 0.35 + 0.65 * face : 0.06 * (1 + face)).toFixed(3); // dos quasi invisible
     l.style.filter = `brightness(${(0.45 + 0.75 * (face + 1) / 2).toFixed(3)}) drop-shadow(0 0 14px rgba(255,200,90,.55)) drop-shadow(0 2px 3px rgba(0,0,0,.6))`;
     l.style.transform =
       `translate3d(${-demi}px, ${y}px, 0) rotateY(${angle}deg) translateZ(${HELICE.rayon}px)`;

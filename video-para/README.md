@@ -11,6 +11,19 @@ exacte de l'ancienne sculpture, qui sort de la vraie mer et tourne en continu ;
 sphère d'or au sommet, en écho à l'original. On lit le nom au fil de la rotation,
 et le sous-titre le donne en clair.
 
+**L'ancienne sculpture est réellement retirée** (plus de halo) grâce à une
+« plaque propre » fabriquée à partir de la vidéo elle-même, image par image :
+- au-dessus de y=130 (source de lumière) : l'image 0, où la sculpture est encore
+  basse, donc cette zone est propre ;
+- en dessous : les bandes latérales de l'image **courante** (x 0–200 et 760–960,
+  toujours propres), étirées et retournées pour remplir la colonne centrale
+  x 200–760. Le retournement garantit la continuité aux bords (pas de couture) ;
+  l'eau continue donc de bouger.
+Le filtre est dans `plaque.txt`. Effets visibles et assumés : les montagnes du
+centre sont un miroir des bords (elles changent de forme au fil du plan, comme
+celles de la source, générée par IA) ; les rayons font un léger « V » aux bords
+de la colonne.
+
 | Fichier | Format |
 |---|---|
 | `la-para-rhazlaoui-logo-helice.mp4` | 960×960, 24 i/s (format d'origine) |
