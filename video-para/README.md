@@ -35,8 +35,18 @@ exacte de l'ancienne sculpture, qui sort de la vraie mer et tourne en continu ;
 sphère d'or au sommet, en écho à l'original. On lit le nom au fil de la rotation,
 et le sous-titre le donne en clair.
 
-**L'ancienne sculpture est réellement retirée** (plus de halo) grâce à une
-« plaque propre » fabriquée à partir de la vidéo elle-même, image par image :
+**Fond d'une seule pièce** (`plaque2.txt`) : la propriétaire avait repéré que la
+première plaque « recollait des plans » (deux traits verticaux, texture différente
+au centre). Nouvelle méthode, sans aucune couture : on ne garde que la bande gauche
+de 300 px — mesurée comme toujours propre sur les 241 images (la sculpture descend
+jusqu'à 248 px du bord) — mise en **miroir autour de son bord** (continuité
+parfaite), puis étirée à la largeur du cadre. Ciel/brume/montagnes pris à l'image 0,
+eau prise à l'image courante (elle bouge), faisceau de lumière remis depuis
+l'image 0. Résultat : scène symétrique, rayons convergents, traînée dorée naturelle
+dans l'eau sous le logo.
+
+Ancienne méthode (`plaque.txt`, conservée pour mémoire) — « plaque propre » par
+bandes étirées :
 - au-dessus de y=130 (source de lumière) : l'image 0, où la sculpture est encore
   basse, donc cette zone est propre ;
 - en dessous : les bandes latérales de l'image **courante** (x 0–200 et 760–960,

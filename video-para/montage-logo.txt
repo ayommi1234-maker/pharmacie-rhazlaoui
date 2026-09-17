@@ -1,4 +1,4 @@
-[1:v]crop=560:130:200:0,format=rgba,geq=r='r(X,Y)':g='g(X,Y)':b='b(X,Y)':a='255*min(1,min(X,559-X)/60)'[haut];[0:v]split=3[base][g][d];[g]crop=200:860:0:100,scale=280:860,hflip[gm];[d]crop=200:860:760:100,scale=280:860,hflip[dm];[gm][dm]hstack=2,format=rgba,geq=r='r(X,Y)':g='g(X,Y)':b='b(X,Y)':a='255*min(1,min(X,559-X)/14)*min(1,Y/30)'[bas];[base][haut]overlay=200:0:shortest=1[t1];[t1][bas]overlay=200:100:shortest=1[plaque];
+[0:v]crop=300:320:0:640[bas0];[bas0]split[b1][b2];[b2]hflip[b2f];[b1][b2f]hstack=2[bas];[1:v]crop=300:700:0:0[haut0];[haut0]split[h1][h2];[h2]hflip[h2f];[h1][h2f]hstack=2,format=rgba,geq=r='r(X,Y)':g='g(X,Y)':b='b(X,Y)':a='255*min(1,(699-Y)/60)'[haut];[bas]pad=600:960:0:640:black[fondbas];[fondbas][haut]overlay=0:0:shortest=1[plein];[plein]scale=960:960:flags=lanczos[sym];[1:v]crop=220:150:370:0,format=rgba,geq=r='r(X,Y)':g='g(X,Y)':b='b(X,Y)':a='255*min(1,min(X,219-X)/80)*min(1,(149-Y)/50)'[faisceau];[sym][faisceau]overlay=370:0:shortest=1[plaque];
 [plaque]split=2[fond][pourEau];
 [pourEau]crop=960:330:0:630[eau];
 [2:v]split=3[m1][m2][m3];
