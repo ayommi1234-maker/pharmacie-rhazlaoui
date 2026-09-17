@@ -63,7 +63,7 @@
   #ruban{position:absolute;inset:0;mix-blend-mode:screen;pointer-events:none}
 
   /* ── Sous-titre ── */
-  #sous{position:absolute;left:0;right:0;top:74%;text-align:center;
+  #sous{position:absolute;left:0;right:0;top:86%;text-align:center;
     font-size:30px;letter-spacing:.42em;text-transform:uppercase;
     color:#dfe9ff;text-shadow:0 0 22px rgba(120,180,255,.6);opacity:0}
 
@@ -92,9 +92,11 @@
 <script>
 /* ═══════════════ Réglages ═══════════════ */
 const TEXTE = "LA PARA RHAZLAOUI";
+const MODE_CALQUE = new URLSearchParams(location.search).get("calque") === "1";
 const DUREE = 10;            // secondes
 const L = 1080;              // côté du carré
-const MER_Y = 0.58 * L;      // hauteur de la ligne d'eau en pixels
+let MER_Y = 0.58 * L;        // hauteur de la ligne d'eau en pixels (réglée en mode calque)
+let TITRE_TOP = 0.38;        // position verticale du bloc de titre (fraction de L)
 
 /* ═══════════════ Utilitaires ═══════════════ */
 const clamp = (v, a=0, b=1) => Math.min(b, Math.max(a, v));
@@ -380,7 +382,7 @@ function poseLettres(t){
     const r = reflets[i];
     // #reflet part du haut de la mer : le reflet est le miroir du texte
     // par rapport à la ligne d'eau, donc d'autant plus bas que la lettre est haute.
-    const hauteurAuDessus = MER_Y - (0.38 * L + yy);
+    const hauteurAuDessus = MER_Y - (TITRE_TOP * L + yy);
     const refletY = hauteurAuDessus * 0.30 + 8;
     r.style.opacity = op * 0.45 * ea;
     r.style.transform =
@@ -413,9 +415,32 @@ window.poser = function(t){
   document.getElementById("sous").style.opacity = adouci(clamp((t - 6.4) / 1.3)) * 0.95;
 
   // Fondu d'ouverture et de fermeture.
-  document.getElementById("scene").style.opacity =
-    clamp(t / 0.5) * clamp((DUREE - t) / 0.55);
+  document.getElementById("scene").style.opacity = MODE_CALQUE
+    ? 1
+    : clamp(t / 0.5) * clamp((DUREE - t) / 0.55);
 };
+
+/* ── Mode calque : superposition sur une vidéo réelle ── */
+if (MODE_CALQUE) {
+  document.documentElement.style.background = "transparent";
+  document.body.style.background = "transparent";
+  for (const id of ["ciel", "rayons", "montagnes", "brume", "horizon", "eau", "ruban"]) {
+    const el = document.getElementById(id);
+    if (el) el.style.display = "none";
+  }
+  // La mer reste là mais invisible : elle sert uniquement de CACHE pour
+  // les lettres encore immergées (elle est opaque… en couleur de découpe).
+  const mer = document.getElementById("mer");
+  mer.style.background = "transparent";
+  // Les lettres sous la ligne d'eau doivent être coupées, pas peintes :
+  // on rogne le bloc du titre à la ligne d'eau.
+  // Ligne d'eau de la VRAIE vidéo : ≈ 65,6 % de la hauteur (mesuré sur les images).
+  MER_Y = 0.656 * L;
+  TITRE_TOP = 0.39;
+  mer.style.top = "65.6%";
+  document.getElementById("sol").style.clipPath = `inset(0 0 ${L - MER_Y}px 0)`;
+  document.getElementById("titre").style.top = (TITRE_TOP * 100) + "%";
+}
 
 window.poser(0);
 </script>
