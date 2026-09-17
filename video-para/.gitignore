@@ -1,0 +1,3 @@
+# Images intermédiaires du rendu : régénérables avec `node rendu.mjs`
+images/
+node_modules
