@@ -276,3 +276,22 @@ du ruban (cuivre en bas → or clair → or pâle en haut) et **deux lumières b
 défilent** en boucle, avec traînée gaussienne, épaississement local et tête de comète.
 
 Montage : `montage-bouteille.txt`. Livrables : `intro-bouteille.mp4`, `-vertical.mp4`.
+
+## Logo courbé qui tourne, sans bouteille (20 sept. 2026)
+
+`logo-cylindre.html` — le logo est appliqué sur un cylindre **invisible** : on ne voit que
+les lettres d'or, courbées par la rotation, comme un texte imprimé sur une bouteille.
+C'est la demande réelle du propriétaire ; la version avec bouteille visible
+(`bouteille.html`) est conservée mais n'était pas ce qu'il voulait.
+
+- Un exemplaire occupe **26 % de la circonférence** (±47° d'arc) : au-delà, les lettres des
+  bords sont trop comprimées pour rester lisibles.
+- **Deux exemplaires opposés** sur le cylindre : avec un seul, le logo disparaîtrait
+  complètement pendant environ un quart du tour et l'image resterait vide.
+- `effacerBords()` (composition `destination-out`) efface progressivement les lettres vers
+  les flancs : sans cela, elles s'empilent au bord au lieu de tourner derrière.
+- `lumiereCylindre()` (composition `source-atop`) ajoute l'éclairage cylindrique
+  uniquement sur les lettres, pas sur le fond.
+- Phase calée pour que le logo soit pile de face à 9,2 s, montée lente comme la référence.
+
+Montage : `montage-cylindre.txt`. Livrables : `intro-logo-tournant.mp4`, `-vertical.mp4`.

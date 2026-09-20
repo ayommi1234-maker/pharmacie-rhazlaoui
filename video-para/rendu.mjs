@@ -13,7 +13,7 @@ const SORTIE = process.argv[2] ?? "images";
 const FPS    = Number(process.argv[3] ?? 30);
 const DUREE  = Number(process.argv[4] ?? 10);
 const TOTAL  = Math.round(FPS * DUREE);
-const CALQUE = ["calque","helice","emergence","rubans","rayons","bouteille"].includes(process.argv[5]);   // superposition transparente
+const CALQUE = ["calque","helice","emergence","rubans","rayons","bouteille","cylindre"].includes(process.argv[5]);   // superposition transparente
 const COTE   = Number(process.argv[6] ?? 1080); // côté de sortie (960 pour coller à la source)
 const EXTRA  = process.argv[7] ? "&" + process.argv[7] : "";
 
@@ -35,11 +35,11 @@ if (COTE !== 1080) {
 await page.waitForTimeout(400);   // laisse les polices se poser avant la mesure
 if (COTE !== 1080) await page.evaluate((f) => window.definirEchelle && window.definirEchelle(f), COTE / 1080);
 const MODE = process.argv[5];
-if (["helice","emergence","rubans","rayons","bouteille"].includes(MODE)) {
+if (["helice","emergence","rubans","rayons","bouteille","cylindre"].includes(MODE)) {
   // même page, paramètre différent
-  const PAGE = MODE === "bouteille" ? "bouteille.html?x=1" : "scene.html?" + (MODE === "rubans" ? "" : MODE + "=1");
+  const PAGE = MODE === "bouteille" ? "bouteille.html?x=1" : MODE === "cylindre" ? "logo-cylindre.html?x=1" : "scene.html?" + (MODE === "rubans" ? "" : MODE + "=1");
   await page.goto("http://127.0.0.1:4400/" + PAGE + EXTRA, { waitUntil: "networkidle" });
-  if (COTE !== 1080 && MODE !== "bouteille") {   // bouteille.html est déjà au format de sortie
+  if (COTE !== 1080 && MODE !== "bouteille" && MODE !== "cylindre") {   // bouteille.html est déjà au format de sortie
     await page.addStyleTag({ content: `#scene{transform:scale(${COTE / 1080});transform-origin:0 0} html,body{width:${COTE}px;height:${COTE}px}` });
     await page.evaluate((f) => window.definirEchelle(f), COTE / 1080);
   }

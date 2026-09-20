@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8">
+<title>Logo courbé tournant — Lapara Rhazlaoui</title>
+<style>html,body{margin:0;background:transparent}canvas{display:block}</style>
+</head><body>
+<canvas id="c" width="960" height="960"></canvas>
+<script>
+/* Le logo est appliqué sur un cylindre INVISIBLE : on ne voit que les lettres
+   d'or, courbées par la rotation, comme un texte imprimé sur une bouteille.
+   Rendu image par image : window.poser(t) ne dépend que de t. */
+const P = new URLSearchParams(location.search);
+const MODE_REFLET = P.get("reflet") === "1";
+const LOGO_SRC = P.get("logo") || "logo-laparaSignature.png";
+
+const cv = document.getElementById("c"), c = cv.getContext("2d");
+const L = cv.width;
+
+const MER_Y  = 0.818 * L;        // ligne d'eau mesurée dans la vidéo source (785 px)
+const CX     = L / 2;
+const LARG   = 603;              // largeur du logo à plat
+const PART   = 0.26;             // part de la circonférence occupée par un exemplaire
+const CIRC   = Math.round(LARG / PART);
+const R      = CIRC / (2 * Math.PI);
+const TOURS  = 1.0;
+const T_FACE = 9.2;              // le logo est pile de face à cet instant
+const COURSE = 640;              // hauteur de sortie de l'eau
+
+let H_TEX = 0, TEX_Y = 0;
+const texture = document.createElement("canvas");
+const x = texture.getContext("2d");
+
+function construireTexture(logo){
+  H_TEX = Math.round(LARG * (logo.height / logo.width));
+  texture.width = CIRC; texture.height = H_TEX;
+  // Deux exemplaires opposés : il y en a toujours un de visible pendant le tour.
+  x.drawImage(logo, Math.round(CIRC / 2 - LARG / 2), 0, LARG, H_TEX);
+  const bord = Math.round(-LARG / 2);
+  x.drawImage(logo, bord, 0, LARG, H_TEX);
+  x.drawImage(logo, bord + CIRC, 0, LARG, H_TEX);
+  // Le bas du dessin (sous le texte) sert de repère : on cale le pied sur l'eau.
+  TEX_Y = MER_Y - Math.round(H_TEX * 0.984);
+}
+
+/* Enroulement : chaque tranche verticale lit la colonne correspondante de la texture. */
+function enrouler(phase, decalY){
+  const PAS = 320;
+  c.save();
+  c.beginPath(); c.rect(CX - R, TEX_Y + decalY - 4, R * 2, H_TEX + 8); c.clip();
+  for (let i = 0; i < PAS; i++) {
+    const a1 = -Math.PI / 2 + (i / PAS) * Math.PI;
+    const a2 = -Math.PI / 2 + ((i + 1) / PAS) * Math.PI;
+    const x1 = CX + Math.sin(a1) * R, x2 = CX + Math.sin(a2) * R;
+    let u1 = (((a1 + phase) / (2 * Math.PI)) % 1 + 1) % 1 * CIRC;
+    const du = ((a2 - a1) / (2 * Math.PI)) * CIRC;
+    const larg = Math.max(1.3, x2 - x1);
+    if (u1 + du <= CIRC) {
+      c.drawImage(texture, u1, 0, du, H_TEX, x1, TEX_Y + decalY, larg + 1.3, H_TEX);
+    } else {
+      const p1 = CIRC - u1, p2 = du - p1, l1 = larg * (p1 / du);
+      c.drawImage(texture, u1, 0, p1, H_TEX, x1, TEX_Y + decalY, l1 + 1.3, H_TEX);
+      c.drawImage(texture, 0, 0, p2, H_TEX, x1 + l1, TEX_Y + decalY, larg - l1 + 1.3, H_TEX);
+    }
+  }
+  c.restore();
+}
+
+/* Les lettres s'effacent vers les bords du cylindre : c'est ce qui donne la rondeur. */
+function effacerBords(){
+  c.save();
+  c.globalCompositeOperation = "destination-out";
+  const g = c.createLinearGradient(CX - R, 0, CX + R, 0);
+  g.addColorStop(0.00, "rgba(0,0,0,1)");
+  g.addColorStop(0.09, "rgba(0,0,0,0.55)");
+  g.addColorStop(0.20, "rgba(0,0,0,0)");
+  g.addColorStop(0.80, "rgba(0,0,0,0)");
+  g.addColorStop(0.91, "rgba(0,0,0,0.55)");
+  g.addColorStop(1.00, "rgba(0,0,0,1)");
+  c.fillStyle = g; c.fillRect(CX - R, 0, R * 2, L);
+  c.restore();
+}
+
+/* Lumière cylindrique : clair au centre-gauche, sombre sur les flancs. */
+function lumiereCylindre(){
+  c.save();
+  c.globalCompositeOperation = "source-atop";
+  const g = c.createLinearGradient(CX - R, 0, CX + R, 0);
+  g.addColorStop(0.00, "rgba(28,14,2,0.72)");
+  g.addColorStop(0.16, "rgba(58,34,6,0.34)");
+  g.addColorStop(0.36, "rgba(255,248,222,0.22)");
+  g.addColorStop(0.58, "rgba(255,236,180,0.05)");
+  g.addColorStop(0.82, "rgba(52,30,5,0.34)");
+  g.addColorStop(1.00, "rgba(24,12,2,0.74)");
+  c.fillStyle = g; c.fillRect(CX - R, 0, R * 2, L);
+  c.restore();
+}
+
+function montee(t){
+  // Montée lente et régulière, comme la sculpture de la vidéo de référence.
+  const p = Math.min(1, Math.max(0, (t - 0.5) / 5));
+  return p * p * (3 - 2 * p);
+}
+
+window.poser = function(t){
+  c.clearRect(0, 0, L, L);
+  const decalY = (1 - montee(t)) * COURSE;
+  const omega = TOURS * 2 * Math.PI / 10.04;
+  const phase = omega * (t - T_FACE) + Math.PI;   // centre de la texture de face à T_FACE
+
+  if (MODE_REFLET) {
+    c.save();
+    c.beginPath(); c.rect(0, MER_Y, L, L - MER_Y); c.clip();   // uniquement dans l'eau
+    c.translate(0, 2 * MER_Y); c.scale(1, -1);
+    c.globalAlpha = 0.30;
+    enrouler(phase, decalY); effacerBords(); lumiereCylindre();
+    c.restore();
+    return;
+  }
+  enrouler(phase, decalY);
+  effacerBords();
+  lumiereCylindre();
+};
+
+const img = new Image();
+img.onload = () => { construireTexture(img); window.pret = true; };
+img.onerror = () => { window.erreur = "logo introuvable : " + LOGO_SRC; };
+img.src = LOGO_SRC;
+</script></body></html>

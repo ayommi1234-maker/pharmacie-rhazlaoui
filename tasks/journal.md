@@ -45,3 +45,8 @@
 - **Fait** : logo Lapara imprimé sur une bouteille en verre ambré qui tourne sur elle-même en sortant lentement de l'eau (comme la sculpture de la vidéo de référence) ; rubans dorés en dégradé parcourus par une lumière blanche.
 - **Corrigé** : fantôme du reflet au-dessus de l'eau (reflet désormais découpé sous la ligne d'eau) ; rayures verticales de l'étiquette (tranches chevauchées) ; logo trop large pour l'arc visible.
 - **Prochaine fois** : décliner la signature sur le site (en-tête, favicon).
+
+### 2026-09-20 (fin) — logo courbé tournant
+- **Malentendu levé** : « tourner comme écrit sur une bouteille » voulait dire le **logo seul courbé** sur un cylindre invisible, pas une bouteille visible. Question posée, réponse obtenue, version refaite.
+- **Fait** : `logo-cylindre.html` — logo courbé qui tourne et finit face caméra, deux exemplaires opposés pour ne jamais avoir d'image vide, effacement des bords et éclairage cylindrique appliqués aux seules lettres.
+- **En attente** : sens de « styl alpham » ; pose de l'identité Lapara sur le site.
