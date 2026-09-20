@@ -34,3 +34,9 @@
 - **Fait** : logo « LAPARA » en lettres d'or (filets à losange, RHAZLAOUI et PARAPHARMACIE dessous), intro carrée et verticale montées avec le même décor (eau réelle, gouttelettes d'or, rubans, nuages animés).
 - **Corrigé** : le reflet blanc diagonal argentait certaines lettres ; adouci pour tous les logos.
 - **Note** : génération vidéo « réaliste » via les bibliothèques connectées non lancée — Higgsfield à 0 crédit, ElevenLabs estimé à ~5 090 crédits (≈0,51 $) pour 10 s. En attente d'accord explicite. Aucun crédit dépensé.
+
+### 2026-09-20 (suite) — polices locales, 5 designs LAPARA, feuilles dorées
+- **Découvert et corrigé** : Google Fonts inaccessible depuis le navigateur de rendu (certificat du proxy) — tous les logos précédents utilisaient une police de secours. Polices désormais téléchargées dans `video-para/polices/`.
+- **Fait** : 5 designs du logo LAPARA (filets, emblème rond, plaque gravée, moderne, signature manuscrite) + intros vidéo pour chacun.
+- **Choix du propriétaire** : la **signature manuscrite**, enrichie d'une branche de petites feuilles dorées.
+- **Prochaine fois** : décliner la signature pour le site (en-tête, favicon) et vérifier le rendu en petite taille.

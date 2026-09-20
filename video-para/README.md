@@ -224,3 +224,29 @@ dorées et ne virent pas à l'argent.
 
 Livrables : `logo-lapara.png` (420×432, fond transparent), `intro2-lapara.mp4`,
 `intro2-lapara-vertical.mp4`.
+
+## Polices locales et 5 designs LAPARA (20 sept. 2026)
+
+**Correction importante** : le navigateur de rendu ne pouvait pas charger Google Fonts
+(`ERR_CERT_AUTHORITY_INVALID` — le proxy présente un certificat que Chromium ne connaît pas).
+Tous les logos précédents utilisaient donc une police de secours, pas celle demandée.
+Les fichiers `.woff2` sont maintenant téléchargés dans `polices/` et déclarés par
+`polices/polices.css` ; `logos.html` ne dépend plus du réseau.
+
+`tailleAjustee()` corrigée : l'espacement entre lettres ne dépend pas de la taille de
+police, il faut donc le retirer de la largeur cible avant de mettre la police à l'échelle
+(sinon les textes longs débordent du cadre).
+
+Cinq designs du mot LAPARA, tous rendus par `node rendu-logo.mjs <nom>` :
+
+| nom | style |
+|---|---|
+| `lapara` | filets dorés à losange, capitales Cinzel |
+| `laparaArc` | emblème rond, texte courbé (`texteArc`), feuille centrale |
+| `laparaPlaque` | cartouche à coins biseautés, Playfair Display gravé |
+| `laparaModerne` | goutte et croix, Montserrat très espacé |
+| `laparaSignature` | « Lapara » manuscrit (Great Vibes) + branche de petites feuilles d'or |
+
+La branche feuillue de `laparaSignature` est construite en échantillonnant la courbe de
+Bézier du paraphe (`surBezier`) : chaque feuille est orientée selon la tangente, alternée
+de part et d'autre, et plus petite aux extrémités.
