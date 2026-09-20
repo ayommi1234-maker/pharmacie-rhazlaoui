@@ -48,8 +48,8 @@ function texteRelief(t, x, y, taille, police = "700 'Cinzel'", esp = 0, prof = 8
   for (let i = prof; i >= 1; i--) { c.save(); c.translate(i * 0.7, i * 0.9); c.fillStyle = i > prof * 0.6 ? "#3a2604" : "#6b4a08"; texte(t, x, y, taille, police, esp); c.restore(); }
   c.save(); c.fillStyle = degradeOr(y - taille * 0.55, y + taille * 0.55); texte(t, x, y, taille, police, esp);
   c.globalCompositeOperation = "source-atop";
-  const g = c.createLinearGradient(0, 0, W, H);
-  g.addColorStop(0.30, "rgba(255,255,255,0)"); g.addColorStop(0.45, "rgba(255,255,255,0.35)"); g.addColorStop(0.55, "rgba(255,255,255,0)");
+  const g = c.createLinearGradient(0, 0, W * 0.75, H);
+  g.addColorStop(0.20, "rgba(255,246,210,0)"); g.addColorStop(0.50, "rgba(255,246,210,0.16)"); g.addColorStop(0.80, "rgba(255,246,210,0)");
   c.fillStyle = g; c.fillRect(0, 0, W, H); c.restore();
 }
 
@@ -172,6 +172,47 @@ function blason(){
   texteRelief("RHAZLAOUI", 210, 400, 34, "700 'Cinzel'", 5, 5);
 }
 
+// Ajuste la taille de police pour que le texte occupe exactement la largeur voulue.
+function tailleAjustee(t, largeurCible, police, esp){
+  let taille = 200;
+  c.font = `${police.split("'")[0]}${taille}px ${police.slice(police.indexOf("'"))}`;
+  c.letterSpacing = esp + "px";
+  const l = c.measureText(t).width;
+  return Math.max(8, taille * (largeurCible / l));
+}
+
+function lapara(){
+  // Le mot LAPARA traité comme un logotype : filets dorés, mot en relief, nom dessous.
+  const cx = 210;
+
+  // Filet supérieur avec losange central.
+  const filet = (y, demi) => {
+    enRelief(() => { c.beginPath();
+      c.roundRect(cx - demi, y - 3, demi - 26, 6, 3);
+      c.roundRect(cx + 26, y - 3, demi - 26, 6, 3);
+      c.save(); c.translate(cx, y); c.rotate(Math.PI / 4); c.rect(-11, -11, 22, 22); c.restore();
+    }, 6, y - 14, y + 14, false);
+  };
+  filet(96, 168);
+
+  // LAPARA : le mot, ajusté pour remplir la largeur.
+  const espace = 8;
+  const taille = tailleAjustee("LAPARA", 366, "700 'Cinzel'", espace);
+  texteRelief("LAPARA", cx + espace / 2, 196, taille, "700 'Cinzel'", espace, 14);
+
+  filet(268, 168);
+
+  // Le nom de la pharmacie, plus discret.
+  const esp2 = 9;
+  const t2 = tailleAjustee("RHAZLAOUI", 300, "700 'Cinzel'", esp2);
+  texteRelief("RHAZLAOUI", cx + esp2 / 2, 312, t2, "700 'Cinzel'", esp2, 6);
+
+  // Mention de métier, tout en bas.
+  const esp3 = 7;
+  const t3 = tailleAjustee("PARAPHARMACIE", 250, "700 'Cinzel'", esp3);
+  texteRelief("PARAPHARMACIE", cx + esp3 / 2, 380, t3, "700 'Cinzel'", esp3, 4);
+}
+
 document.fonts.ready
   .then(() => Promise.all([
     document.fonts.load("700 20px 'Cinzel'"),
@@ -179,7 +220,7 @@ document.fonts.ready
     document.fonts.load("700 20px 'Cinzel Decorative'"),
   ]))
   .then(() => {
-    ({ croix, pr, feuille, mortier, coupe, blason })[LOGO]();
+    ({ croix, pr, feuille, mortier, coupe, blason, lapara })[LOGO]();
     window.pret = true;
   })
   .catch((e) => { window.erreur = String(e); });

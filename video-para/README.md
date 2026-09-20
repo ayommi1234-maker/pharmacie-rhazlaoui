@@ -213,3 +213,14 @@ course de 800 → 218 px. Reflet dégradé par `geq` (plus de rectangle visible)
 
 Logos ajoutés dans `logos.html` : `mortier`, `coupe` (coupe d'Hygie), `blason`.
 Livrables : `intro2-{mortier,coupe,blason,monogramme}.mp4` + `-vertical.mp4`.
+
+## Logotype « LAPARA » (20 sept. 2026)
+
+`logos.html?logo=lapara` — le mot **LAPARA** traité comme logotype : filets dorés à
+losange, mot ajusté automatiquement à la largeur (`tailleAjustee` mesure le texte et
+en déduit la taille de police), puis RHAZLAOUI et PARAPHARMACIE dessous.
+Reflet spéculaire du texte adouci (0,16 au lieu de 0,35) pour que les lettres restent
+dorées et ne virent pas à l'argent.
+
+Livrables : `logo-lapara.png` (420×432, fond transparent), `intro2-lapara.mp4`,
+`intro2-lapara-vertical.mp4`.

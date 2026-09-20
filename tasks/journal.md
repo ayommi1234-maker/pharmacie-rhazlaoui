@@ -29,3 +29,8 @@
 - **Fait** : fond entièrement animé (nuages, brume, mer) reconstruit depuis la bande de 240 px de l'image courante ; rayons lumineux redessinés et animés ; gouttelettes d'or en relief qui jaillissent, retombent et font des anneaux ; logo agrandi et calé sur l'eau ; 3 nouveaux logos (mortier et pilon, coupe d'Hygie, blason R).
 - **À décider** : quel logo garder pour l'identité de la pharmacie.
 - **Prochaine fois** : intégrer le logo choisi au site (en-tête + favicon).
+
+### 2026-09-20 — logotype LAPARA
+- **Fait** : logo « LAPARA » en lettres d'or (filets à losange, RHAZLAOUI et PARAPHARMACIE dessous), intro carrée et verticale montées avec le même décor (eau réelle, gouttelettes d'or, rubans, nuages animés).
+- **Corrigé** : le reflet blanc diagonal argentait certaines lettres ; adouci pour tous les logos.
+- **Note** : génération vidéo « réaliste » via les bibliothèques connectées non lancée — Higgsfield à 0 crédit, ElevenLabs estimé à ~5 090 crédits (≈0,51 $) pour 10 s. En attente d'accord explicite. Aucun crédit dépensé.
