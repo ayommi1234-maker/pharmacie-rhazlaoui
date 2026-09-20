@@ -250,3 +250,29 @@ Cinq designs du mot LAPARA, tous rendus par `node rendu-logo.mjs <nom>` :
 La branche feuillue de `laparaSignature` est construite en échantillonnant la courbe de
 Bézier du paraphe (`surBezier`) : chaque feuille est orientée selon la tangente, alternée
 de part et d'autre, et plus petite aux extrémités.
+
+## Bouteille tournante (20 sept. 2026)
+
+`bouteille.html` — le logo imprimé sur une étiquette **enroulée autour d'un cylindre**
+qui tourne, monté sur le même décor marin.
+
+Principe de l'enroulement (`enrouler`) : le cylindre est découpé en 240 tranches
+verticales. Pour une tranche à l'angle θ (de −90° à +90°, la face visible), l'abscisse
+écran vaut `cx + sin(θ)·R` et la colonne lue dans l'étiquette vaut `((θ+φ)/2π)·circonférence`,
+modulo la circonférence. Les tranches se chevauchent de 1,2 px, sinon de fines rayures
+verticales apparaissent là où elles deviennent étroites au bord. Une tranche à cheval sur
+la couture est coupée en deux.
+
+- Largeur du logo sur l'étiquette : **34 % de la circonférence**, pour qu'il tienne
+  entièrement dans l'arc visible de face et reste lisible.
+- Phase calée pour que le logo soit **pile face caméra à 9,2 s** (`T_FACE`), un tour complet.
+- Montée lente (même courbe que la sculpture de la référence), pas de jaillissement.
+- Reflet : rendu par `?reflet=1` (bouteille retournée autour de la ligne d'eau),
+  **découpé sous la ligne d'eau** sinon un fantôme apparaît dans le ciel, puis flouté et
+  estompé avec la profondeur au montage.
+
+Rubans revus (`dessineRuban`) : tracé segment par segment avec un **dégradé d'or** le long
+du ruban (cuivre en bas → or clair → or pâle en haut) et **deux lumières blanches qui
+défilent** en boucle, avec traînée gaussienne, épaississement local et tête de comète.
+
+Montage : `montage-bouteille.txt`. Livrables : `intro-bouteille.mp4`, `-vertical.mp4`.

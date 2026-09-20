@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8">
+<title>Bouteille tournante — Lapara Rhazlaoui</title>
+<style>html,body{margin:0;background:transparent}canvas{display:block}</style>
+</head><body>
+<canvas id="c" width="960" height="960"></canvas>
+<script>
+/* Bouteille en verre ambré qui tourne sur elle-même, étiquette enroulée
+   autour du cylindre. Rendu image par image : window.poser(t) ne dépend
+   que de t, jamais d'une horloge interne. */
+const P = new URLSearchParams(location.search);
+const MODE_REFLET = P.get("reflet") === "1";     // version retournée, pour le reflet dans l'eau
+const LOGO_SRC = P.get("logo") || "logo-laparaSignature.png";
+
+const cv = document.getElementById("c"), c = cv.getContext("2d");
+const L = cv.width;
+
+const MER_Y   = 0.818 * L;      // ligne d'eau mesurée dans la vidéo source (785 px)
+const CX      = L / 2;
+const R       = 122;            // rayon du corps de la bouteille
+const CIRC    = Math.round(2 * Math.PI * R);   // circonférence = largeur de l'étiquette
+const BAS     = MER_Y;          // le culot repose sur l'eau
+const HAUT    = BAS - 396;      // haut du corps cylindrique
+const EPAULE  = 58;             // hauteur de l'épaule
+const COL_R   = 40;
+const COL_HAUT= HAUT - EPAULE - 96;
+const ETIQ_H  = 250;
+const ETIQ_Y  = BAS - 336;      // haut de l'étiquette
+const TOURS   = 1.0;            // un tour complet sur la durée
+const T_FACE  = 9.2;            // instant où le logo doit être face caméra
+
+/* ── Étiquette : dessinée une fois dans un canevas hors écran, puis enroulée ── */
+const etiquette = document.createElement("canvas");
+etiquette.width = CIRC; etiquette.height = ETIQ_H;
+const e = etiquette.getContext("2d");
+
+function construireEtiquette(logo){
+  // Fond crème nacré, filets dorés, logo centré.
+  const g = e.createLinearGradient(0, 0, 0, ETIQ_H);
+  g.addColorStop(0, "#f7f0dd"); g.addColorStop(0.5, "#fffaf0"); g.addColorStop(1, "#ece2c9");
+  e.fillStyle = g; e.fillRect(0, 0, CIRC, ETIQ_H);
+  e.strokeStyle = "#c9a227"; e.lineWidth = 3;
+  e.beginPath(); e.moveTo(0, 9); e.lineTo(CIRC, 9); e.moveTo(0, ETIQ_H - 9); e.lineTo(CIRC, ETIQ_H - 9); e.stroke();
+  e.strokeStyle = "rgba(201,162,39,0.55)"; e.lineWidth = 1.5;
+  e.beginPath(); e.moveTo(0, 17); e.lineTo(CIRC, 17); e.moveTo(0, ETIQ_H - 17); e.lineTo(CIRC, ETIQ_H - 17); e.stroke();
+
+  // Le logo, à l'échelle, centré ; l'étiquette fait tout le tour.
+  // Le logo doit tenir dans l'arc visible de face : un tiers de la circonférence.
+  const larg = CIRC * 0.34;
+  const haut = larg * (logo.height / logo.width);
+  e.drawImage(logo, (CIRC - larg) / 2, (ETIQ_H - haut) / 2, larg, haut);
+
+  // Petit motif de feuilles à l'opposé du logo, pour que le dos ne soit pas vide.
+  e.save();
+  e.translate(CIRC - 6, ETIQ_H / 2); e.fillStyle = "rgba(201,162,39,0.45)";
+  for (const s of [-1, 1]) { e.beginPath(); e.ellipse(0, s * 26, 22, 9, s * 0.5, 0, 6.2832); e.fill(); }
+  e.beginPath(); e.ellipse(0, 0, 26, 10, 0, 0, 6.2832); e.fill();
+  e.restore();
+}
+
+/* ── Formes de la bouteille ── */
+function silhouette(ctx, decalY){
+  ctx.beginPath();
+  ctx.moveTo(CX - R, BAS + decalY);
+  ctx.lineTo(CX - R, HAUT + decalY);
+  ctx.bezierCurveTo(CX - R, HAUT - EPAULE * 0.75 + decalY, CX - COL_R - 6, HAUT - EPAULE + decalY, CX - COL_R, HAUT - EPAULE + decalY);
+  ctx.lineTo(CX - COL_R, COL_HAUT + decalY);
+  ctx.lineTo(CX + COL_R, COL_HAUT + decalY);
+  ctx.lineTo(CX + COL_R, HAUT - EPAULE + decalY);
+  ctx.bezierCurveTo(CX + COL_R + 6, HAUT - EPAULE + decalY, CX + R, HAUT - EPAULE * 0.75 + decalY, CX + R, HAUT + decalY);
+  ctx.lineTo(CX + R, BAS + decalY);
+  ctx.closePath();
+}
+
+function verre(decalY){
+  // Verre ambré : sombre sur les bords, chaud au centre.
+  c.save(); silhouette(c, decalY); c.clip();
+  const g = c.createLinearGradient(CX - R, 0, CX + R, 0);
+  g.addColorStop(0.00, "rgba(48,24,4,0.96)");
+  g.addColorStop(0.14, "rgba(120,66,10,0.92)");
+  g.addColorStop(0.38, "rgba(214,138,32,0.88)");
+  g.addColorStop(0.56, "rgba(150,88,16,0.90)");
+  g.addColorStop(0.84, "rgba(96,50,8,0.94)");
+  g.addColorStop(1.00, "rgba(34,16,2,0.97)");
+  c.fillStyle = g;
+  c.fillRect(CX - R - 4, COL_HAUT + decalY - 10, R * 2 + 8, BAS - COL_HAUT + 40);
+  // fond de bouteille plus sombre
+  const f = c.createLinearGradient(0, BAS + decalY - 70, 0, BAS + decalY);
+  f.addColorStop(0, "rgba(0,0,0,0)"); f.addColorStop(1, "rgba(0,0,0,0.55)");
+  c.fillStyle = f; c.fillRect(CX - R, BAS + decalY - 70, R * 2, 70);
+  c.restore();
+}
+
+function reflets(decalY){
+  c.save(); silhouette(c, decalY); c.clip();
+  // Éclat principal, décalé à gauche : c'est lui qui donne la rondeur.
+  const g = c.createLinearGradient(CX - R * 0.75, 0, CX - R * 0.12, 0);
+  g.addColorStop(0, "rgba(255,240,200,0)");
+  g.addColorStop(0.5, "rgba(255,244,214,0.42)");
+  g.addColorStop(1, "rgba(255,240,200,0)");
+  c.fillStyle = g; c.fillRect(CX - R, COL_HAUT + decalY, R * 2, BAS - COL_HAUT + 20);
+  // Fin liseré lumineux sur le bord droit.
+  const d = c.createLinearGradient(CX + R * 0.72, 0, CX + R, 0);
+  d.addColorStop(0, "rgba(255,225,160,0)"); d.addColorStop(1, "rgba(255,230,170,0.30)");
+  c.fillStyle = d; c.fillRect(CX, COL_HAUT + decalY, R, BAS - COL_HAUT + 20);
+  c.restore();
+}
+
+function bouchon(decalY){
+  // Capsule dorée en haut du col.
+  const y = COL_HAUT + decalY;
+  const g = c.createLinearGradient(CX - COL_R, 0, CX + COL_R, 0);
+  g.addColorStop(0, "#6b4a08"); g.addColorStop(0.3, "#f2d271"); g.addColorStop(0.5, "#c8981f");
+  g.addColorStop(0.75, "#f7e39b"); g.addColorStop(1, "#5c3f06");
+  c.fillStyle = g;
+  c.beginPath(); c.roundRect(CX - COL_R - 5, y - 54, (COL_R + 5) * 2, 62, 6); c.fill();
+  c.fillStyle = "rgba(0,0,0,0.22)";
+  c.fillRect(CX - COL_R - 5, y - 4, (COL_R + 5) * 2, 7);
+}
+
+/* ── Enroulement de l'étiquette autour du cylindre ── */
+function enrouler(phase, decalY){
+  const PAS = 240;                       // tranches verticales (chevauchées)
+  c.save();
+  c.beginPath(); c.rect(CX - R, ETIQ_Y + decalY, R * 2, ETIQ_H); c.clip();
+  for (let i = 0; i < PAS; i++) {
+    const a1 = -Math.PI / 2 + (i / PAS) * Math.PI;
+    const a2 = -Math.PI / 2 + ((i + 1) / PAS) * Math.PI;
+    const x1 = CX + Math.sin(a1) * R, x2 = CX + Math.sin(a2) * R;
+    // Coordonnée dans l'étiquette : l'angle parcourt toute la circonférence.
+    let u1 = (((a1 + phase) / (2 * Math.PI)) % 1 + 1) % 1 * CIRC;
+    const du = ((a2 - a1) / (2 * Math.PI)) * CIRC;
+    const largeur = Math.max(1.2, x2 - x1);
+    if (u1 + du <= CIRC) {
+      c.drawImage(etiquette, u1, 0, du, ETIQ_H, x1, ETIQ_Y + decalY, largeur + 1.2, ETIQ_H);
+    } else {
+      // La tranche est à cheval sur la couture : on la coupe en deux.
+      const p1 = CIRC - u1, p2 = du - p1;
+      const l1 = largeur * (p1 / du);
+      c.drawImage(etiquette, u1, 0, p1, ETIQ_H, x1, ETIQ_Y + decalY, l1 + 1.2, ETIQ_H);
+      c.drawImage(etiquette, 0, 0, p2, ETIQ_H, x1 + l1, ETIQ_Y + decalY, largeur - l1 + 1.2, ETIQ_H);
+    }
+  }
+  // Ombrage cylindrique sur l'étiquette : sombre aux bords, clair au centre-gauche.
+  const o = c.createLinearGradient(CX - R, 0, CX + R, 0);
+  o.addColorStop(0.00, "rgba(40,24,6,0.80)");
+  o.addColorStop(0.12, "rgba(60,38,10,0.42)");
+  o.addColorStop(0.34, "rgba(255,250,235,0.16)");
+  o.addColorStop(0.60, "rgba(40,24,6,0.06)");
+  o.addColorStop(0.88, "rgba(46,28,8,0.50)");
+  o.addColorStop(1.00, "rgba(28,16,4,0.86)");
+  c.fillStyle = o; c.fillRect(CX - R, ETIQ_Y + decalY, R * 2, ETIQ_H);
+  c.restore();
+}
+
+/* ── Sortie de l'eau : même courbe que le reste du montage ── */
+function montee(t){
+  // Montée lente et régulière, comme la sculpture de la vidéo de référence.
+  const p = Math.min(1, Math.max(0, (t - 0.5) / 5));
+  return p * p * (3 - 2 * p);
+}
+
+window.poser = function(t){
+  c.clearRect(0, 0, L, L);
+  const decalY = (1 - montee(t)) * 620;        // sous l'eau au départ
+  const omega = TOURS * 2 * Math.PI / 10.04;
+  // Décalage choisi pour que le centre de l'étiquette soit pile de face à T_FACE.
+  const phase = omega * (t - T_FACE) + Math.PI;
+
+  if (MODE_REFLET) {
+    // Reflet : bouteille retournée sous la ligne d'eau, atténuée.
+    c.save();
+    c.beginPath(); c.rect(0, MER_Y, L, L - MER_Y); c.clip();   // uniquement dans l'eau
+    c.translate(0, 2 * MER_Y); c.scale(1, -1);
+    c.globalAlpha = 0.26;
+    verre(decalY); enrouler(phase, decalY); reflets(decalY); bouchon(decalY);
+    c.restore();
+    return;
+  }
+  verre(decalY);
+  enrouler(phase, decalY);
+  reflets(decalY);
+  bouchon(decalY);
+};
+
+const img = new Image();
+img.onload = () => { construireEtiquette(img); window.pret = true; };
+img.onerror = (ev) => { window.erreur = "logo introuvable : " + LOGO_SRC; };
+img.src = LOGO_SRC;
+</script></body></html>

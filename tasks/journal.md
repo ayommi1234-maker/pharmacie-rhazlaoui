@@ -40,3 +40,8 @@
 - **Fait** : 5 designs du logo LAPARA (filets, emblème rond, plaque gravée, moderne, signature manuscrite) + intros vidéo pour chacun.
 - **Choix du propriétaire** : la **signature manuscrite**, enrichie d'une branche de petites feuilles dorées.
 - **Prochaine fois** : décliner la signature pour le site (en-tête, favicon) et vérifier le rendu en petite taille.
+
+### 2026-09-20 (suite) — bouteille tournante
+- **Fait** : logo Lapara imprimé sur une bouteille en verre ambré qui tourne sur elle-même en sortant lentement de l'eau (comme la sculpture de la vidéo de référence) ; rubans dorés en dégradé parcourus par une lumière blanche.
+- **Corrigé** : fantôme du reflet au-dessus de l'eau (reflet désormais découpé sous la ligne d'eau) ; rayures verticales de l'étiquette (tranches chevauchées) ; logo trop large pour l'arc visible.
+- **Prochaine fois** : décliner la signature sur le site (en-tête, favicon).
