@@ -88,3 +88,17 @@ Tout texte arabe destiné à une voix de synthèse doit porter les diacritiques 
 - 🟡 En pause : TikTok @abdellahbaounna (3 questions ouvertes).
 - 🔵 Futur 12-24 mois : site utilitaire IA avec AdSense, 5 niches.
 - ⚰️ Abandonné : AI Solopreneur Toolkit. ✅ Clos : « L'Univers en Toi ».
+
+## Installation de cette mémoire
+- **Session en cours, tous projets** : `bash .claude/installer-memoire.sh`
+  → écrit `~/.claude/CLAUDE.md`. Attention : dans un conteneur cloud, ce fichier
+  disparaît quand le conteneur est recyclé.
+- **Un dépôt précis, durablement** : `bash .claude/installer-memoire.sh /chemin/du/depot`
+  → ajoute la section à son `CLAUDE.md` et y copie ce fichier. Versionné avec le
+  dépôt, donc présent à chaque session.
+- **Toutes les sessions cloud, automatiquement** : mettre dans le script de
+  démarrage de l'environnement (menu de l'environnement cloud dans la barre de
+  titre, puis Edit, rubrique Setup script) :
+  `bash pharmacie-rhazlaoui/.claude/installer-memoire.sh`
+- **Sur les Macs** : la source reste `~/.Codex/AGENTS.md`. Pour Claude Code,
+  copier la même section dans `~/.claude/CLAUDE.md`.

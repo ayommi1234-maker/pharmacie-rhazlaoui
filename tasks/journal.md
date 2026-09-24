@@ -70,3 +70,8 @@
 - **Test** (`video-para/test-site.mjs`, deux largeurs) : logo et favicon chargés, aucune requête en échec, aucune erreur JS. Origines distantes : fonts.googleapis.com et cdnjs.cloudflare.com, toutes deux déjà autorisées par la CSP.
 - **Défaut préexistant signalé, non corrigé** : débordement horizontal de 24 px à 390 px, causé par les vignettes flottantes `.floating-product` du bandeau d'accueil. Vérifié identique avant mon changement de logo : je ne l'ai pas introduit. Correction non faite car hors du périmètre demandé.
 - **Archiviste** : livrables présents aux chemins annoncés, 0 commit non poussé.
+
+### 2026-09-24 (fin) — mémoire étendue à tous les projets
+- **Fait** : `~/.claude/CLAUDE.md` écrit (50 lignes) — les préférences s'appliquent désormais à tous les projets de la session, plus seulement à la pharmacie.
+- **Outil construit** (2ᵉ installation de la même mémoire) : `.claude/installer-memoire.sh`. Sans argument il installe la mémoire utilisateur ; avec un chemin de dépôt il l'installe dans ce dépôt. Testé sur un dépôt temporaire : installation correcte, et relance sans effet (pas de doublon). N'écrase jamais un `CLAUDE.md` existant.
+- **Limite dite, non contournée** : `~/.claude/CLAUDE.md` vit dans un conteneur cloud éphémère et disparaîtra au recyclage. Pour que ce soit permanent, il faut ajouter `bash pharmacie-rhazlaoui/.claude/installer-memoire.sh` au script de démarrage de l'environnement.

@@ -46,3 +46,11 @@ sans lister les ressources distantes ni mesurer le débordement.
 **Règle** : tout changement sur une page se teste à 390 px **et** en large, en
 relevant les requêtes 4xx/5xx, les erreurs JS, les origines distantes et le
 débordement horizontal. Script réutilisable : `video-para/test-site.mjs`.
+
+## 2026-09-24 — mémoire limitée à un seul dépôt
+La mémoire installée dans `CLAUDE.md` du projet ne suivait pas sur les autres
+dépôts, alors que les préférences sont globales.
+**Règle** : une préférence globale s'installe au niveau utilisateur
+(`~/.claude/CLAUDE.md`), pas seulement dans le projet. Outil : 
+`.claude/installer-memoire.sh`, sans argument pour l'utilisateur, avec un chemin
+de dépôt pour un projet. Il n'écrase jamais un `CLAUDE.md` existant.
