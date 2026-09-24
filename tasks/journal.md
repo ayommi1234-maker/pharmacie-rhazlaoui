@@ -86,3 +86,9 @@
 - **Relevé dans la mémoire** : outil `miroir-claude` dans iCloud ; empreinte du M5 `Apple-M5_192` ; `reprise`, `memoire`, `agents`, `skills`, `commands` se synchronisent seuls, tandis que `settings.json` et `hooks` restent locaux — d'où la mémoire qui ne se charge pas sur le M4.
 - **Donné** : la procédure exacte à lancer sur le M4, essai à blanc puis `--pour-de-vrai`, avec la réserve que la commande aligne au lieu de fusionner et peut écraser ce qui est propre au M4.
 - **Non faisable ici** : la fusion exige iCloud, donc une session lancée depuis le Mac.
+
+### 2026-09-24 — vérification par agent indépendant, et corrections
+- **Premier vrai recours à un agent** : un Vérificateur distinct a relu mes deux derniers changements du site sans mes conclusions. Il a validé les trois prétentions (logo posé aux 4 emplacements, dimensions PNG réelles conformes, `favicon.svg` conservé, compteur `?v=` correct) et trouvé 5 problèmes, dont 2 que j'avais manqués.
+- **Corrigé** : ① `lapara-marque-512.png` (199 Ko) servi pour 40-70 px → remplacé par la version 180 px ; poids mesuré après coup : 37,7 Ko au lieu de 235 Ko. ② `site-v2/src/components/site/icone-gamme.tsx` : `Star` était l'icône de **repli**, violation latente de l'interdiction — retirée de l'import, de la table et du repli, remplacée par `PackageOpen`. ③ `404.html` gardait l'ancien favicon → aligné. ④ Attributs `alt` redondants sur les 3 logos → `alt=""`, l'image est décorative, le nom est déjà en texte à côté.
+- **À trancher par le propriétaire** : `fa-certificate` dans le bandeau défilant (index.html:505 et 510) est une rosace à pointes. L'agent la signale comme candidate suivante si la règle « star, starburst » vise la forme. Non touchée sans décision.
+- **Outil ajouté** : `video-para/mesure-poids.mjs`, qui mesure le poids réellement téléchargé par ressource.

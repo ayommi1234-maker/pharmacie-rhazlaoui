@@ -10,7 +10,6 @@ import {
   PersonStanding,
   Pill,
   Sprout,
-  Star,
   Tablets,
   type LucideIcon,
 } from "lucide-react";
@@ -33,11 +32,11 @@ const CORRESPONDANCE: Record<string, LucideIcon> = {
   "fa-baby": Baby,
   "fa-female": PersonStanding,
   "fa-pump-medical": Droplets,
-  "fa-star": Star,
 };
 
 export function IconeGamme({ icon, className }: { icon: string; className?: string }) {
   const cle = Object.keys(CORRESPONDANCE).find((k) => (icon ?? "").includes(k));
-  const Icone = cle ? CORRESPONDANCE[cle] : Star;
+  // Repli volontairement neutre : aucune forme d'etoile nulle part sur le site.
+  const Icone = cle ? CORRESPONDANCE[cle] : PackageOpen;
   return <Icone className={className} aria-hidden="true" />;
 }

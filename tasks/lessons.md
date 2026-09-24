@@ -80,3 +80,20 @@ lancé. Pour un livrable non trivial, la vérification passe par un **agent
 distinct** (outil Agent), à qui je donne le code et la prétention à contrôler,
 jamais ma conclusion. Si je fais tout moi-même, je le dis en une ligne au lieu
 de décorer le travail de noms d'agents.
+
+## 2026-09-24 — image lourde servie pour un affichage minuscule
+Je servais `lapara-marque-512.png` (199 Ko) pour trois affichages de 40 à 70 px,
+dont l'écran de chargement, donc la toute première image attendue par la page.
+Trouvé par l'agent Vérificateur, pas par moi.
+**Règle** : quand plusieurs tailles d'une même image existent, vérifier la taille
+d'affichage réelle dans le CSS et servir la variante la plus proche, au plus 2×.
+Mesurer le poids réellement téléchargé : `node video-para/mesure-poids.mjs`.
+
+## 2026-09-24 — interdiction contournée par une valeur par défaut
+`site-v2` n'affichait aucune étoile, mais `Star` y était l'icône de **repli** :
+la prochaine gamme non mappée en aurait fait apparaître une. Invisible à un
+simple `grep` du rendu.
+**Règle** : auditer une interdiction de forme jusque dans les **valeurs par
+défaut et les branches non prises**, pas seulement dans ce qui s'affiche
+aujourd'hui. Et étendre l'audit à tous les sous-projets (`site-v2/`, `admin/`),
+pas au seul dossier modifié.
