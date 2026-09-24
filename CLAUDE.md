@@ -12,6 +12,52 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 6. **Suivi & continuité** : garder le contexte des discussions, faire le point régulièrement, reprendre là où on s'est arrêté — ne pas repartir de zéro ni oublier les décisions prises.
 Répondre en **français** par défaut.
 
+## Préférences globales de Baounna Abdellah (AGENTS.md v1.11, 23/09/2026)
+Copie de référence : `.claude/AGENTS-baounna.md` — à lire en entier au premier
+travail non trivial d'une session. Ce qui s'applique **ici** :
+
+- **Chemin le plus court d'abord.** Quand l'objectif est de livrer ou publier,
+  la première phrase donne la voie la plus courte qui marche aujourd'hui, avec
+  son coût en minutes. Les améliorations viennent après, optionnelles et chiffrées.
+- **Preuve, jamais affirmation.** Aucun « c'est fait » sans la méthode et le
+  résultat observé. Vérifier (est-ce ce qui a été demandé) et tester (est-ce que
+  ça marche pour le destinataire) sont deux passes distinctes. Pages web testées
+  à 390 px et en large.
+- **Travailler sur la matière réelle** : ouvrir et lire les fichiers de
+  l'utilisateur en entier avant de produire. Ne jamais inventer un contenu manquant.
+- **Périmètre strict** : un ordre précis ne modifie que l'élément demandé.
+- **Ne jamais supprimer** un fichier sans demande explicite. « Sauvegarder » ne
+  vaut jamais autorisation de détruire. Les doublons se listent, ils ne s'effacent pas.
+- **« L'autre »** désigne un livrable déjà produit dans la session, jamais une
+  variante nouvelle : lister et demander.
+- **Correction = règle écrite.** Après chaque correction de l'utilisateur, écrire
+  la règle dans `tasks/lessons.md` et montrer où elle est écrite. Pas de promesse.
+- **Rien de payant sans accord écrit.** Arrêt net devant tout écran de paiement,
+  avec le coût exact et son objet.
+- **Outils payants d'abord** dans les recommandations (Adobe CC, Suno, Kling,
+  Creative Fabrica, Envato, iCloud). Le gratuit ne vient qu'en complément.
+- **Design** : étudier 5 à 8 références réelles du secteur avant toute décision
+  visuelle ; prendre le principe, jamais la composition.
+- **Trois directions divergentes** pour un produit créatif ou stratégique : une
+  pour le volume, une pour la marge, une sur le terrain inoccupé. Puis critique
+  adversariale sans compliment, recommandation, et **arrêt** jusqu'au choix.
+- **Deuxième fois = outil.** À la deuxième demande du même type, construire le
+  script ou le gabarit, l'exécuter, donner la commande exacte.
+- **Interdits de création** : aucune forme d'étoile ; « star, starburst » dans le
+  prompt négatif de toute génération d'image ou de vidéo. Tout arabe destiné à une
+  voix de synthèse porte les diacritiques complets.
+- **Rappel des priorités** : si une idée neuve arrive alors qu'un projet
+  prioritaire est près d'aboutir, le signaler en deux lignes, puis exécuter.
+
+### Ce que cet environnement ne permet pas (à dire, jamais à contourner en silence)
+- **iCloud inaccessible** : aucun connecteur Apple, et `mdfind` n'existe pas ici
+  (conteneur Linux). La règle « chercher dans iCloud avec mdfind » est inapplicable.
+  Sauvegarde réelle : GitHub, plus une archive à déposer soi-même dans iCloud.
+- **`~/.Codex/` absent** : ni `reprise/`, ni `rules/`, ni les skills Codex.
+  Les mots-clés `REPRISE`, `RRR`, `humain` n'ont pas de fichiers cibles ici.
+- **Stack payante non connectée** : Adobe, Suno, Kling, Creative Fabrica et Envato
+  ne sont pas utilisables depuis ce conteneur. Higgsfield est connecté mais à 0 crédit.
+
 ## Project
 
 Static marketing website for **Pharmacie Rhazlaoui** (a pharmacy/parapharmacy in Khouribga, Morocco). Single-page site in French — no build step, no framework, no package manager. Plain HTML + CSS + vanilla JS, deployed on **Netlify** (`publish = "."`). The content owner is non-technical; see `GUIDE.md` for the end-user editing instructions (French).
