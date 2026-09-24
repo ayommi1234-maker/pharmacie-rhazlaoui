@@ -50,3 +50,10 @@
 - **Malentendu levé** : « tourner comme écrit sur une bouteille » voulait dire le **logo seul courbé** sur un cylindre invisible, pas une bouteille visible. Question posée, réponse obtenue, version refaite.
 - **Fait** : `logo-cylindre.html` — logo courbé qui tourne et finit face caméra, deux exemplaires opposés pour ne jamais avoir d'image vide, effacement des bords et éclairage cylindrique appliqués aux seules lettres.
 - **En attente** : sens de « styl alpham » ; pose de l'identité Lapara sur le site.
+
+### 2026-09-24 — identité Lapara posée sur le site
+- **Fait** : marque carrée « L » dorée sur bleu nuit (dérivée de la signature), déclinée en 512 / 180 / 32 px dans `images/lapara-marque-*.png` ; posée dans `index.html` en favicon, icône Apple, logo de la barre de navigation, du chargement et du pied de page.
+- **Constaté et corrigé** : à 32 px la brindille et la lettre se refermaient en une tache ; la marque se simplifie automatiquement sous 96 px (lettre agrandie, filet intérieur et brindille retirés).
+- **Réserve honnête** : le site est vert pharmacie, la marque est bleu nuit et or. Les deux cohabitent mais ce n'est pas la même gamme ; harmoniser demanderait de revoir la palette du site.
+- `images/favicon.svg` est conservé, simplement plus référencé.
+- **En attente** : sens de « styl alpham » ; validation de la marque avant mise en ligne sur la branche principale.
