@@ -75,3 +75,8 @@
 - **Fait** : `~/.claude/CLAUDE.md` écrit (50 lignes) — les préférences s'appliquent désormais à tous les projets de la session, plus seulement à la pharmacie.
 - **Outil construit** (2ᵉ installation de la même mémoire) : `.claude/installer-memoire.sh`. Sans argument il installe la mémoire utilisateur ; avec un chemin de dépôt il l'installe dans ce dépôt. Testé sur un dépôt temporaire : installation correcte, et relance sans effet (pas de doublon). N'écrase jamais un `CLAUDE.md` existant.
 - **Limite dite, non contournée** : `~/.claude/CLAUDE.md` vit dans un conteneur cloud éphémère et disparaîtra au recyclage. Pour que ce soit permanent, il faut ajouter `bash pharmacie-rhazlaoui/.claude/installer-memoire.sh` au script de démarrage de l'environnement.
+
+### 2026-09-24 — iCloud réexaminé pour de bon
+- **Cherché** : registre complet des connecteurs MCP sur 6 formulations (icloud, apple, icloud drive, stockage/synchro de fichiers, spotlight, notes/rappels Apple). **Aucun connecteur Apple n'existe** — ni installé, ni disponible à l'installation. Connecteurs réellement branchés : Adobe, Canva, ElevenLabs, Gmail, Google Agenda, Google Drive, Higgsfield, Notion.
+- **Levier trouvé** : depuis une session lancée **sur le Mac** (Claude Desktop ou `claude remote-control`), iCloud Drive est un dossier local ordinaire, lisible sans connecteur, et `mdfind` fonctionne. C'est là que la règle 5 des préférences s'applique.
+- **Écrit** dans `CLAUDE.md` : le blocage et son levier, pour ne plus répéter « impossible » tout court.

@@ -54,3 +54,12 @@ dépôts, alors que les préférences sont globales.
 (`~/.claude/CLAUDE.md`), pas seulement dans le projet. Outil : 
 `.claude/installer-memoire.sh`, sans argument pour l'utilisateur, avec un chemin
 de dépôt pour un projet. Il n'écrase jamais un `CLAUDE.md` existant.
+
+## 2026-09-24 — blocage annoncé sans son levier
+J'ai répété trois fois « iCloud est inaccessible » sans chercher le registre des
+connecteurs ni proposer la voie qui marche.
+**Règle** : un blocage s'annonce toujours avec ce qui le lève. Avant de dire
+impossible : chercher dans mes propres outils (`SearchMcpRegistry`, `ListConnectors`),
+puis nommer le chemin praticable. Pour iCloud, le levier est d'ouvrir la session
+depuis le Mac (Claude Desktop ou `claude remote-control`), où iCloud Drive est un
+dossier local et `mdfind` fonctionne.

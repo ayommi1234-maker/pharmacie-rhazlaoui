@@ -50,9 +50,17 @@ travail non trivial d'une session. Ce qui s'applique **ici** :
   prioritaire est près d'aboutir, le signaler en deux lignes, puis exécuter.
 
 ### Ce que cet environnement ne permet pas (à dire, jamais à contourner en silence)
-- **iCloud inaccessible** : aucun connecteur Apple, et `mdfind` n'existe pas ici
-  (conteneur Linux). La règle « chercher dans iCloud avec mdfind » est inapplicable.
-  Sauvegarde réelle : GitHub, plus une archive à déposer soi-même dans iCloud.
+- **iCloud inaccessible depuis le nuage** : registre des connecteurs vérifié le
+  24/09/2026 sur les mots-clés icloud, apple, icloud drive, apple notes/reminders —
+  **aucun connecteur Apple n'existe**, ni installé ni installable. `mdfind` n'existe
+  pas non plus (conteneur Linux). La règle « chercher dans iCloud avec mdfind »
+  suppose une session **sur le Mac**.
+  **Ce qui débloque** : ouvrir la session depuis le Mac — application Claude Desktop,
+  ou `claude remote-control` dans un terminal placé sur le dossier voulu. iCloud Drive
+  y est un simple dossier local, lisible directement :
+  `~/Library/Mobile Documents/com~apple~CloudDocs/`. `mdfind` y fonctionne.
+  Depuis le nuage, la sauvegarde réelle reste GitHub, plus une archive à déposer
+  soi-même dans iCloud, ou Google Drive qui, lui, est connecté.
 - **`~/.Codex/` absent** : ni `reprise/`, ni `rules/`, ni les skills Codex.
   Les mots-clés `REPRISE`, `RRR`, `humain` n'ont pas de fichiers cibles ici.
 - **Stack payante non connectée** : Adobe, Suno, Kling, Creative Fabrica et Envato
