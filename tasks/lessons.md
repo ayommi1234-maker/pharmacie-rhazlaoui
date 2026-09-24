@@ -31,3 +31,18 @@ Le travail du 23/09 était `~/.Codex/AGENTS.md` v1.11, sur les Macs via iCloud.
 **Règle** : quand l'utilisateur situe un fichier dans iCloud ou dans `~/.Codex/`,
 dire immédiatement que ces emplacements sont hors d'atteinte depuis ce conteneur
 et lui demander de coller le contenu, au lieu de fouiller ailleurs.
+
+## 2026-09-24 — interdit d'étoile non vérifié sur l'existant
+Les préférences interdisent toute forme d'étoile. Trois icônes `fa-star`
+subsistaient dans le site (bandeau défilant ×2, gamme « Bien-être & Divers »),
+héritées d'avant la règle. Je ne les avais jamais cherchées.
+**Règle** : une interdiction de forme s'audite sur **tout le projet existant**,
+pas seulement sur ce que je viens de produire. Commande de contrôle :
+`grep -rn "fa-star\|★\|✦\|✧" index.html js/ css/`
+
+## 2026-09-24 — livrable web déclaré sans passe de test
+J'avais livré le changement de logo du site avec une simple capture d'écran,
+sans lister les ressources distantes ni mesurer le débordement.
+**Règle** : tout changement sur une page se teste à 390 px **et** en large, en
+relevant les requêtes 4xx/5xx, les erreurs JS, les origines distantes et le
+débordement horizontal. Script réutilisable : `video-para/test-site.mjs`.

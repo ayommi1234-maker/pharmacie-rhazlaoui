@@ -63,3 +63,10 @@
 - **Non fait, et pourquoi** : sauvegarde et recherche sur iCloud impossibles — aucun connecteur iCloud dans cette session (accès disponibles : Google Drive, Gmail, Agenda, Notion, GitHub, Canva). Archive datée préparée en trois parties sous la limite d'envoi, non transmise car le propriétaire a demandé l'arrêt.
 - **Vérifié** : aucune trace de travail au 23/09/2026 (ni commit, ni fichier, ni journal). Séances réelles : 17/09, 20/09, 24/09.
 - **En attente** : choix de la palette de la marque ; sens de « styl alpham » ; publication sur la branche principale.
+
+### 2026-09-24 (suite) — application des ordres du 23/09/2026
+- **Mémoire installée** : `.claude/AGENTS-baounna.md` (préférences v1.11 du 23/09), règles applicables reprises dans `CLAUDE.md`, `tasks/lessons.md` créé.
+- **Gardien** : aucun secret exposé. **Violation trouvée et corrigée** : 3 icônes étoile (`fa-star`) subsistaient — bandeau défilant ×2 remplacées par la croix de pharmacie, gamme « Bien-être & Divers » remplacée par une feuille. Cache JS passé de v6 à v7.
+- **Test** (`video-para/test-site.mjs`, deux largeurs) : logo et favicon chargés, aucune requête en échec, aucune erreur JS. Origines distantes : fonts.googleapis.com et cdnjs.cloudflare.com, toutes deux déjà autorisées par la CSP.
+- **Défaut préexistant signalé, non corrigé** : débordement horizontal de 24 px à 390 px, causé par les vignettes flottantes `.floating-product` du bandeau d'accueil. Vérifié identique avant mon changement de logo : je ne l'ai pas introduit. Correction non faite car hors du périmètre demandé.
+- **Archiviste** : livrables présents aux chemins annoncés, 0 commit non poussé.
