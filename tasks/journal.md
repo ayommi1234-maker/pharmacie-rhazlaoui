@@ -80,3 +80,9 @@
 - **Cherché** : registre complet des connecteurs MCP sur 6 formulations (icloud, apple, icloud drive, stockage/synchro de fichiers, spotlight, notes/rappels Apple). **Aucun connecteur Apple n'existe** — ni installé, ni disponible à l'installation. Connecteurs réellement branchés : Adobe, Canva, ElevenLabs, Gmail, Google Agenda, Google Drive, Higgsfield, Notion.
 - **Levier trouvé** : depuis une session lancée **sur le Mac** (Claude Desktop ou `claude remote-control`), iCloud Drive est un dossier local ordinaire, lisible sans connecteur, et `mdfind` fonctionne. C'est là que la règle 5 des préférences s'applique.
 - **Écrit** dans `CLAUDE.md` : le blocage et son levier, pour ne plus répéter « impossible » tout court.
+
+### 2026-09-24 — fusion des mémoires M4 / M5
+- **Compris** : m4 et m5 sont les deux Macs, pas les modèles. Capture d'écran du M5 fournie par le propriétaire.
+- **Relevé dans la mémoire** : outil `miroir-claude` dans iCloud ; empreinte du M5 `Apple-M5_192` ; `reprise`, `memoire`, `agents`, `skills`, `commands` se synchronisent seuls, tandis que `settings.json` et `hooks` restent locaux — d'où la mémoire qui ne se charge pas sur le M4.
+- **Donné** : la procédure exacte à lancer sur le M4, essai à blanc puis `--pour-de-vrai`, avec la réserve que la commande aligne au lieu de fusionner et peut écraser ce qui est propre au M4.
+- **Non faisable ici** : la fusion exige iCloud, donc une session lancée depuis le Mac.

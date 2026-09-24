@@ -102,3 +102,29 @@ Tout texte arabe destiné à une voix de synthèse doit porter les diacritiques 
   `bash pharmacie-rhazlaoui/.claude/installer-memoire.sh`
 - **Sur les Macs** : la source reste `~/.Codex/AGENTS.md`. Pour Claude Code,
   copier la même section dans `~/.claude/CLAUDE.md`.
+
+## Parc de Macs et fusion des mémoires (relevé le 24/09/2026, écran du M5 daté du 21/09)
+Baounna travaille sur plusieurs Macs, désignés par leur puce : **M4** et **M5**.
+Empreinte du M5 : `Apple-M5_192`. Le Mac 4 est appelé « Mac4 ».
+
+**Outil de fusion, déjà écrit par lui** : `miroir-claude`, dans
+`~/Library/Mobile Documents/com~apple~CloudDocs/Outils/miroir-claude/miroir_claude.py`.
+Il aligne `settings.json`, `hooks`, `agents` et les plugins entre machines.
+
+- **Se synchronise tout seul** (liens symboliques vers iCloud) : `reprise`,
+  `memoire`, `agents`, `skills`, `commands`.
+- **Reste local à chaque Mac** : `settings.json` et le dossier `hooks`. C'est la
+  cause du symptôme « la mémoire ne se charge pas automatiquement sur le M4 » :
+  le chemin `autoMemoryDirectory` vit dans `settings.json`.
+
+**Procédure, à lancer sur la machine cible** (ici le M4), après synchro iCloud :
+```
+python3 ~/Library/Mobile\ Documents/com~apple~CloudDocs/Outils/miroir-claude/miroir_claude.py appliquer Apple-M5_192
+python3 ~/Library/Mobile\ Documents/com~apple~CloudDocs/Outils/miroir-claude/miroir_claude.py appliquer Apple-M5_192 --pour-de-vrai
+```
+La première ligne est un essai à blanc. **Réserve** : la commande *aligne* la cible
+sur la source, elle ne fusionne pas dans les deux sens — tout réglage propre au M4
+serait écrasé. Lire la sortie de l'essai à blanc avant la seconde ligne.
+
+**Cette fusion ne peut pas être lancée depuis une session cloud** : iCloud y est
+hors de portée. Elle se lance depuis le Mac (Claude Desktop ou `claude remote-control`).

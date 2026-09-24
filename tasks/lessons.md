@@ -63,3 +63,11 @@ impossible : chercher dans mes propres outils (`SearchMcpRegistry`, `ListConnect
 puis nommer le chemin praticable. Pour iCloud, le levier est d'ouvrir la session
 depuis le Mac (Claude Desktop ou `claude remote-control`), où iCloud Drive est un
 dossier local et `mdfind` fonctionne.
+
+## 2026-09-24 — « m4 et m5 » = les Macs, pas les modèles
+J'ai hésité entre les modèles Claude et les machines. Ce sont les **Macs**,
+désignés par leur puce Apple : M4 et M5.
+**Règle** : dans le vocabulaire de Baounna, « m4 », « m5 », « Mac4 » désignent ses
+ordinateurs. La fusion de leurs mémoires passe par son propre outil `miroir-claude`
+dans iCloud, lancé **sur la machine cible**, jamais depuis une session cloud.
+Détail complet : `.claude/AGENTS-baounna.md`, section « Parc de Macs ».
