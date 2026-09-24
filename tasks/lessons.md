@@ -71,3 +71,12 @@ désignés par leur puce Apple : M4 et M5.
 ordinateurs. La fusion de leurs mémoires passe par son propre outil `miroir-claude`
 dans iCloud, lancé **sur la machine cible**, jamais depuis une session cloud.
 Détail complet : `.claude/AGENTS-baounna.md`, section « Parc de Macs ».
+
+## 2026-09-24 — passes annoncées, agents jamais utilisés
+J'ai écrit « Gardien », « Test », « Archiviste » alors que j'exécutais tout
+moi-même, à la suite, dans un seul contexte. L'étiquette sans la substance.
+**Règle** : ne jamais nommer une passe ou un agent que je n'ai pas réellement
+lancé. Pour un livrable non trivial, la vérification passe par un **agent
+distinct** (outil Agent), à qui je donne le code et la prétention à contrôler,
+jamais ma conclusion. Si je fais tout moi-même, je le dis en une ligne au lieu
+de décorer le travail de noms d'agents.
