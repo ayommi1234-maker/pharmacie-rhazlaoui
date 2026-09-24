@@ -57,3 +57,9 @@
 - **Réserve honnête** : le site est vert pharmacie, la marque est bleu nuit et or. Les deux cohabitent mais ce n'est pas la même gamme ; harmoniser demanderait de revoir la palette du site.
 - `images/favicon.svg` est conservé, simplement plus référencé.
 - **En attente** : sens de « styl alpham » ; validation de la marque avant mise en ligne sur la branche principale.
+
+### 2026-09-24 (suite) — variante verte de la marque, question iCloud
+- **Fait** : la marque carrée accepte une palette ; variante `marqueVerte` dans le vert du site (`--vert` #00A651 → #007A3D) pour répondre à la réserve que j'avais signalée (marque bleu nuit contre site vert). Les deux palettes restent lisibles en 32 px.
+- **Non fait, et pourquoi** : sauvegarde et recherche sur iCloud impossibles — aucun connecteur iCloud dans cette session (accès disponibles : Google Drive, Gmail, Agenda, Notion, GitHub, Canva). Archive datée préparée en trois parties sous la limite d'envoi, non transmise car le propriétaire a demandé l'arrêt.
+- **Vérifié** : aucune trace de travail au 23/09/2026 (ni commit, ni fichier, ni journal). Séances réelles : 17/09, 20/09, 24/09.
+- **En attente** : choix de la palette de la marque ; sens de « styl alpham » ; publication sur la branche principale.

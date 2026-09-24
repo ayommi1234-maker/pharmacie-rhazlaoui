@@ -367,7 +367,8 @@ function laparaSignature(){
   texteRelief("PARAPHARMACIE", cx + esp3 / 2, 390, t3, "700 'Cinzel'", esp3, 4);
 }
 
-function marque(){
+function marqueVerte(){ marque("vert"); }
+function marque(palette){
   // Marque carrée pour l'en-tête et le favicon : doit rester lisible à 32 px,
   // donc une seule lettre, un fond franc et un contraste fort.
   const S = W, u = S / 512;                 // u = unité, tout est proportionnel
@@ -376,7 +377,12 @@ function marque(){
 
   // Fond bleu nuit, dans l'esprit des intros.
   const fond = c.createLinearGradient(0, 0, 0, S);
-  fond.addColorStop(0, "#16294a"); fond.addColorStop(0.55, "#0f1f3a"); fond.addColorStop(1, "#0a1628");
+  if (palette === "vert") {
+    // Palette du site : --vert #00A651 → --vert-dark #007A3D.
+    fond.addColorStop(0, "#00A651"); fond.addColorStop(0.55, "#008C43"); fond.addColorStop(1, "#00602F");
+  } else {
+    fond.addColorStop(0, "#16294a"); fond.addColorStop(0.55, "#0f1f3a"); fond.addColorStop(1, "#0a1628");
+  }
   c.fillStyle = fond;
   c.beginPath(); c.roundRect(0, 0, S, S, r); c.fill();
 
@@ -418,7 +424,7 @@ document.fonts.ready
     document.fonts.load("700 20px 'Playfair Display'"),
   ]))
   .then(() => {
-    ({ croix, pr, feuille, mortier, coupe, blason, lapara, laparaArc, laparaPlaque, laparaModerne, laparaSignature, marque })[LOGO]();
+    ({ croix, pr, feuille, mortier, coupe, blason, lapara, laparaArc, laparaPlaque, laparaModerne, laparaSignature, marque, marqueVerte })[LOGO]();
     window.pret = true;
   })
   .catch((e) => { window.erreur = String(e); });
