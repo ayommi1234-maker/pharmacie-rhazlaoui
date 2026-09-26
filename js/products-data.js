@@ -427,7 +427,7 @@ const GAMMES = [
   { id: "gam-bebe", nom: "Bébé & Enfants", logo: "images/gallery/photo-150.jpg", description: "Lait infantile, couches, crèmes change, sérum physiologique", marques: ["Gallia", "Blédina", "Pampers", "Mustela", "Gilbert"], icon: "fas fa-baby" },
   { id: "gam-femmes", nom: "Femmes & Maternité", logo: "images/gallery/photo-110.jpg", description: "Tests grossesse, compléments maternité, hygiène intime, beauté", marques: ["Clearblue", "Gynéfam", "Always", "Saforelle", "Vitabiotics"], icon: "fas fa-female" },
   { id: "gam-cerave", nom: "CeraVe", logo: "images/gallery/photo-271.jpg", description: "Soins dermatologiques — nettoyants, hydratants, exfoliants aux 3 céramides essentiels", marques: ["CeraVe"], icon: "fas fa-pump-medical" },
-  { id: "gam-divers", nom: "Bien-être & Divers", logo: "images/gallery/photo-170.jpg", description: "Tisanes, circulation, levure de bière, contrôle du poids", marques: ["Dietaroma", "VinoZinc", "Ernst Richter", "IMC Plus", "Levumai", "Extralevure", "Diafit", "Sakai", "Spirit Pharma", "Shilajit", "New Carti"], icon: "fas fa-star" },
+  { id: "gam-divers", nom: "Bien-être & Divers", logo: "images/gallery/photo-170.jpg", description: "Tisanes, circulation, levure de bière, contrôle du poids", marques: ["Dietaroma", "VinoZinc", "Ernst Richter", "IMC Plus", "Levumai", "Extralevure", "Diafit", "Sakai", "Spirit Pharma", "Shilajit", "New Carti"], icon: "fas fa-leaf" },
 ];
 
 // ─────────────────────────────────────────

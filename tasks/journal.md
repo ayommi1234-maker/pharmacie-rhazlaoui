@@ -1,0 +1,94 @@
+# Journal des discussions — Para Rhazlaoui
+
+## 2026-09-17 (mercredi)
+**Fait aujourd'hui**
+- Vidéo logo : reçu la vidéo de référence (mer, sculpture dorée) puis le logo LR (monogramme + ruban) et son animation.
+- Retiré la sculpture d'origine : plaque « une seule pièce » par miroir d'une bande mesurée propre (300 px) — plus de plans recollés.
+- Monogramme LR qui sort de l'eau (montée en S 0,5→5,5 s, ondes, gouttes, écume, reflet), nom « LA PARA RHAZLAOUI » en fondu.
+- Livrables : `video-para/la-para-rhazlaoui-monogramme.mp4` (carré) et `-vertical.mp4` (Statut/Reels) ; `la-para-rhazlaoui-ruban-sur-mer.mp4` (animation reçue posée sur la mer, sans émergence).
+- Sauvegardes : GitHub (branche `claude/reprise-m5zgzn`), archive ZIP datée envoyée dans la discussion, dossier Google Drive « 2026-09-17 Para Rhazlaoui » (notice ; les vidéos ne passent pas par ce connecteur). iCloud : pas d'accès — le ZIP est à y glisser à la main.
+
+**À retenir**
+- ⚠ Le logo et l'animation reçus épellent « LAPRA » : à faire corriger en « LA PARA » avant impression/diffusion.
+- Musique de la vidéo de référence : droits inconnus, à vérifier avant diffusion publique.
+- Les 5 propositions de page d'accueil du site v2 attendent un choix (`/propositions/`).
+
+**Prochaine fois**
+- Choisir la page d'accueil (A–E) ou une combinaison.
+- Mettre le monogramme LR dans l'en-tête du site et en favicon.
+- Éventuellement : faire sortir l'animation « ruban » de l'eau comme le monogramme (≈ 20 min).
+
+### 2026-09-17 (soir) — intros « logo jaillissant + rubans »
+- **Fait** : 2 intros monogramme LR (« Jaillissement » 1 s avec rebond, « Élégante » 5 s), rubans dorés avant/arrière autour du logo, gerbe renforcée ; 3 logos dorés dessinés (croix « R », monogramme « PR », feuille « LA PARA ») → 3 intros de plus ; versions verticales ; tout documenté dans `video-para/README.md`.
+- **Corrigé** : reflet visible sous l'eau avant la sortie (élégante) ; jointures sur la croix.
+- **À décider par le propriétaire** : quel logo garder (LR reçu, ou un des 3 dessinés) ; envoyer d'autres logos si besoin — le pipeline accepte n'importe quel PNG transparent 420×432.
+- **Prochaine fois** : intégrer le logo choisi au site v2 (en-tête + favicon), Reels 15 s avec produits.
+
+### 2026-09-17 (nuit) — intros v2 : eau réelle, gouttelettes d'or, fond animé
+- **Mesuré** : ligne d'eau réelle à y=785 (les intros précédentes plaçaient le logo sur l'horizon à 630, d'où l'effet « flottant ») ; sculpture absente au-delà de 240 px du bord gauche.
+- **Fait** : fond entièrement animé (nuages, brume, mer) reconstruit depuis la bande de 240 px de l'image courante ; rayons lumineux redessinés et animés ; gouttelettes d'or en relief qui jaillissent, retombent et font des anneaux ; logo agrandi et calé sur l'eau ; 3 nouveaux logos (mortier et pilon, coupe d'Hygie, blason R).
+- **À décider** : quel logo garder pour l'identité de la pharmacie.
+- **Prochaine fois** : intégrer le logo choisi au site (en-tête + favicon).
+
+### 2026-09-20 — logotype LAPARA
+- **Fait** : logo « LAPARA » en lettres d'or (filets à losange, RHAZLAOUI et PARAPHARMACIE dessous), intro carrée et verticale montées avec le même décor (eau réelle, gouttelettes d'or, rubans, nuages animés).
+- **Corrigé** : le reflet blanc diagonal argentait certaines lettres ; adouci pour tous les logos.
+- **Note** : génération vidéo « réaliste » via les bibliothèques connectées non lancée — Higgsfield à 0 crédit, ElevenLabs estimé à ~5 090 crédits (≈0,51 $) pour 10 s. En attente d'accord explicite. Aucun crédit dépensé.
+
+### 2026-09-20 (suite) — polices locales, 5 designs LAPARA, feuilles dorées
+- **Découvert et corrigé** : Google Fonts inaccessible depuis le navigateur de rendu (certificat du proxy) — tous les logos précédents utilisaient une police de secours. Polices désormais téléchargées dans `video-para/polices/`.
+- **Fait** : 5 designs du logo LAPARA (filets, emblème rond, plaque gravée, moderne, signature manuscrite) + intros vidéo pour chacun.
+- **Choix du propriétaire** : la **signature manuscrite**, enrichie d'une branche de petites feuilles dorées.
+- **Prochaine fois** : décliner la signature pour le site (en-tête, favicon) et vérifier le rendu en petite taille.
+
+### 2026-09-20 (suite) — bouteille tournante
+- **Fait** : logo Lapara imprimé sur une bouteille en verre ambré qui tourne sur elle-même en sortant lentement de l'eau (comme la sculpture de la vidéo de référence) ; rubans dorés en dégradé parcourus par une lumière blanche.
+- **Corrigé** : fantôme du reflet au-dessus de l'eau (reflet désormais découpé sous la ligne d'eau) ; rayures verticales de l'étiquette (tranches chevauchées) ; logo trop large pour l'arc visible.
+- **Prochaine fois** : décliner la signature sur le site (en-tête, favicon).
+
+### 2026-09-20 (fin) — logo courbé tournant
+- **Malentendu levé** : « tourner comme écrit sur une bouteille » voulait dire le **logo seul courbé** sur un cylindre invisible, pas une bouteille visible. Question posée, réponse obtenue, version refaite.
+- **Fait** : `logo-cylindre.html` — logo courbé qui tourne et finit face caméra, deux exemplaires opposés pour ne jamais avoir d'image vide, effacement des bords et éclairage cylindrique appliqués aux seules lettres.
+- **En attente** : sens de « styl alpham » ; pose de l'identité Lapara sur le site.
+
+### 2026-09-24 — identité Lapara posée sur le site
+- **Fait** : marque carrée « L » dorée sur bleu nuit (dérivée de la signature), déclinée en 512 / 180 / 32 px dans `images/lapara-marque-*.png` ; posée dans `index.html` en favicon, icône Apple, logo de la barre de navigation, du chargement et du pied de page.
+- **Constaté et corrigé** : à 32 px la brindille et la lettre se refermaient en une tache ; la marque se simplifie automatiquement sous 96 px (lettre agrandie, filet intérieur et brindille retirés).
+- **Réserve honnête** : le site est vert pharmacie, la marque est bleu nuit et or. Les deux cohabitent mais ce n'est pas la même gamme ; harmoniser demanderait de revoir la palette du site.
+- `images/favicon.svg` est conservé, simplement plus référencé.
+- **En attente** : sens de « styl alpham » ; validation de la marque avant mise en ligne sur la branche principale.
+
+### 2026-09-24 (suite) — variante verte de la marque, question iCloud
+- **Fait** : la marque carrée accepte une palette ; variante `marqueVerte` dans le vert du site (`--vert` #00A651 → #007A3D) pour répondre à la réserve que j'avais signalée (marque bleu nuit contre site vert). Les deux palettes restent lisibles en 32 px.
+- **Non fait, et pourquoi** : sauvegarde et recherche sur iCloud impossibles — aucun connecteur iCloud dans cette session (accès disponibles : Google Drive, Gmail, Agenda, Notion, GitHub, Canva). Archive datée préparée en trois parties sous la limite d'envoi, non transmise car le propriétaire a demandé l'arrêt.
+- **Vérifié** : aucune trace de travail au 23/09/2026 (ni commit, ni fichier, ni journal). Séances réelles : 17/09, 20/09, 24/09.
+- **En attente** : choix de la palette de la marque ; sens de « styl alpham » ; publication sur la branche principale.
+
+### 2026-09-24 (suite) — application des ordres du 23/09/2026
+- **Mémoire installée** : `.claude/AGENTS-baounna.md` (préférences v1.11 du 23/09), règles applicables reprises dans `CLAUDE.md`, `tasks/lessons.md` créé.
+- **Gardien** : aucun secret exposé. **Violation trouvée et corrigée** : 3 icônes étoile (`fa-star`) subsistaient — bandeau défilant ×2 remplacées par la croix de pharmacie, gamme « Bien-être & Divers » remplacée par une feuille. Cache JS passé de v6 à v7.
+- **Test** (`video-para/test-site.mjs`, deux largeurs) : logo et favicon chargés, aucune requête en échec, aucune erreur JS. Origines distantes : fonts.googleapis.com et cdnjs.cloudflare.com, toutes deux déjà autorisées par la CSP.
+- **Défaut préexistant signalé, non corrigé** : débordement horizontal de 24 px à 390 px, causé par les vignettes flottantes `.floating-product` du bandeau d'accueil. Vérifié identique avant mon changement de logo : je ne l'ai pas introduit. Correction non faite car hors du périmètre demandé.
+- **Archiviste** : livrables présents aux chemins annoncés, 0 commit non poussé.
+
+### 2026-09-24 (fin) — mémoire étendue à tous les projets
+- **Fait** : `~/.claude/CLAUDE.md` écrit (50 lignes) — les préférences s'appliquent désormais à tous les projets de la session, plus seulement à la pharmacie.
+- **Outil construit** (2ᵉ installation de la même mémoire) : `.claude/installer-memoire.sh`. Sans argument il installe la mémoire utilisateur ; avec un chemin de dépôt il l'installe dans ce dépôt. Testé sur un dépôt temporaire : installation correcte, et relance sans effet (pas de doublon). N'écrase jamais un `CLAUDE.md` existant.
+- **Limite dite, non contournée** : `~/.claude/CLAUDE.md` vit dans un conteneur cloud éphémère et disparaîtra au recyclage. Pour que ce soit permanent, il faut ajouter `bash pharmacie-rhazlaoui/.claude/installer-memoire.sh` au script de démarrage de l'environnement.
+
+### 2026-09-24 — iCloud réexaminé pour de bon
+- **Cherché** : registre complet des connecteurs MCP sur 6 formulations (icloud, apple, icloud drive, stockage/synchro de fichiers, spotlight, notes/rappels Apple). **Aucun connecteur Apple n'existe** — ni installé, ni disponible à l'installation. Connecteurs réellement branchés : Adobe, Canva, ElevenLabs, Gmail, Google Agenda, Google Drive, Higgsfield, Notion.
+- **Levier trouvé** : depuis une session lancée **sur le Mac** (Claude Desktop ou `claude remote-control`), iCloud Drive est un dossier local ordinaire, lisible sans connecteur, et `mdfind` fonctionne. C'est là que la règle 5 des préférences s'applique.
+- **Écrit** dans `CLAUDE.md` : le blocage et son levier, pour ne plus répéter « impossible » tout court.
+
+### 2026-09-24 — fusion des mémoires M4 / M5
+- **Compris** : m4 et m5 sont les deux Macs, pas les modèles. Capture d'écran du M5 fournie par le propriétaire.
+- **Relevé dans la mémoire** : outil `miroir-claude` dans iCloud ; empreinte du M5 `Apple-M5_192` ; `reprise`, `memoire`, `agents`, `skills`, `commands` se synchronisent seuls, tandis que `settings.json` et `hooks` restent locaux — d'où la mémoire qui ne se charge pas sur le M4.
+- **Donné** : la procédure exacte à lancer sur le M4, essai à blanc puis `--pour-de-vrai`, avec la réserve que la commande aligne au lieu de fusionner et peut écraser ce qui est propre au M4.
+- **Non faisable ici** : la fusion exige iCloud, donc une session lancée depuis le Mac.
+
+### 2026-09-24 — vérification par agent indépendant, et corrections
+- **Premier vrai recours à un agent** : un Vérificateur distinct a relu mes deux derniers changements du site sans mes conclusions. Il a validé les trois prétentions (logo posé aux 4 emplacements, dimensions PNG réelles conformes, `favicon.svg` conservé, compteur `?v=` correct) et trouvé 5 problèmes, dont 2 que j'avais manqués.
+- **Corrigé** : ① `lapara-marque-512.png` (199 Ko) servi pour 40-70 px → remplacé par la version 180 px ; poids mesuré après coup : 37,7 Ko au lieu de 235 Ko. ② `site-v2/src/components/site/icone-gamme.tsx` : `Star` était l'icône de **repli**, violation latente de l'interdiction — retirée de l'import, de la table et du repli, remplacée par `PackageOpen`. ③ `404.html` gardait l'ancien favicon → aligné. ④ Attributs `alt` redondants sur les 3 logos → `alt=""`, l'image est décorative, le nom est déjà en texte à côté.
+- **À trancher par le propriétaire** : `fa-certificate` dans le bandeau défilant (index.html:505 et 510) est une rosace à pointes. L'agent la signale comme candidate suivante si la règle « star, starburst » vise la forme. Non touchée sans décision.
+- **Outil ajouté** : `video-para/mesure-poids.mjs`, qui mesure le poids réellement téléchargé par ressource.

@@ -1,0 +1,771 @@
+<!doctype html>
+<html lang="fr">
+<meta charset="utf-8">
+<title>LA PARA RHAZLAOUI — jaillissement</title>
+<!--
+  Animation « les lettres sortent de la mer en tournant en hélice ».
+  Pilotée UNIQUEMENT par window.poser(t) : aucun requestAnimationFrame, aucune
+  horloge interne. Le rendu est donc strictement reproductible image par image
+  (c'est ce qui permet de capturer 30 images/s sans décalage).
+-->
+<style>
+  :root{
+    --or-clair:#fff3c4; --or:#f0c04a; --or-fonce:#a9761a; --or-vif:#ffe9a8;
+    --nuit:#050b18; --mer:#0a1a33;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1080px;height:1080px;overflow:hidden;background:var(--nuit)}
+  #scene{position:relative;width:1080px;height:1080px;overflow:hidden;
+    font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif}
+
+  /* ── Ciel de nuit ── */
+  #ciel{position:absolute;inset:0;
+    background:
+      radial-gradient(120% 70% at 50% -10%, #17335e 0%, #0b1b36 45%, #050b18 100%),
+      linear-gradient(180deg,#071026 0%,#0a1730 60%,#040a16 100%);}
+
+  /* ── Rayons descendants ── */
+  #rayons{position:absolute;inset:-10% -20% 40% -20%;filter:blur(22px);mix-blend-mode:screen}
+  .rayon{position:absolute;top:-12%;width:5%;height:120%;transform-origin:50% 0%;
+    background:linear-gradient(180deg,rgba(190,225,255,.55),rgba(150,200,255,.12) 55%,transparent 85%)}
+
+  /* ── Brume et montagnes lointaines ── */
+  #montagnes{position:absolute;left:0;right:0;top:36%;height:26%;filter:blur(2.5px);opacity:.55}
+  #brume{position:absolute;left:-10%;right:-10%;top:44%;height:22%;filter:blur(30px);
+    background:linear-gradient(180deg,transparent,rgba(150,190,240,.28) 45%,transparent);}
+
+  /* ── Mer ── */
+  #mer{position:absolute;left:0;right:0;top:58%;bottom:0;overflow:hidden;
+    background:linear-gradient(180deg,#0a1a33 0%,#061021 55%,#03080f 100%)}
+  #eau{position:absolute;inset:0}
+  #horizon{position:absolute;left:0;right:0;top:0;height:3px;
+    background:linear-gradient(90deg,transparent,rgba(160,205,255,.6),transparent);filter:blur(1px)}
+
+  /* ── Bloc du texte (perspective 3D) ── */
+  #sol{position:absolute;left:0;right:0;top:0;bottom:0;perspective:1400px;
+    perspective-origin:50% 45%}
+  #titre{position:absolute;left:50%;top:38%;transform-style:preserve-3d;white-space:nowrap}
+  .lettre{position:absolute;display:inline-block;transform-style:preserve-3d;
+    font-weight:700;letter-spacing:.01em;
+    background:linear-gradient(175deg,var(--or-clair) 0%,var(--or-vif) 18%,var(--or) 38%,
+      var(--or-fonce) 52%,var(--or) 66%,var(--or-vif) 84%,#fffbe8 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    filter:drop-shadow(0 0 18px rgba(255,200,90,.55)) drop-shadow(0 2px 3px rgba(0,0,0,.6))}
+
+  /* ── Reflet dans l'eau ── */
+  #reflet{position:absolute;left:50%;top:0;transform-style:preserve-3d;white-space:nowrap;
+    opacity:.34;filter:blur(3px)}
+  .lettre-r{position:absolute;display:inline-block;font-weight:700;letter-spacing:.01em;
+    background:linear-gradient(0deg,transparent 0%,rgba(240,192,74,.75) 60%,#ffe9a8 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent}
+
+  /* ── Ruban de lumière hélicoïdal ── */
+  #ruban{position:absolute;inset:0;mix-blend-mode:screen;pointer-events:none}
+
+  /* ── Colonne hélicoïdale (mode helice) ── */
+  #sphere{position:absolute;left:50%;top:0;width:34px;height:34px;margin-left:-17px;border-radius:50%;
+    background:radial-gradient(circle at 32% 28%,#fffbe6 0%,#f6cf63 32%,#b8811c 70%,#6e4a0c 100%);
+    box-shadow:0 0 26px rgba(255,205,100,.85),0 0 60px rgba(255,190,80,.45);display:none}
+
+  /* ── Sous-titre ── */
+  #sous{position:absolute;left:0;right:0;top:86%;text-align:center;
+    font-size:30px;letter-spacing:.42em;text-transform:uppercase;
+    color:#dfe9ff;text-shadow:0 0 22px rgba(120,180,255,.6);opacity:0}
+
+  /* ── Éclaboussures ── */
+  #eclats{position:absolute;inset:0;pointer-events:none}
+</style>
+
+<div id="scene">
+  <div id="ciel"></div>
+  <div id="rayons"></div>
+  <svg id="montagnes" viewBox="0 0 1080 280" preserveAspectRatio="none"></svg>
+  <div id="brume"></div>
+  <div id="sol">
+    <div id="titre"></div>
+    <div id="sphere"></div>
+  </div>
+  <div id="mer">
+    <canvas id="eau" width="1080" height="454"></canvas>
+    <div id="horizon"></div>
+    <div id="reflet"></div>
+  </div>
+  <canvas id="ruban" width="1080" height="1080"></canvas>
+  <canvas id="eclats" width="1080" height="1080"></canvas>
+  <div id="sous">Pharmacie Rhazlaoui · Khouribga</div>
+</div>
+
+<script>
+/* ═══════════════ Réglages ═══════════════ */
+const TEXTE = "LA PARA RHAZLAOUI";
+const PARAMS = new URLSearchParams(location.search);
+const MODE_HELICE = PARAMS.get("helice") === "1";          // colonne de lettres en spirale
+const MODE_EMERGENCE = PARAMS.get("emergence") === "1";    // gerbe + ondes + écume, sans lettres
+const COURBE = PARAMS.get("courbe") || "douce";              // douce (S sur 5 s) | jaillir (0,4→1,7 s avec rebond)
+const RUBANS = PARAMS.get("rubans");
+const MODE_RAYONS = PARAMS.get("rayons") === "1";   // faisceaux lumineux animés, seuls                         // "avant" | "arriere" : moitié du ruban à dessiner
+const DEBUT_RUBANS = parseFloat(PARAMS.get("debut") || "1.2");
+const MODE_CALQUE = MODE_HELICE || MODE_EMERGENCE || MODE_RAYONS || !!RUBANS || PARAMS.get("calque") === "1";
+const DUREE = 10;            // secondes
+const L = 1080;              // côté du carré
+let MER_Y = 0.58 * L;        // hauteur de la ligne d'eau en pixels (réglée en mode calque)
+let TITRE_TOP = 0.38;        // position verticale du bloc de titre (fraction de L)
+
+/* ═══════════════ Utilitaires ═══════════════ */
+const clamp = (v, a=0, b=1) => Math.min(b, Math.max(a, v));
+const lerp  = (a, b, t) => a + (b - a) * t;
+/* Sortie très douce : la lettre décélère en arrivant à sa place. */
+const adouci = t => 1 - Math.pow(1 - clamp(t), 3);
+const adouciFort = t => 1 - Math.pow(1 - clamp(t), 5);
+/* Aléatoire DÉTERMINISTE : même graine ⇒ même valeur à chaque rendu. */
+function alea(n){ const x = Math.sin(n * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); }
+
+/* ═══════════════ Montagnes (dessinées une fois) ═══════════════ */
+(function montagnes(){
+  const svg = document.getElementById("montagnes");
+  let d = "M0,280 L0,190 ";
+  for (let x = 0; x <= 1080; x += 30) {
+    const h = 150
+      + Math.sin(x * 0.011) * 42
+      + Math.sin(x * 0.027 + 1.3) * 26
+      + alea(x) * 16;
+    d += `L${x},${280 - h} `;
+  }
+  d += "L1080,280 Z";
+  svg.innerHTML =
+    `<defs><linearGradient id="m" x1="0" y1="0" x2="0" y2="1">
+       <stop offset="0" stop-color="#2b4a7d"/><stop offset="1" stop-color="#0b1a33"/>
+     </linearGradient></defs>
+     <path d="${d}" fill="url(#m)"/>`;
+})();
+
+/* ═══════════════ Rayons (créés une fois) ═══════════════ */
+const RAYONS = [];
+(function rayons(){
+  const hote = document.getElementById("rayons");
+  for (let i = 0; i < 9; i++) {
+    const r = document.createElement("div");
+    r.className = "rayon";
+    r.style.left = (6 + i * 11 + alea(i) * 5) + "%";
+    r.dataset.angle = (-26 + i * 6.5 + alea(i + 40) * 4).toFixed(2);
+    r.dataset.phase = (alea(i + 70) * 6.28).toFixed(3);
+    hote.appendChild(r);
+    RAYONS.push(r);
+  }
+})();
+
+/* ═══════════════ Lettres ═══════════════ */
+const LIGNES = ["LA PARA", "RHAZLAOUI"];   // deux lignes : tient dans un carré
+const MARGE = 0.90;                        // le texte occupe au plus 90 % de la largeur
+const INTERLIGNE = 1.02;                   // hauteur d'une ligne, en corps de police
+
+/* Chaque entrée décrit une lettre : son glyphe, sa ligne, son rang global. */
+const CARS = [];
+LIGNES.forEach((mot, ligne) => {
+  mot.split("").forEach((c) => CARS.push({ c, ligne }));
+});
+
+const lettres = [], reflets = [];
+const AVANCE = [];      // position horizontale finale de chaque lettre
+const HAUTEUR = [];     // position verticale finale de chaque lettre
+let TAILLE = 150;       // corps de police, ajusté juste après la mesure
+
+(function fabriqueLettres(){
+  const titre  = document.getElementById("titre");
+  const reflet = document.getElementById("reflet");
+
+  CARS.forEach(({ c }) => {
+    const s = document.createElement("span");
+    s.className = "lettre";
+    s.textContent = c === " " ? "\u00A0" : c;
+    s.style.fontSize = TAILLE + "px";
+    titre.appendChild(s);
+    lettres.push(s);
+
+    const r = document.createElement("span");
+    r.className = "lettre-r";
+    r.textContent = c === " " ? "\u00A0" : c;
+    r.style.fontSize = TAILLE + "px";
+    reflet.appendChild(r);
+    reflets.push(r);
+  });
+
+  // 1) Mesure des glyphes au corps provisoire.
+  const brut = lettres.map((el, i) =>
+    el.getBoundingClientRect().width + (CARS[i].c === " " ? 0.10 * TAILLE : 0.05 * TAILLE));
+
+  // 2) La ligne la plus large impose l'échelle : on rétrécit jusqu'à tenir.
+  const largeurLigne = LIGNES.map((_, l) =>
+    brut.reduce((somme, w, i) => somme + (CARS[i].ligne === l ? w : 0), 0));
+  const facteur = Math.min(1, (L * MARGE) / Math.max(...largeurLigne));
+  TAILLE = Math.round(TAILLE * facteur);
+
+  lettres.forEach(el => { el.style.fontSize = TAILLE + "px"; });
+  reflets.forEach(el => { el.style.fontSize = TAILLE + "px"; });
+
+  // 3) Positions finales : chaque ligne centrée, empilées verticalement.
+  const larg = brut.map(w => w * facteur);
+  const largeurFinale = largeurLigne.map(w => w * facteur);
+  const curseurs = largeurFinale.map(w => -w / 2);
+  const hautTotal = (LIGNES.length - 1) * TAILLE * INTERLIGNE;
+
+  CARS.forEach(({ ligne }, i) => {
+    AVANCE.push(curseurs[ligne] + larg[i] / 2);
+    curseurs[ligne] += larg[i];
+    HAUTEUR.push(ligne * TAILLE * INTERLIGNE - hautTotal / 2);
+  });
+})();
+
+/* ═══════════════ Mer ═══════════════ */
+const eau = document.getElementById("eau").getContext("2d");
+function dessineMer(t){
+  const W = 1080, H = 454;
+  eau.clearRect(0, 0, W, H);
+
+  // Vaguelettes en perspective : plus serrées près de l'horizon.
+  for (let i = 0; i < 60; i++) {
+    const p = i / 59;
+    const y = Math.pow(p, 2.1) * H;
+    const amp = 2 + p * 9;
+    const op = (0.05 + p * 0.16) * (0.75 + 0.25 * Math.sin(t * 1.6 + i));
+    eau.beginPath();
+    for (let x = 0; x <= W; x += 12) {
+      const yy = y
+        + Math.sin(x * 0.012 + t * 1.5 + i * 0.5) * amp
+        + Math.sin(x * 0.031 - t * 2.1 + i) * amp * 0.45;
+      x === 0 ? eau.moveTo(x, yy) : eau.lineTo(x, yy);
+    }
+    eau.strokeStyle = `rgba(150,200,255,${op})`;
+    eau.lineWidth = 1 + p * 1.6;
+    eau.stroke();
+  }
+
+  // Colonne de lumière dorée sous le titre (reflet spéculaire).
+  const g = eau.createLinearGradient(W / 2, 0, W / 2, H);
+  g.addColorStop(0, "rgba(255,205,115,.17)");
+  g.addColorStop(0.45, "rgba(255,190,90,.05)");
+  g.addColorStop(1, "rgba(255,180,70,0)");
+  eau.fillStyle = g;
+  eau.beginPath();
+  eau.moveTo(W / 2 - 150, 0);
+  eau.lineTo(W / 2 + 150, 0);
+  eau.lineTo(W / 2 + 430, H);
+  eau.lineTo(W / 2 - 430, H);
+  eau.closePath();
+  eau.filter = 'blur(22px)';
+  eau.fill();
+  eau.filter = 'none';
+
+  // Scintillements.
+  for (let i = 0; i < 170; i++) {
+    const p = alea(i) ;
+    const y = Math.pow(p, 2.0) * H;
+    const x = alea(i + 500) * W + Math.sin(t * 1.1 + i) * 6;
+    const clignote = 0.5 + 0.5 * Math.sin(t * (3 + alea(i + 900) * 5) + i * 2.1);
+    const r = (0.6 + p * 1.9) * (0.5 + clignote);
+    const dore = Math.abs(x - W / 2) < 220 && p > 0.25;
+    eau.fillStyle = dore
+      ? `rgba(255,214,130,${0.12 + clignote * 0.5})`
+      : `rgba(190,225,255,${0.06 + clignote * 0.28})`;
+    eau.beginPath();
+    eau.arc(x, y, r, 0, 6.2832);
+    eau.fill();
+  }
+
+  // Ondes concentriques au point d'émergence.
+  const centreX = W / 2, centreY = 26;
+  for (let k = 0; k < 5; k++) {
+    const age = ((t * 0.55 + k * 0.2) % 1);
+    const rx = 60 + age * 430, ry = (60 + age * 430) * 0.16;
+    eau.beginPath();
+    eau.ellipse(centreX, centreY + age * 40, rx, ry, 0, 0, 6.2832);
+    eau.strokeStyle = `rgba(180,220,255,${(1 - age) * 0.30})`;
+    eau.lineWidth = 2;
+    eau.stroke();
+  }
+}
+
+/* ═══════════════ Ruban hélicoïdal ═══════════════ */
+const ruban = document.getElementById("ruban").getContext("2d");
+function dessineRuban(t, avancement, moitie){
+  ruban.clearRect(0, 0, L, L);
+  if (avancement <= 0.01) return;
+  // moitie : "avant" = points côté spectateur (sin > 0), "arriere" = derrière le logo.
+  const garde = (angle) => !moitie || (moitie === "avant" ? Math.sin(angle) > 0 : Math.sin(angle) <= 0);
+
+  const baseY = MER_Y + 16;      // départ : la surface de l'eau
+  const hautY = MER_Y - 610;     // arrivée : au-dessus du logo
+  const tours = 2.6;
+  const n = 300;
+  const visible = Math.floor(n * clamp(avancement));
+  const ouverture = clamp(avancement * 1.4);
+
+  // Point de l'hélice au paramètre p.
+  const point = (p, decal) => {
+    const angle = p * tours * 6.2832 + t * 1.15 + decal * 6.28;
+    const rayon = (265 - p * 46) * Math.sin(Math.PI * clamp(p * 1.05, 0, 1)) + 52;
+    return { angle,
+      x: L / 2 + Math.cos(angle) * rayon,
+      y: lerp(baseY, hautY, p) + Math.sin(angle) * rayon * 0.15 };
+  };
+
+  // Dégradé d'or le long du ruban : cuivre en bas, or clair au milieu, pâle en haut.
+  const teinteOr = (p) => {
+    const c1 = [168, 104, 20], c2 = [247, 206, 96], c3 = [255, 240, 190];
+    const [a, b, q] = p < 0.5 ? [c1, c2, p / 0.5] : [c2, c3, (p - 0.5) / 0.5];
+    return a.map((v, i) => Math.round(v + (b[i] - v) * q));
+  };
+
+  // Deux lumières blanches qui défilent le long du ruban, en boucle.
+  const TETES = [0, 0.5];
+  const VITESSE = 0.42;                       // tours de ruban par seconde
+  const LARGEUR = 0.075;                      // longueur de la traînée lumineuse
+  const eclat = (p) => {
+    let m = 0;
+    for (const d of TETES) {
+      let e = Math.abs(((t * VITESSE + d) % 1) - p);
+      e = Math.min(e, 1 - e);                 // la lumière boucle sans saut
+      m = Math.max(m, Math.exp(-(e * e) / (2 * LARGEUR * LARGEUR * 0.25)));
+    }
+    return m;
+  };
+
+  ruban.lineCap = "round";
+  for (const [ep, alpha, decal] of [[10, 0.18, 0], [5, 0.50, 0], [2, 0.92, 0.06]]) {
+    for (let i = 0; i < visible; i++) {
+      const p = i / n, p2 = (i + 1) / n;
+      const a = point(p, decal), b = point(p2, decal);
+      if (!garde(a.angle) || !garde(b.angle)) continue;
+      const lum = eclat(p);
+      const [r, g, bl] = teinteOr(p);
+      // Vers le blanc là où la lumière passe.
+      const rr = Math.round(r + (255 - r) * lum);
+      const gg = Math.round(g + (255 - g) * lum);
+      const bb = Math.round(bl + (255 - bl) * lum);
+      ruban.strokeStyle = `rgba(${rr},${gg},${bb},${Math.min(1, (alpha + lum * 0.45)) * ouverture})`;
+      ruban.lineWidth = ep * (1 + lum * 0.55);
+      ruban.shadowColor = lum > 0.25 ? `rgba(255,255,240,${0.85 * lum})` : "rgba(255,190,80,0.85)";
+      ruban.shadowBlur = ep * (2.4 + lum * 4);
+      ruban.beginPath(); ruban.moveTo(a.x, a.y); ruban.lineTo(b.x, b.y); ruban.stroke();
+    }
+  }
+  ruban.shadowBlur = 0;
+
+  // Tête de comète : un point très lumineux en pointe de chaque traînée.
+  for (const d of TETES) {
+    const p = (t * VITESSE + d) % 1;
+    if (p > clamp(avancement)) continue;
+    const a = point(p, 0.03);
+    if (!garde(a.angle)) continue;
+    const r = 13;
+    const g = ruban.createRadialGradient(a.x, a.y, 1, a.x, a.y, r);
+    g.addColorStop(0, "rgba(255,255,255,0.95)");
+    g.addColorStop(0.35, "rgba(255,246,210,0.65)");
+    g.addColorStop(1, "rgba(255,220,140,0)");
+    ruban.fillStyle = g;
+    ruban.beginPath(); ruban.arc(a.x, a.y, r, 0, 6.2832); ruban.fill();
+  }
+
+  // Perles d'or qui suivent l'hélice.
+  for (let k = 0; k < 7; k++) {
+    const p = ((t * 0.16 + k / 7) % 1) * clamp(avancement);
+    const a = point(p, 0);
+    if (!garde(a.angle)) continue;
+    const r = 5 + 5 * Math.sin(p * Math.PI);
+    const g = ruban.createRadialGradient(a.x - r * .3, a.y - r * .3, r * .2, a.x, a.y, r);
+    g.addColorStop(0, "#fffdf0"); g.addColorStop(.5, "#f5c95c"); g.addColorStop(1, "#9c6f16");
+    ruban.fillStyle = g;
+    ruban.shadowColor = "rgba(255,200,90,.9)"; ruban.shadowBlur = 18;
+    ruban.beginPath(); ruban.arc(a.x, a.y, r, 0, 6.2832); ruban.fill();
+  }
+  ruban.shadowBlur = 0;
+}
+
+/* ═══════════════ Éclaboussures ═══════════════ */
+const eclats = document.getElementById("eclats").getContext("2d");
+function dessineEclats(t){
+  eclats.clearRect(0, 0, L, L);
+  for (let i = 0; i < 90; i++) {
+    const naissance = 0.5 + alea(i) * 5.2;          // instant de projection
+    const vie = 1.5 + alea(i + 33) * 1.4;
+    const age = (t - naissance) / vie;
+    if (age < 0 || age > 1) continue;
+    const dir = (alea(i + 7) - 0.5) * 2;
+    const v0 = 150 + alea(i + 13) * 330;
+    const x = L / 2 + dir * v0 * age * 0.85;
+    const y = MER_Y + 10 - (v0 * 1.35 * age - 620 * age * age);
+    const r = (1.6 + alea(i + 21) * 3.4) * (1 - age * 0.55);
+    const op = (1 - age) * 0.85;
+    eclats.fillStyle = alea(i + 55) > 0.7
+      ? `rgba(255,214,130,${op})`
+      : `rgba(205,235,255,${op})`;
+    eclats.beginPath(); eclats.arc(x, y, r, 0, 6.2832); eclats.fill();
+  }
+}
+
+/* ═══════════════ Placement des lettres ═══════════════ */
+function poseLettres(t){
+  const RAYON = 300;          // rayon de l'hélice au départ
+  const PROF  = 150;          // profondeur sous la surface
+  const dep   = 0.55;         // instant de la première lettre
+  const pas   = 0.155;        // décalage entre deux lettres
+  const duree = 1.9;          // temps de montée d'une lettre
+
+  let dernier = 0;
+  CARS.forEach((_, i) => {
+    const e  = clamp((t - (dep + i * pas)) / duree);
+    const ea = adouci(e);
+    dernier = Math.max(dernier, e);
+
+    // Position finale : la ligne de texte, centrée.
+    const xf = AVANCE[i];
+    const yf = HAUTEUR[i];
+
+    // Hélice : l'angle et le rayon se referment à mesure que la lettre monte.
+    const spires = 2.25;
+    const angle  = (1 - ea) * (spires * 360) + (1 - ea) * i * 26;
+    const rayon  = (1 - adouciFort(e)) * RAYON;
+
+    // Montée : part sous l'eau, arrive à sa place.
+    const yy = lerp(PROF + 240, yf, ea);
+
+    // Opacité : la lettre apparaît en perçant la surface.
+    const op = clamp(e * 3.2);
+
+    const l = lettres[i];
+    l.style.opacity = op;
+    l.style.transform =
+      `translate3d(${xf}px, ${yy}px, 0px) ` +
+      `rotateY(${angle}deg) translateZ(${rayon}px) ` +
+      `rotateX(${(1 - ea) * -18}deg) scale(${lerp(0.55, 1, ea)})`;
+
+    // Reflet : même chose, retourné, sous la ligne d'eau.
+    const r = reflets[i];
+    // #reflet part du haut de la mer : le reflet est le miroir du texte
+    // par rapport à la ligne d'eau, donc d'autant plus bas que la lettre est haute.
+    const hauteurAuDessus = MER_Y - (TITRE_TOP * L + yy);
+    const refletY = hauteurAuDessus * 0.30 + 8;
+    r.style.opacity = op * 0.45 * ea;
+    r.style.transform =
+      `translate3d(${xf}px, ${refletY}px, 0px) ` +
+      `rotateY(${angle}deg) scaleY(-1) scale(${lerp(0.55, 1, ea)})`;
+  });
+  return dernier;
+}
+
+/* ═══════════════ Colonne de lettres en spirale (mode helice) ═══════════════ */
+const HELICE = {
+  taille: 118,     // corps des lettres (unités scène 1080)
+  pas: 36,         // montée verticale d'une lettre à la suivante
+  rayon: 150,      // rayon de la spirale
+  tours: 1.2,      // nombre de tours sur toute la hauteur
+  vitesse: 30,     // degrés par seconde
+  montee: 5.4,     // durée d'émergence hors de l'eau (s)
+};
+let HELICE_PRETE = false;
+function prepareHelice(){
+  const t = HELICE.taille;
+  lettres.forEach(el => { el.style.fontSize = t + "px"; el.style.left = "0"; el.style.marginLeft = "0"; });
+  reflets.forEach(el => { el.style.fontSize = t + "px"; });
+  // Chaque lettre est centrée sur l'axe : on la décale de la moitié de sa largeur mesurée.
+  lettres.forEach((el, i) => {
+    el.style.transform = "none";
+    const w = el.getBoundingClientRect().width / (COTE_ECHELLE || 1);
+    el.dataset.demi = w / 2;
+    reflets[i].dataset.demi = w / 2;
+  });
+  const sphere = document.getElementById("sphere");
+  sphere.style.display = "block";
+  HELICE_PRETE = true;
+}
+
+function poseHelice(t){
+  if (!HELICE_PRETE) prepareHelice();
+  const visibles = CARS.map((c, i) => ({ c: c.c, i })).filter(x => x.c !== " ");
+  const N = visibles.length;
+  const H = (N - 1) * HELICE.pas;                       // hauteur de la colonne
+  const e = adouci(clamp((t - 0.25) / HELICE.montee));  // émergence hors de l'eau
+  const descente = (1 - e) * (H + HELICE.taille + 40);  // combien la colonne est encore immergée
+  const baseY = MER_Y - TITRE_TOP * L;                  // ligne d'eau, dans le repère du titre
+  const pasAngle = (360 * HELICE.tours) / N;
+
+  // Lettres non affichées (espaces) : cachées
+  CARS.forEach((c, i) => { if (c.c === " ") { lettres[i].style.opacity = 0; reflets[i].style.opacity = 0; } });
+
+  visibles.forEach(({ i }, k) => {
+    // k = 0 est la lettre du HAUT (« L ») : elle sort de l'eau la première.
+    const hauteur = H - k * HELICE.pas;                 // hauteur au-dessus de la base
+    const y = baseY - hauteur - HELICE.taille + descente;
+    const angle = k * pasAngle + t * HELICE.vitesse;
+    const rad = angle * Math.PI / 180;
+    const face = Math.cos(rad);                         // 1 = face au spectateur, -1 = dos
+    const demi = parseFloat(lettres[i].dataset.demi) || 0;
+
+    const l = lettres[i];
+    l.style.opacity = (face > 0 ? 0.35 + 0.65 * face : 0.06 * (1 + face)).toFixed(3); // dos quasi invisible
+    l.style.filter = `brightness(${(0.45 + 0.75 * (face + 1) / 2).toFixed(3)}) drop-shadow(0 0 14px rgba(255,200,90,.55)) drop-shadow(0 2px 3px rgba(0,0,0,.6))`;
+    l.style.transform =
+      `translate3d(${-demi}px, ${y}px, 0) rotateY(${angle}deg) translateZ(${HELICE.rayon}px)`;
+
+    // Reflet : miroir sous la ligne d'eau, uniquement pour la partie émergée.
+    const r = reflets[i];
+    const auDessus = baseY - y - HELICE.taille;         // distance lettre → surface
+    r.style.opacity = (auDessus > 0 ? 0.32 * (0.4 + 0.6 * (face + 1) / 2) : 0).toFixed(3);
+    r.style.transform =
+      `translate3d(${-demi}px, ${auDessus * 0.35 + 6}px, 0) rotateY(${angle}deg) translateZ(${HELICE.rayon}px) scaleY(-1)`;
+  });
+
+  // Sphère au sommet de la colonne
+  const sphere = document.getElementById("sphere");
+  const ySommet = baseY - H - HELICE.taille + descente - 30 + TITRE_TOP * L;
+  sphere.style.top = ySommet + "px";
+  sphere.style.opacity = clamp(e * 2);
+  return e;
+}
+
+/* ═══════════════ Réaction de l'eau à l'émergence (mode emergence) ═══════════════ */
+/* Même courbe que le montage ffmpeg : montée de 0,5 s à 5,5 s, en S (smoothstep). */
+function progressionMontee(t){
+  if (COURBE === "jaillir") {
+    // Sortie brusque avec léger dépassement puis retombée (easeOutBack), de 0,4 s à 1,7 s.
+    const p = clamp((t - 0.4) / 1.3);
+    return 1 + 2.70158 * Math.pow(p - 1, 3) + 1.70158 * Math.pow(p - 1, 2);
+  }
+  const p = clamp((t - 0.5) / 5); return p * p * (3 - 2 * p);
+}
+function vitesseMontee(t){ return (progressionMontee(t + 0.04) - progressionMontee(t - 0.04)) / 0.08; }
+
+function dessineEmergence(t){
+  const c = eclats;                     // on réutilise le canvas des éclaboussures
+  c.clearRect(0, 0, L, L);
+  const cx = L / 2, cy = MER_Y + 6;     // point d'émergence, sur la ligne d'eau
+  const gain = COURBE === "jaillir" ? 1.15 : 2.2;
+  const v = clamp(vitesseMontee(t) * gain);   // 0 → 1 : intensité de la perturbation
+  const e = progressionMontee(t);
+
+  // 1) Ondes concentriques : une nouvelle onde toutes les 0,3 s tant que ça monte.
+  for (let k = 0; k < 18; k++) {
+    const naissance = 0.55 + k * 0.3;
+    const age = (t - naissance) / 2.6;
+    if (age < 0 || age > 1) continue;
+    const rx = 70 + age * 520, ry = rx * 0.17;
+    const force = clamp(vitesseMontee(naissance) * gain);
+    c.beginPath();
+    c.ellipse(cx, cy + age * 26, rx, ry, 0, 0, 6.2832);
+    c.strokeStyle = `rgba(200,230,255,${(1 - age) * 0.55 * (0.35 + 0.65 * force)})`;
+    c.lineWidth = 2.5 - age * 1.2;
+    c.stroke();
+    // liseré doré (reflet de l'or sur la crête)
+    c.beginPath();
+    c.ellipse(cx, cy + age * 26 + 3, rx, ry, 0, 0, 6.2832);
+    c.strokeStyle = `rgba(255,205,110,${(1 - age) * 0.22 * force})`;
+    c.lineWidth = 1.2;
+    c.stroke();
+  }
+
+  // 2) Écume lumineuse au pied du logo, proportionnelle à la vitesse de sortie.
+  if (v > 0.02) {
+    const g = c.createRadialGradient(cx, cy, 4, cx, cy, 170);
+    g.addColorStop(0, `rgba(235,245,255,${0.55 * v})`);
+    g.addColorStop(0.35, `rgba(200,225,255,${0.28 * v})`);
+    g.addColorStop(1, "rgba(200,225,255,0)");
+    c.save(); c.scale(1, 0.22); c.translate(0, cy / 0.22 - cy);
+    c.fillStyle = g; c.beginPath(); c.arc(cx, cy, 170, 0, 6.2832); c.fill();
+    c.restore();
+  }
+
+  // 3) Gerbe de gouttelettes d'OR : projetées vers le haut, elles retombent (gravité)
+  //    et frappent l'eau en créant un petit anneau d'impact.
+  for (let i = 0; i < 150; i++) {
+    const naissance = COURBE === "jaillir" ? 0.45 + alea(i) * 1.7 : 0.55 + alea(i) * 4.8;
+    const vie = 1.5 + alea(i + 33) * 1.4;               // assez longue pour voir la retombée
+    const age = (t - naissance) / vie;
+    if (age < 0 || age > 1) continue;
+    const force = clamp(vitesseMontee(naissance) * gain);
+    const dir = (alea(i + 7) - 0.5) * 2;
+    const v0 = (330 + alea(i + 13) * 600) * (0.55 + 0.45 * force);
+    const tv = age * vie;                                // temps réel de vol, en secondes
+    const x = cx + dir * (40 + alea(i + 91) * 70) + dir * v0 * 0.60 * tv;
+    const y = cy - 10 - (v0 * tv - 620 * tv * tv);       // parabole : montée puis chute
+    const r = (5.0 + alea(i + 21) * 9.5) * (0.78 + 0.22 * (1 - age));
+
+    if (y > cy + 4) {
+      // Impact : la goutte est retombée dans la mer → petit anneau doré qui s'ouvre.
+      const apresChute = (y - cy) / 60;
+      if (apresChute > 1) continue;
+      const rr = r * (2 + apresChute * 9);
+      c.beginPath();
+      c.ellipse(x, cy + 4, rr, rr * 0.3, 0, 0, 6.2832);
+      c.strokeStyle = `rgba(255,205,110,${(1 - apresChute) * 0.5})`;
+      c.lineWidth = 1.6;
+      c.stroke();
+      continue;
+    }
+
+    const op = Math.min(1, (1 - age * 0.55)) * (0.45 + 0.55 * force);
+
+    // Traînée dorée derrière la goutte (sens du déplacement).
+    const vx = dir * v0 * 0.55, vy = -(v0 - 1240 * tv);
+    const n = Math.hypot(vx, vy) || 1;
+    const lg = Math.min(62, n * 0.055);
+    const tg = c.createLinearGradient(x, y, x - vx / n * lg, y - vy / n * lg);
+    tg.addColorStop(0, `rgba(255,214,130,${op * 0.55})`);
+    tg.addColorStop(1, "rgba(255,214,130,0)");
+    c.strokeStyle = tg; c.lineWidth = r * 0.9; c.lineCap = "round";
+    c.beginPath(); c.moveTo(x, y); c.lineTo(x - vx / n * lg, y - vy / n * lg); c.stroke();
+
+    // Sphère d'or : dégradé métal (clair en haut-gauche, brun doré en bas) + reflet net.
+    const gg = c.createRadialGradient(x - r * 0.35, y - r * 0.40, r * 0.10, x, y, r);
+    gg.addColorStop(0.00, `rgba(255,250,220,${op})`);
+    gg.addColorStop(0.28, `rgba(250,215,120,${op})`);
+    gg.addColorStop(0.68, `rgba(212,160,38,${op})`);
+    gg.addColorStop(1.00, `rgba(140,96,12,${op})`);
+    c.fillStyle = gg;
+    c.beginPath(); c.arc(x, y, r, 0, 6.2832); c.fill();
+    // éclat spéculaire
+    c.fillStyle = `rgba(255,255,240,${op * 0.85})`;
+    c.beginPath(); c.arc(x - r * 0.34, y - r * 0.38, r * 0.26, 0, 6.2832); c.fill();
+    // halo chaud
+    const hg = c.createRadialGradient(x, y, r * 0.8, x, y, r * 2.6);
+    hg.addColorStop(0, `rgba(255,200,100,${op * 0.30})`);
+    hg.addColorStop(1, "rgba(255,200,100,0)");
+    c.fillStyle = hg;
+    c.beginPath(); c.arc(x, y, r * 2.6, 0, 6.2832); c.fill();
+  }
+
+  // 4) Ruissellement : filets d'eau qui coulent le long du logo pendant la sortie.
+  if (e > 0.05 && e < 0.995) {
+    for (let k = 0; k < 14; k++) {
+      const xk = cx - 190 + alea(k + 200) * 380;
+      const haut = cy - e * 582 * (0.3 + alea(k + 300) * 0.7);
+      const long = 40 + alea(k + 400) * 90;
+      const g2 = c.createLinearGradient(0, haut, 0, haut + long);
+      g2.addColorStop(0, "rgba(220,240,255,0)");
+      g2.addColorStop(0.5, `rgba(220,240,255,${0.35 * (1 - e)})`);
+      g2.addColorStop(1, "rgba(220,240,255,0)");
+      c.strokeStyle = g2; c.lineWidth = 1.2 + alea(k + 500) * 1.4;
+      c.beginPath(); c.moveTo(xk, haut); c.lineTo(xk + Math.sin(t * 3 + k) * 2, haut + long); c.stroke();
+    }
+  }
+}
+
+/* ═══════════════ Faisceaux lumineux animés ═══════════════ */
+function dessineRayons(t){
+  const c = eclats;
+  c.clearRect(0, 0, L, L);
+  const bas = MER_Y;                                  // les faisceaux meurent sur l'eau
+  c.save();
+  c.globalCompositeOperation = "lighter";             // lumière : s'ajoute au fond
+  c.filter = 'blur(34px)';
+  for (let i = 0; i < 7; i++) {
+    const phase = alea(i + 70) * 6.28;
+    const xh = L * (0.12 + i * 0.128) + Math.sin(t * 0.28 + phase) * 30;   // dérive lente
+    const pente = (-0.26 + i * 0.087) + Math.sin(t * 0.21 + phase) * 0.020;
+    const xb = xh + pente * bas;
+    const large = 26 + alea(i + 12) * 46;
+    const force = (0.045 + alea(i + 31) * 0.045) * (0.72 + 0.28 * Math.sin(t * 0.75 + phase));
+    const g = c.createLinearGradient(0, 0, 0, bas);
+    g.addColorStop(0.00, `rgba(150,200,255,${force})`);
+    g.addColorStop(0.45, `rgba(120,175,245,${force * 0.42})`);
+    g.addColorStop(1.00, "rgba(90,150,230,0)");
+    c.fillStyle = g;
+    c.beginPath();
+    c.moveTo(xh - large * 0.34, -20);
+    c.lineTo(xh + large * 0.34, -20);
+    c.lineTo(xb + large * 1.5, bas);
+    c.lineTo(xb - large * 1.5, bas);
+    c.closePath();
+    c.fill();
+  }
+  // Halo central : le « projecteur » qui éclaire le logo.
+  c.filter = "none";
+  const h = c.createRadialGradient(L / 2, bas * 0.30, 10, L / 2, bas * 0.30, L * 0.55);
+  h.addColorStop(0, `rgba(170,215,255,${0.055 + 0.018 * Math.sin(t * 0.6)})`);
+  h.addColorStop(1, "rgba(170,215,255,0)");
+  c.fillStyle = h;
+  c.fillRect(0, 0, L, bas);
+  c.restore();
+}
+
+/* ═══════════════ Fonction maîtresse ═══════════════ */
+window.poser = function(t){
+  // Rayons : léger balancement.
+  RAYONS.forEach((r, i) => {
+    const a = parseFloat(r.dataset.angle), ph = parseFloat(r.dataset.phase);
+    r.style.transform = `rotate(${a + Math.sin(t * 0.5 + ph) * 1.6}deg)`;
+    r.style.opacity = 0.30 + 0.22 * Math.sin(t * 0.7 + ph);
+  });
+
+  if (MODE_RAYONS) {
+    document.getElementById("eclats").style.display = "block";
+    for (const id of ["titre", "reflet", "sous", "ruban"]) { const n = document.getElementById(id); if (n) n.style.display = "none"; }
+    dessineRayons(t);
+    return;
+  }
+  if (RUBANS) {
+    document.getElementById("ruban").style.display = "block";
+    for (const id of ["titre", "reflet", "sous", "eclats"]) document.getElementById(id).style.display = "none";
+    // Le ruban s'enroule une fois le logo sorti, et reste en rotation jusqu'à la fin.
+    dessineRuban(t, adouci(clamp((t - DEBUT_RUBANS) / 1.6)), RUBANS);
+    return;
+  }
+  if (MODE_EMERGENCE) {
+    dessineEmergence(t);
+    document.getElementById("titre").style.display = "none";
+    document.getElementById("reflet").style.display = "none";
+    document.getElementById("sous").style.display = "none";
+    return;
+  }
+  dessineMer(t);
+  const avancement = MODE_HELICE ? poseHelice(t) : poseLettres(t);
+  dessineRuban(t, clamp((t - 0.7) / 3.4) * (1 - adouci(clamp((t - 7.2) / 2.0)) * 0.9));
+  dessineEclats(t);
+
+  // Titre : légère pulsation de la lueur une fois posé.
+  const titre = document.getElementById("titre");
+  const pose = clamp((t - 4.6) / 1.2);
+  titre.style.filter = `drop-shadow(0 0 ${18 + 16 * pose * (0.6 + 0.4 * Math.sin(t * 2))}px rgba(255,200,90,${0.35 + 0.3 * pose}))`;
+
+  // Sous-titre : arrive quand le nom est lisible.
+  document.getElementById("sous").style.opacity = adouci(clamp((t - 6.4) / 1.3)) * 0.95;
+
+  // Fondu d'ouverture et de fermeture.
+  document.getElementById("scene").style.opacity = MODE_CALQUE
+    ? 1
+    : clamp(t / 0.5) * clamp((DUREE - t) / 0.55);
+};
+
+/* ── Mode calque : superposition sur une vidéo réelle ── */
+if (MODE_CALQUE) {
+  document.documentElement.style.background = "transparent";
+  document.body.style.background = "transparent";
+  for (const id of ["ciel", "rayons", "montagnes", "brume", "horizon", "eau", "ruban"]) {
+    const el = document.getElementById(id);
+    if (el) el.style.display = "none";
+  }
+  // La mer reste là mais invisible : elle sert uniquement de CACHE pour
+  // les lettres encore immergées (elle est opaque… en couleur de découpe).
+  const mer = document.getElementById("mer");
+  mer.style.background = "transparent";
+  // Les lettres sous la ligne d'eau doivent être coupées, pas peintes :
+  // on rogne le bloc du titre à la ligne d'eau.
+  // Ligne d'eau de la VRAIE vidéo : ≈ 65,6 % de la hauteur (mesuré sur les images).
+  MER_Y = 0.818 * L;   // ligne d'eau mesuree dans la video source (785 px sur 960)
+  TITRE_TOP = 0.39;
+  mer.style.top = "65.6%";
+  document.getElementById("sol").style.clipPath = `inset(0 0 ${L - MER_Y}px 0)`;
+  document.getElementById("titre").style.top = (TITRE_TOP * 100) + "%";
+  if (MODE_HELICE) {
+    // La colonne est perspective 3D autour de son axe : le point de fuite doit
+    // être sur l'axe, à mi-hauteur de la colonne.
+    document.getElementById("sol").style.perspectiveOrigin = "50% 42%";
+    document.getElementById("sol").style.perspective = "1100px";
+  }
+}
+/* Échelle appliquée par rendu.mjs (960/1080) : nécessaire pour mesurer les glyphes. */
+let COTE_ECHELLE = 1;
+window.definirEchelle = (f) => { COTE_ECHELLE = f; HELICE_PRETE = false; };
+
+window.poser(0);
+</script>
+</html>
